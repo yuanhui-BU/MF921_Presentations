@@ -1,0 +1,65 @@
+% !TEX program = xelatex
+\documentclass{beamer}
+
+% --- XeLaTeX fonts ---
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+% Chinese support (optional). Mac first, then Windows fallback.
+\usepackage{xeCJK}
+\IfFontExistsTF{PingFang SC}
+  {\setCJKmainfont{PingFang SC}}
+  {\IfFontExistsTF{Microsoft YaHei}{\setCJKmainfont{Microsoft YaHei}}{}}
+
+% --- graphics & layout helpers ---
+\usepackage{graphicx}
+\usepackage{ragged2e}
+
+% --- bibliography ---
+\usepackage[backend=biber,style=authoryear]{biblatex}
+% if you want per-week references.bib:
+\addbibresource{references.bib}
+% or shared bibliography in common/:
+% \addbibresource{../common/references.bib}
+
+% --- beamer look ---
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+% --- math packages ---
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathrsfs}
+
+\title{MF921 Topics in Dynamic Asset Pricing}
+\author{Stochastic Calculus for Quantitative Finance}
+% \institute{Boston University}
+\date{Yuanhui Zhao\\Week 2\\Boston University}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section{Background}
+\begin{frame}{Background}
+Intermediary (Hedge Fund Firm, Law Firm, Consulting Firm...).  
+Agent (Fund Manager, Lawyer, Consultant...).  
+Client (Looking for services).
+
+\vspace{2em}
+\begin{itemize}
+    \item The agent is hired by the intermediary and provides services indirectly. The intermediary charges the clients and pays wages to the agent.
+    \vspace{1em}
+    \item The agent contracts directly with clients. The clients pay the agent.
+\end{itemize}
+
+\vspace{1em}
+Note: Everyone learns from historical outcomes. The intermediary knows more about the agent than clients. Clients don’t observe pay, only retention.
+\end{frame}
+
+% \begin{frame}[allowframebreaks]{References}
+% \nocite{*} % show all refs from .bib even if not cited
+% \printbibliography
+% \end{frame}
+
+\end{document}
