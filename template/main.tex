@@ -1,62 +1,64 @@
 % !TEX program = xelatex
-\documentclass[aspectratio=169]{beamer}
+\documentclass{beamer}
 
-% Fonts (XeLaTeX)
+% --- XeLaTeX fonts ---
 \usepackage{fontspec}
 \setmainfont{Times New Roman}
 
-% Chinese support (optional). Tries Mac first, then Windows.
+% Chinese support (optional). Mac first, then Windows fallback.
 \usepackage{xeCJK}
 \IfFontExistsTF{PingFang SC}
   {\setCJKmainfont{PingFang SC}}
   {\IfFontExistsTF{Microsoft YaHei}{\setCJKmainfont{Microsoft YaHei}}{}}
 
-% Beamer look
-\usetheme{Madrid}
-\usecolortheme{seahorse}
-\setbeamertemplate{navigation symbols}{}
+% --- graphics & layout helpers ---
+\usepackage{graphicx}
+\usepackage{ragged2e}
 
-% Math & refs
-\usepackage{physics,siunitx}
-\sisetup{detect-all}
+% --- bibliography ---
 \usepackage[backend=biber,style=authoryear]{biblatex}
-\addbibresource{../common/references.bib}
-\input{../common/macros.tex}
+% if you want per-week references.bib:
+\addbibresource{references.bib}
+% or shared bibliography in common/:
+% \addbibresource{../common/references.bib}
 
-% Title
-\title[Week N]{MF921 — Weekly Presentation (Week N)}
-\author{Yuanhui Zhao}
-\institute{Boston University}
-\date{\today}
+% --- beamer look ---
+\usetheme{Madrid}
+\usecolortheme{default}
+\usefonttheme{professionalfonts}
+
+% --- math packages ---
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathrsfs}
+
+\title{MF921 Topics in Dynamic Asset Pricing}
+\author{Stochastic Calculus for Quantitative Finance}
+% \institute{Boston University}
+\date{Yuanhui Zhao\\Week 2\\Boston University}
 
 \begin{document}
-\begin{frame}
-  \titlepage
-\end{frame}
 
-\begin{frame}{Overview}
-\tableofcontents
-\end{frame}
+\frame{\titlepage}
 
-\section{Model}
-\begin{frame}{Model Setup}
-State $X_t$ follows $\,\dd X_t = \mu(X_t)\,\dd t + \sigma(X_t)\,\dd W_t$.
-\[
-V(t,x) = \sup_{a\in\mathcal{A}} \E_{t,x}\!\left[\int_t^T u(s,X_s,a_s)\,\dd s + g(X_T)\right].
-\]
-\end{frame}
+\section{Background}
+\begin{frame}{Background}
+Intermediary (Hedge Fund Firm, Law Firm, Consulting Firm...).  
+Agent (Fund Manager, Lawyer, Consultant...).  
+Client (Looking for services).
 
-\section{HJB}
-\begin{frame}{HJB Equation}
-\[
-0 = \partial_t V + \sup_{a\in\mathcal{A}}
-\left\{ u(t,x,a) + \mathcal{L}^a V(t,x) \right\},
-\quad
-\mathcal{L}^a V = \mu^a(x)\,V_x + \tfrac12 (\sigma^a(x))^2 \,V_{xx}.
-\]
+\vspace{2em}
+\begin{itemize}
+    \item The agent is hired by the intermediary and provides services indirectly. The intermediary charges the clients and pays wages to the agent.
+    \vspace{1em}
+    \item The agent contracts directly with clients. The clients pay the agent.
+\end{itemize}
+
+\vspace{1em}
+Note: Everyone learns from historical outcomes. The intermediary knows more about the agent than clients. Clients don’t observe pay, only retention.
 \end{frame}
 
 \begin{frame}[allowframebreaks]{References}
+\nocite{*} % show all refs from .bib even if not cited
 \printbibliography
 \end{frame}
 
