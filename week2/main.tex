@@ -1,7 +1,12 @@
 \documentclass{beamer}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{lmodern}   % modern Latin Modern fonts
+\usepackage{textcomp}  % provides \textquoteright
+\usepackage{lmodern} % Latin Modern fonts with T1 shapes
+
+
 \usepackage{graphicx}
 \usepackage{ragged2e} % for generating dummy text
 \usepackage[backend=biber,style=authoryear]{biblatex}
@@ -88,7 +93,7 @@
     {\footnotesize \footnotesize
     \par What is the $dS(t)$ looks like under meausre $\tilde{\mathbb{P}}?$
     \par Note: Under $Q$, we have $\begin{cases}
-        dS_t = r_t S_t \,dt + \sigma_t S_t \,dW_t\\dN_t = r_t N_t \,dt + \gamma_t N_t \,dW_t
+        dS(t) = r(t) S(t) \,dt + \sigma(t) S(t) \,dW(t)\\dN(t) = r(t) N(t) \,dt + \gamma(t) N(t) \,dW(t)
     \end{cases}$
     \par Denote $\widehat N_t = \frac{N_t}{B_t}$, apply Itô we get
      $\frac{d\widehat N_t}{\widehat N_t}=\gamma_t\,dW_t$, $\widehat N_t
@@ -102,17 +107,17 @@
     \right)}$
     \par Girsanov's theorem says: if we define a new measure $\tilde{\mathbb{P}}$ via this $Z_t$, then the process
             \[
-        W^{N}_t \;=\; W_t - \int_{0}^{t}\gamma_sdt
+        \tilde{W}(t) \;=\; W(t) - \int_{0}^{t}\gamma_sdt
             \]
-        is a Brownian motion under $\tilde{\mathbb{P}}$. Substitute into $dS_t$ to get the $\tilde{\mathbb{P}}$ dynamics:
+        is a Brownian motion under $\tilde{\mathbb{P}}$. Substitute into $dS(t)$ to get the $\tilde{\mathbb{P}}$ dynamics:
         \begin{align*}
-            dS_t = S_t\Big[ (r_t + \sigma_t \cdot \gamma_t)\,dt + \sigma_t  \cdot dW_t^{N} \Big]
+            dS(t) = S(t)\Big[ (r(t) + \sigma(t) \cdot \gamma(t))\,dt + \sigma(t)  \cdot d\tilde{W}(t) \Big]
         \end{align*}
         \begin{align*}
-            S_t
+            S(t)
            = S_0 \exp\!\left(
-            \int_0^t \!\Big(r_s + \sigma_s \!\cdot\!\gamma_s - \tfrac12 \|\sigma_s\|^2\Big) ds
-            + \int_0^t \!\sigma_s \!\cdot\! dW_s^{N}\right)
+            \int_0^t \!\Big(r(s) + \sigma(s) \!\cdot\!\gamma(s) - \tfrac12 \|\sigma(s)\|^2\Big) ds
+            + \int_0^t \!\sigma(s) \!\cdot\! d\tilde{W}(s)\right)
         \end{align*}
     }
     
@@ -123,6 +128,7 @@
 
     {\footnotesize \footnotesize
     \par Given $r, \sigma$ are constant, we have $S(T) = S(0) \exp\left\{(r - \tfrac{1}{2} \sigma^2) T + \sigma W(T)\right\}$.
+    \vspace{1em}
     \par The no-arbitrage price for the call option:
     \begin{align*}
         \psi_c(0)& = \mathbb{E}^{\mathbb{P}^*}(e^{-rT}(S(T) - K)^+)\\&= \mathbb{E}^{\mathbb{P}^*}(e^{-rT}(S(T) - K)I(S(T) \geq K)) \\
@@ -169,12 +175,11 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     if the underlying asset crosses a pre-specified barrier. They extend vanilla 
     calls/puts by adding a barrier condition.
     \par We first study continuously monitored barriers and derive 
-    Merton’s closed-form pricing formulas (1973) for single-barrier options.
-    \vspace{1em}
+    Merton's closed-form pricing formulas (1973) for single-barrier options.
     \par Given $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \geq 0}, \mathbb{P}^*)$ with 1-dim Brownian $W$. 
     The Market setting following:
     \begin{align*}
-        dB_t =  B_t r dt\;,\;dS_t = r S_t  dt + \sigma S_t  dW_t
+        dB(t) =  B(t) r dt\;,\;dS(t) = r S(t)  dt + \sigma S(t)  dW(t)
     \end{align*}
     % \begin{center}
     %     $\begin{cases}
@@ -184,13 +189,13 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     \par A continuously monitored barrier option has 
     payoff = vanilla option payoff \(\times\) indicator of the barrier condition. For example: 
     \begin{itemize}
-        \item Up-and-out call: $V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (S_T - K)^+ I{\left\{ \max\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right], \quad H > S_0$
-        \item Down-and-in put: $ V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (K - S_T)^+ I{\left\{ \min\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right], \quad H < S_0$
+        \item Up-and-out call: $V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (S(T) - K)^+ I{\left\{ \max\limits_{0 \leq t \leq T} S(t) \leq H \right\}} \right], \quad H > S(0)$
+        \item Down-and-in put: $ V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (K - S(T))^+ I{\left\{ \min\limits_{0 \leq t \leq T} S(t) \leq H \right\}} \right], \quad H < S(0)$
     \end{itemize}
-     \par Study the case of the down-and-in call option (DAIC) with strike \( K \), barrier \( H < S_0 \):
+     \par Study the case of the down-and-in call option (DAIC) with strike \( K \), barrier \( H < S(0) \):
     \begin{align*}
         \text{DAIC} = e^{-rT}  \mathbb{E}^{\mathbb{P}^* }
-        \left[ (S_T - K)^+ I{\left\{\min\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right] 
+        \left[ (S(T) - K)^+ I{\left\{\min\limits_{0 \leq t \leq T} S(t) \leq H \right\}} \right] 
     \end{align*}
     }
     
@@ -225,7 +230,7 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     \end{itemize}
     \par (iii) When \( x \geq y \), $y < 0$, $\sigma > 0$:
     \begin{itemize}{\footnotesize \scriptsize
-        \item $P\left( W_{\mu, \sigma}(t) \geq x, \min_{0 \leq s \leq t} W_{\mu, \sigma}(s) \leq y \right) 
+        \item $P\left( W_{\mu, \sigma}(t) \geq x, \min\limits_{0 \leq s \leq t} W_{\mu, \sigma}(s) \leq y \right) 
         = e^{2\mu y / \sigma^2} \Phi \left( \frac{-x + 2y + \mu t}{\sigma \sqrt{t}} \right)$
         }
     \end{itemize}
@@ -233,15 +238,119 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
 \end{frame}
 \begin{frame}{One Dimensional Barrier Options Con.}
 
-    {\footnotesize \footnotesize
+    {\footnotesize \scriptsize
     \par Back to the valuation of DAIC:
+    {\footnotesize \scriptsize
     \begin{align*}
-        X+T+TTTT
+    &\mathbb{E}^{\mathbb{P}^*}\left[e^{-rT}(S(T) - K)^+ I\left(\min_{0 \leq t \leq T} S(t) \leq H\right)\right]\\
+    &= \mathbb{E}^{\mathbb{P}^*}\left[e^{-rT}(S(T) - K)I\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right)\right] \\
+    &= \mathbb{E}^{\mathbb{P}^*}\left[e^{-rT}S(T)I\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right)\right] \\
+    &\quad - Ke^{-rT}P^*\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right) \\
+    &= I - Ke^{-rT} \cdot II 
+    \vspace{-0.5em}
+    \end{align*}
+    \par For II:
+    \vspace{-0.5em}
+    \begin{align*}
+    II &= P^*\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right) \\
+    &= P\left\{W_{r-\frac{\sigma^2}{2},\sigma}(T) \geq \log(K/S(0)), \min_{0 \leq t \leq T} W_{r-\frac{\sigma^2}{2},\sigma}(t) \leq \log(H/S(0))\right\} \\
+    &= \exp\left\{\frac{2(r - \sigma^2/2)}{\sigma^2} \log(H/S(0))\right\} 
+     \cdot \Phi \left(\frac{2 \log(H/S(0)) - \log(K/S(0)) + (r - \sigma^2/2)T}{\sigma \sqrt{T}}\right)\\
+     &=(H/S(0))^{\frac{2r}{\sigma^2}-1} \Phi \left(\frac{\log(\{H^2/S(0)\}/K) 
+     + (r - \sigma^2/2)T}{\sigma \sqrt{T}}\right)\\
+    \end{align*}
+
+    }
+    }
+\end{frame}
+\begin{frame}{One Dimensional Barrier Options Con.}
+    
+    {\footnotesize \footnotesize
+    \par For I, by changing of numeraire we can get:
+    \vspace{-0.5em}
+    {\footnotesize \scriptsize
+    \begin{align*}
+    I &= S(0) \mathbb{E}^{\mathbb{P}^*} \left( e^{-rT} \frac{S(T)}{S(0)} \cdot I\left\{S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right\} \right) \\
+    &= S(0) \tilde{P}\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right) \\
+    &= S(0) P\left\{W_{r+\frac{\sigma^2}{2}, \sigma}(T) \geq \log(K/S(0)), \min_{0 \leq t \leq T} W_{r+\frac{\sigma^2}{2}, \sigma}(t) \leq \log(H/S(0))\right\} \\
+    &= S(0) \cdot (H/S(0))^{\frac{2r}{\sigma^2}+1} \Phi \left( \frac{\log(\{H^2/S(0)\}/K)+(r+\sigma^2/2)T}{\sigma\sqrt{T}} \right) \\
+    &= (H/S(0))^{\frac{2r}{\sigma^2}-1}(H^2/S(0)) \Phi \left( \frac{\log(\{H^2/S(0)\}/K)+(r+\sigma^2/2)T}{\sigma\sqrt{T}} \right)
+    \end{align*}
+    \par Putting the two terms together, we get $I - Ke^{-rT} \cdot II = (H/S(0))^{\frac{2r}{\sigma^2}-1} \text{BSC}(H^2/S(0))$. 
+    Where \(\text{BSC}(x)\) is the Black-Scholes formula for a call option with the initial stock price being \(x\):
+    \begin{align*}
+        \text{BSC}(x) = x\Phi(d_+) - Ke^{-rT}\Phi(d_-) \text{ with } d_{\pm} = \frac{\log(x/K)+(r\pm\sigma^2/2)T}{\sigma\sqrt{T}}
+    \end{align*}
+    \vspace{-1em}
+    }
+    }
+\end{frame}
+\section{Exchange Options}
+\begin{frame}{Exchange Options}
+
+    {\footnotesize \footnotesize
+    \par Given $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \geq 0}, \mathbb{P}^*)$ 
+    with 2-dim independent Brownian, \( W_1(t) \) and \( W_2(t) \). 
+    We have two traded assets \( S_1(t) \) and \( S_2(t) \) with the following dynamics:
+    \begin{align*}
+    \frac{dS_1(t)}{S_1(t)} &= rdt + \sigma_1 dW_1(t) \\
+    \frac{dS_2(t)}{S_2(t)} &= rdt + \sigma_2 \left\{ \rho dW_1(t) + \sqrt{1 - \rho^2} dW_2(t) \right\}
+    \end{align*}
+    \par The exchange option gives the holder the right, but not the obligation, 
+    to exchange asset \(S_2\) for asset \(S_1\) at maturity \(T\). The price of this option as following:
+    \begin{align*}
+        u(0) &= \mathbb{E}^{\mathbb{P}^*}\left[e^{-rT}(S_1(T) - S_2(T))^+\right]\\
+        &=S_2(0) \mathbb{E}^{\mathbb{P}^*}\left[ \frac{e^{-rT} S_2(T)}{S_2(0)} \left( \frac{S_1(T)}{S_2(T)} - 1 \right)^+ \right] \\
+        &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ \left( \frac{S_1(T)}{S_2(T)} - 1 \right)^+ \right] \\
+        &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ (F(T) - 1)^+ \right]
+    \end{align*}
+
+    }
+\end{frame}
+\begin{frame}{Exchange Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Apply Itô, we have the Radon$-$Nikodym derivative for numeraire:
+    \begin{align*}
+        Z_T := \frac{e^{-rT} S_2(T)}{S_2(0)} = \exp \left[ \sigma_2 
+        \left\{ \rho W_1(T) + \sqrt{1 - \rho^2} W_2(T) \right\} - \frac{T}{2} \sigma_2^2 \right]
+    \end{align*}
+    \par By Girsanov theorem, under new measure $\tilde{\mathbb{P}}$:
+    \begin{align*}
+        \tilde{W}_1(t) &= W_1(t) - \rho\sigma_2 t, \;\; \tilde{W}_2(t) = W_2(t) - \sigma_2\sqrt{1-\rho^2} t
+    \end{align*}
+    \par Apply Itô, we can get $d\ln S_1$, $d\ln S_2$:
+    \begin{align*}
+        d \ln F(t) &= d \ln S_1(t) - d \ln S_2(t) \\
+        &= \left[  - \tfrac{1}{2}\sigma_1^2  - \tfrac{1}{2}\sigma_2^2 + \rho \sigma_1 \sigma_2 \right] dt 
+        + (\sigma_1 - \rho \sigma_2) d\tilde{W}_1 - \sigma_2 \sqrt{1-\rho^2} d\tilde{W}ß¢_2.
+    \end{align*}
+    \par Apply Itô to $g(x) = e^x$ with $x = \ln F(t)$:
+    \begin{align*}
+        \frac{dF_t}{F_t} = d(\ln F_t) + \frac{1}{2} d<\ln F>_t 
+        = (\sigma_1 - \rho\sigma_2) d\tilde{W}_{1t} - \sigma_2 \sqrt{1 - \rho^2} d\tilde{W}_{2t}
     \end{align*}
     }
 \end{frame}
+\begin{frame}{Exchange Options Con.}
+    
+    {\footnotesize \footnotesize
+    \par Denote $\sigma  = \sqrt{\sigma_1^2 - 2\rho\sigma_1\sigma_2 + \sigma_2^2}$, $\tilde{W}(t) := \frac{1}{\sigma} \left\{ (\sigma_1 - \rho\sigma_2)\tilde{W}_1(t) - \sigma_2\sqrt{1 - \rho^2}\tilde{W}_2(t) \right\}$
+    Observe that $\tilde{W}$ is a standard Brownian motion under $\tilde{\mathbb{P}}$. 
+    We have $\frac{dF(t)}{F(t)} = \sigma d\tilde{W}(t)$, observe that $F_T = F_0 \exp \left( - \frac{1}{2} \sigma^2 T 
+    + \sigma \sqrt{T} Z \right),  Z \sim N(0, 1)$.
+    % and \(\ln F_T \sim N(\ln F_0 - \frac{1}{2} \sigma^2 T, \sigma^2 T)\).
+     \par Then we can rewrite $u(0)$:
+     \begin{align*}
+        u(0) &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ (F(T) - 1)^+ \right]\\
+        &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ (F(T) - 1)I(F(T)>1) \right]\\
+        &=S_2(0) \left[ \mathbb{E}^{\tilde{\mathbb{P}}}[F_T I{\{F_T > 1\}}] - \tilde{\mathbb{P}}(F_T > 1)\right] \\
+     \end{align*}
+    }
 
-% \mathbb{P}^*
+\end{frame}
+
+% {\mathbb{P}^*}
 % \tilde{\mathbb{P}}
 % {\footnotesize \footnotesize
 % }
