@@ -312,9 +312,13 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     {\footnotesize \footnotesize
     \par Apply Itô, we have the Radon$-$Nikodym derivative for numeraire:
     \begin{align*}
-        Z_T := \frac{e^{-rT} S_2(T)}{S_2(0)} = \exp \left[ \sigma_2 
-        \left\{ \rho W_1(T) + \sqrt{1 - \rho^2} W_2(T) \right\} - \frac{T}{2} \sigma_2^2 \right]
+        \left.\frac{d\tilde{\mathbb{P}}}{d\mathbb{P}^*}\right|_{\mathcal{F}_T}& = Z_T^2 := \frac{e^{-rT} S_2(T)}{S_2(0)} = \exp \left[ \sigma_2 
+        \left\{ \rho W_1(T) + \sqrt{1 - \rho^2} W_2(T) \right\} - \frac{T}{2} \sigma_2^2 \right]\\
+        \left.\frac{d\hat{\mathbb{P}}}{d\mathbb{P}^*}\right|_{\mathcal{F}_T}& = Z_T^1 := \frac{e^{-rT} S_1(T)}{S_1(0)} 
+        =\frac{e^{-rT}S_1(T)}{S_1(0)} = \exp\left(\sigma_1 W_1(T) - \frac{1}{2}\sigma_1^2 T\right)\\
     \end{align*}
+
+    \vspace{-2em}
     \par By Girsanov theorem, under new measure $\tilde{\mathbb{P}}$:
     \begin{align*}
         \tilde{W}_1(t) &= W_1(t) - \rho\sigma_2 t, \;\; \tilde{W}_2(t) = W_2(t) - \sigma_2\sqrt{1-\rho^2} t
@@ -338,18 +342,149 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     \par Denote $\sigma  = \sqrt{\sigma_1^2 - 2\rho\sigma_1\sigma_2 + \sigma_2^2}$, $\tilde{W}(t) := \frac{1}{\sigma} \left\{ (\sigma_1 - \rho\sigma_2)\tilde{W}_1(t) - \sigma_2\sqrt{1 - \rho^2}\tilde{W}_2(t) \right\}$
     Observe that $\tilde{W}$ is a standard Brownian motion under $\tilde{\mathbb{P}}$. 
     We have $\frac{dF(t)}{F(t)} = \sigma d\tilde{W}(t)$, observe that $F_T = F_0 \exp \left( - \frac{1}{2} \sigma^2 T 
-    + \sigma \sqrt{T} Z \right),  Z \sim N(0, 1)$.
+    + \sigma \sqrt{T} Z \right),  Z \sim N(0, 1)$ under $\tilde{\mathbb{P}}$. Similarly, we have 
+    $F_T = F_0 \exp \left(  \frac{1}{2} \sigma^2 T 
+    + \sigma \sqrt{T} Z \right),  Z \sim N(0, 1)$ under $\hat{\mathbb{P}}$.
+    \vspace{1em}
     % and \(\ln F_T \sim N(\ln F_0 - \frac{1}{2} \sigma^2 T, \sigma^2 T)\).
      \par Then we can rewrite $u(0)$:
+     
      \begin{align*}
         u(0) &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ (F(T) - 1)^+ \right]\\
         &= S_2(0) \mathbb{E}^{\tilde{\mathbb{P}}} \left[ (F(T) - 1)I(F(T)>1) \right]\\
-        &=S_2(0) \left[ \mathbb{E}^{\tilde{\mathbb{P}}}[F_T I{\{F_T > 1\}}] - \tilde{\mathbb{P}}(F_T > 1)\right] \\
+        &=S_2(0) \left[ \mathbb{E}^{\tilde{\mathbb{P}}}[F_T I{\{F_T > 1\}}] 
+        - \tilde{\mathbb{P}}(F_T > 1)\right] \\
+        &=S_2(0) \left[ \mathbb{E}^{\mathbb{P}^*}[\frac{e^{-rT} S_2(T)}{S_2(0)} \frac{S_1(T)}{S_2(T)} I{\{F_T > 1\}}] 
+        - \tilde{\mathbb{P}}(F_T > 1)\right] \\
+        &=S_2(0) \left[ \frac{1}{S_2(0)}\mathbb{E}^{\mathbb{P}^*}[\frac{e^{-rT} S_1(T)}{S_1(0)} S_1(0) I{\{F_T > 1\}}] 
+        - \tilde{\mathbb{P}}(F_T > 1)\right] \\
      \end{align*}
+    
+    }
+
+\end{frame}
+\begin{frame}{Exchange Options Con.}
+    
+    {\footnotesize \footnotesize   
+    \begin{align*}
+        = &  S_2(0) \left[ \frac{S_1(0)}{S_2(0)}\mathbb{E}^{\hat{\mathbb{P}}}[ I{\{F_T > 1\}}] 
+        - \tilde{\mathbb{P}}(F_T > 1)\right] \\
+        = & S_1(0)\hat{\mathbb{P}}[ I{\{F_T > 1\}}] 
+        - S_2(0)\tilde{\mathbb{P}}(F_T > 1) \\
+        = & S_1(0) \Phi (d_+) - S_2(0) \Phi (d_-) \\
+    \end{align*}
+    \par Where:
+    \begin{align*}
+        d_\pm = \frac{\log(F(0)) \pm \frac{1}{2} \sigma^2 T}{\sigma \sqrt{T}} 
+        = \frac{\log(S_1(0)/S_2(0)) \pm \frac{1}{2} \sigma^2 T}{\sigma \sqrt{T}}.
+    \end{align*}
+    \begin{itemize}
+        \item (i) If the second asset is cash, or \( S_2(t) = Ke^{-r(T-t)} \), 
+        then the formula degenerates to the Black-Scholes formula.
+        \item (ii) The hedging strategy is given by long \( \Phi(d_+) \) 
+        shares of the first asset and short \( \Phi(d_-) \) shares of the second asset.
+    \end{itemize}
+    }
+    
+\end{frame}
+\section{Two-Dimensional Barrier Options}
+\begin{frame}{Two-Dimensional Barrier Options}
+    
+    {\footnotesize \footnotesize
+    \par Suppose we have two Wiener processes, \( X(t) \) and \( Y(t) \), governed by the following dynamics
+    \begin{align*}
+    dX(t) &= \mu_1 dt + \sigma_1 dW_1(t), \quad X(0) = 0, \quad \sigma_1 > 0, \\
+    dY(t) &= \mu_2 dt + \sigma_2 \left\{ \rho dW_1(t) + \sqrt{1 - \rho^2} dW_2(t) \right\}, \quad Y(0) = 0, \quad \sigma_2 > 0,
+    \end{align*}
+    \par where the \( W_1 \) and \( W_2 \) are two independent standard Brownian motions.
+    \par For \( b > 0 \), consider the first passage time of the process \( Y(t) \):
+    \[
+    \tau_b^Y = \inf\{t \geq 0: Y(t) = b > 0\}.
+    \]
+    \par We shall prove that the joint distribution between \( X(T) \) and the first passage time of \( Y(t) \) is given by:
+    \vspace{-1em}
+    \begin{align*}
+    &P(X(T) < a, \tau_b^Y > T) = P\left(X(T) < a, \max_{0 \leq t \leq T} Y(t) < b\right) \\
+    = \Phi_2 & \left( \frac{a - \mu_1 T}{\sigma_1 \sqrt{T}}, \frac{b - \mu_2 T}{\sigma_2 \sqrt{T}} ; \rho \right) - 
+    e^{2 \mu_2 b / \sigma_2^2} \Phi_2 \left( \frac{a - \mu_1 T - 2 \rho b \sigma_1 / \sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b - \mu_2 T}{\sigma_2 \sqrt{T}} ; \rho \right)
+    \end{align*}
+    where $b > 0$ and \( \Phi_2(x, y; \rho) \) denotes the bivariate normal distribution given by
+    \[
+    \Phi_2(x, y; \rho) = P(Z_1 \leq x, Z_2 \leq y),
+    \]
+    with \( Z_1 \) and \( Z_2 \) being two standard normal random variables with correlation \( \rho \).
+    \vspace{1em}
+
     }
 
 \end{frame}
 
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+    
+    {\footnotesize \footnotesize
+    \par Remark:
+    \begin{itemize}
+        \item Above equation holds for both \( a \geq b \) and \( a \leq b \), as long as \( b > 0 \).
+        That's more general than the 1D reflection principle formulas which needed to be split into 
+        separate cases depending on $a \leq b$ or $a \geq b$. 
+        \item when \( \rho = 1 \), \( \mu_1 = \mu_2 = \mu \), \( \sigma_1 = \sigma_2 = \sigma \), 
+        the two dimensional case reduces to the one-dimensional case, as it becomes:
+        {\footnotesize \scriptsize
+        \begin{align*}
+        &P\left(X(T) < a, \max_{0 \leq t \leq T} X(t) < b\right) \\
+        &= \Phi_2 \left( \frac{a - \mu T}{\sigma \sqrt{T}}, \frac{b - \mu T}{\sigma \sqrt{T}}; 1 \right) - e^{2\mu b / \sigma^2} \Phi_2 \left( \frac{a - \mu T - 2b}{\sigma \sqrt{T}}, \frac{-b - \mu T}{\sigma \sqrt{T}}; 1 \right) \\
+        &= P \left\{ Z \leq \frac{a - \mu T}{\sigma \sqrt{T}}, Z \leq \frac{b - \mu T}{\sigma \sqrt{T}} \right\}
+         - e^{2\mu b / \sigma^2} P \left\{ Z \leq \frac{a - \mu T - 2b}{\sigma \sqrt{T}}, Z \leq \frac{-b - \mu T}{\sigma \sqrt{T}} \right\}\\
+        &=P \left\{ Z \leq \min\left\{\frac{a - \mu T}{\sigma \sqrt{T}}, \frac{b - \mu T}{\sigma \sqrt{T}}\right\} \right\}
+         - e^{2\mu b / \sigma^2} P \left\{ Z \leq \min\left\{\frac{a - \mu T - 2b}{\sigma \sqrt{T}},\frac{-b - \mu T}{\sigma \sqrt{T}}\right\}  \right\}\\
+        \end{align*}
+        }
+        \par Which incorporates two cases in one dimensional case.
+    \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    Next we proof the formula of the joint distribution between \( X(T) \) 
+    and the first passage time of \( Y(t) \):
+    \par [Proof]
+    \par Consider the case of $\sigma_1 = \sigma_2 = 1$. Define a new process $V(t)$ to decouple $X$ and $Y$:
+    \begin{align*}
+        V(t) := X(t) - \rho Y(t)
+    \end{align*}
+    \par First check independence between $V$ and $Y$:
+    \begin{align*}
+        dV(t)  dY(t)  & = (dX(t) - \rho  dY(t))  dY(t)\\
+        &= \left( (1 - \rho^2) dW_1 - \rho \sqrt{1 - \rho^2}  
+        dW_2 \right) \cdot \left( \rho dW_1 + \sqrt{1 - \rho^2}  dW_2 \right)\\
+        &=(1 - \rho^2) \rho (dW_1)^2 - \rho (1 - \rho^2) (dW_2)^2\\
+        &= (1 - \rho^2) \rho dt - (1 - \rho^2) \rho dt = 0
+    \end{align*}
+    \par  Since \( V(T) = X(T) - \rho Y(T) \), it is Gaussian. Its mean is:
+    \begin{align*}
+        \mathbb{E}[V(T)] = \mu_1 T - \rho \mu_2 T
+    \end{align*}
+    }
+\end{frame}
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Its variance is:
+    \begin{align*}
+        \text{Var}(V(T)) 
+        &= \text{Var}(X(T)) + \rho^2 \text{Var}(Y(T)) - 2\rho \text{Cov}(X(T), Y(T))\\
+        &= T + \rho^2 T - 2\rho^2 T = (1 - \rho^2)T\\
+    \end{align*}
+    \par Thus:
+        \[
+        V(T) \sim N((\mu_1 - \rho \mu_2)T, (1 - \rho^2)T).
+        \]
+    }
+    
+\end{frame}
 % {\mathbb{P}^*}
 % \tilde{\mathbb{P}}
 % {\footnotesize \footnotesize
