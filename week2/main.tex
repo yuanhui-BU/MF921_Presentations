@@ -14,29 +14,245 @@
 \usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
 \usepackage{mathrsfs}                 % optional: \mathscr for fancy script
 
+% \setbeamercovered{invisible} 
+\setbeamercovered{transparent}
 
+
+
+% \title{MF921 Topics in Dynamic Asset Pricing}
+% \author{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
+% %\institute{Boston University}
+% \date{Yuanhui Zhao\\Week 2\\Boston University}
 \title{MF921 Topics in Dynamic Asset Pricing}
-\author{Stochastic Calculus for Quantitative Finance}
-%\institute{Boston University}
-\date{Yuanhui Zhao\\Week 2\\Boston University}
-%Today, I will present the paper Valuing Data as an Asset, written by Professor Laura Veldkamp from Columbia Business School. This is a survey paper which summarize the data valuation works that professor Laura Veldkamp and her team did in the past few years. 
+\subtitle{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
+\author{Yuanhui Zhao}
+\date{Boston University\\Week 2}
+
 \begin{document}
 \frame{\titlepage}
 % \begin{frame}
 % \frametitle{Outline}
 % \tableofcontents
 % \end{frame}
-\section{Background}
-\begin{frame}{Background}
-\par Intermediary (Hedge Fund Firm, Law Firm, Consulting Firm...). Agent (Fund Manager, Lawyer, Consultant...). Client (Looking for services)
-\vspace{2em}
-\begin{itemize}
-    \item 1): The agent is hired by the intermediary and provides services to clients indirectly. The intermediary charges the clients and pays wages to the agent.
+\section{Change of Numeraire}
+\begin{frame}{Change of Numeraire: Motivation and Key Idea}
+    \par In option pricing, we usually price under the risk-neutral measure using 
+    the money market account $B(t) = e^{rt}$ as the numeraire. 
+    But sometimes payoffs become simpler if we change the unit of measurement (the numeraire).
+    Instead of measuring in “dollars,” measure in “shares of stock”.
     \vspace{1em}
-    \item 2): The agent contracts directly with clients and provides services. The clients pay the agent.
-\end{itemize}
-\vspace{1em}
-\par Note: Everyone learn from the historical services outcomes. Intermediary knows more about the agent than the clients. Clients do not observe agent's compensation but do observe if agent is retained.
+    \par The key idea is :
+    \begin{itemize}
+        \item Pick any strictly positive traded asset $N(t)$ as the numeraire.
+        \item Then define a new probability measure $\tilde{\mathbb{P}}$ such that 
+        $\frac{S(t)}{N(t)} \quad \text{is a martingale under } \tilde{\mathbb{P}}.$ No-arbitrage is preserved.
+    \end{itemize}
+    \vspace{1em}
+    \par We first look at the details how this work (Radon Nikodym derivative \& Girsanov Theorem) and 
+    then apply the scheme to price different type of options. 
 \end{frame}
-\section{Background}
+\begin{frame}{Change of Numeraire}
+    \par Given $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \geq 0}, \mathbb{P}^*)$ with $d$-dim Brownian $W$:
+    \vspace{1em}
+    \begin{itemize}
+        \item Money market account (baseline numeraire): $ dB_t =  B_t r_t dt$
+        \item Traded asset $S(t)$: $dS_t = S_t(r_t dt + \sigma_t\, dW_t),
+    \quad \tfrac{S_t}{B_t} \text{ is a martingale.}$
+        \item Derivative pricing rule: for payoff $X_T$ at maturity $T$, $V_0 = \mathbb{E}^{\mathbb{P}^*}\left[\frac{X_T}{B_T}\right]$
+    \end{itemize}
+    \vspace{1em}
+    \par Our goal is to pick another strictly positive traded asset $N(t)$ and
+  define a new measure $\tilde{\mathbb{P}}$ such that $\frac{S(t)}{N(t)}$ is a martingale for every traded asset $S(t)$.
+\end{frame}
+\begin{frame}{Change of Numeraire Con.}
+
+    {\footnotesize \footnotesize
+    \par Oberve $\displaystyle \frac{S(t)}{B(t)}$ is a martingale under $\mathbb{P}^*$. 
+    We want $\displaystyle \frac{S(t)}{N(t)}$ to be a martingale under $\tilde{\mathbb{P}}$.
+    \par Define $\tilde{\mathbb{P}}$ via the Radon$-$Nikodym derivative with respect to $\mathbb{P}^*$:
+    \begin{align*}
+        \left.\frac{d\tilde{\mathbb{P}}}{d\mathbb{P}^*}\right|_{\mathcal{F}_T} = Z_T : = \;\;\frac{N(T)/B(T)}{N(0)/B(0)}
+    \end{align*}
+    \par By construction, $\frac{N(T)}{B(T)}$ is a martingale under $\mathbb{P}^*$, $Z_T >0$ and $\mathbb{E}^{\mathbb{P}^*}[Z_T]=1$ and take any payoff $X_T$:
+    \begin{align*}
+         V(0) \;=\; N(0)\,\mathbb{E}^{\tilde{\mathbb{P}}}\!\left[\frac{X_T}{N(T)}\right] 
+         =N(0) \mathbb{E}^{\mathbb{P}^*}\!\left[\frac{X_T}{N(T)}\,Z_T\right] = \mathbb{E}^{\mathbb{P}^*}\!\left[\frac{X_T}{B(T)}\right]
+    \end{align*}
+    \vspace{0.5em}
+    \par So the choice of Radon$-$Nikodym derivative guarantees the prices are consistent under both measures and no arbitrage is preserved.
+    }
+    
+\end{frame}
+\begin{frame}{Change of Numeraire Con.}
+
+    {\footnotesize \footnotesize
+    \par What is the $dS(t)$ looks like under meausre $\tilde{\mathbb{P}}?$
+    \par Note: Under $Q$, we have $\begin{cases}
+        dS_t = r_t S_t \,dt + \sigma_t S_t \,dW_t\\dN_t = r_t N_t \,dt + \gamma_t N_t \,dW_t
+    \end{cases}$
+    \par Denote $\widehat N_t = \frac{N_t}{B_t}$, apply Itô we get
+     $\frac{d\widehat N_t}{\widehat N_t}=\gamma_t\,dW_t$, $\widehat N_t
+    = \widehat N_0 e^{\left(
+      \int_0^t \gamma_s \cdot dW_s
+      - \frac{1}{2} \int_0^t \|\gamma_s\|^2 \, ds
+    \right)}.$
+    \par Oberve that $Z_t  = \frac{\widehat N_t}{\widehat N_0} = e^{\left(
+      \int_0^t \gamma_s \cdot dW_s
+      - \frac{1}{2} \int_0^t \|\gamma_s\|^2 \, ds
+    \right)}$
+    \par Girsanov's theorem says: if we define a new measure $\tilde{\mathbb{P}}$ via this $Z_t$, then the process
+            \[
+        W^{N}_t \;=\; W_t - \int_{0}^{t}\gamma_sdt
+            \]
+        is a Brownian motion under $\tilde{\mathbb{P}}$. Substitute into $dS_t$ to get the $\tilde{\mathbb{P}}$ dynamics:
+        \begin{align*}
+            dS_t = S_t\Big[ (r_t + \sigma_t \cdot \gamma_t)\,dt + \sigma_t  \cdot dW_t^{N} \Big]
+        \end{align*}
+        \begin{align*}
+            S_t
+           = S_0 \exp\!\left(
+            \int_0^t \!\Big(r_s + \sigma_s \!\cdot\!\gamma_s - \tfrac12 \|\sigma_s\|^2\Big) ds
+            + \int_0^t \!\sigma_s \!\cdot\! dW_s^{N}\right)
+        \end{align*}
+    }
+    
+\end{frame}
+\section{Black-Scholes Formula}
+\begin{frame}{Black-Scholes Formula}
+
+
+    {\footnotesize \footnotesize
+    \par Given $r, \sigma$ are constant, we have $S(T) = S(0) \exp\left\{(r - \tfrac{1}{2} \sigma^2) T + \sigma W(T)\right\}$.
+    \par The no-arbitrage price for the call option:
+    \begin{align*}
+        \psi_c(0)& = \mathbb{E}^{\mathbb{P}^*}(e^{-rT}(S(T) - K)^+)\\&= \mathbb{E}^{\mathbb{P}^*}(e^{-rT}(S(T) - K)I(S(T) \geq K)) \\
+        &= \mathbb{E}^{\mathbb{P}^*}(e^{-rT}S(T)I(S(T) \geq K)) - Ke^{-rT}\mathbb{P}^*(S(T) \geq K)\\& = I - Ke^{-rT} \cdot II \
+    \end{align*}
+    \par For $II$:
+    \begin{align*}
+        II = \mathbb{P}^*(S(T) \geq K) &= 1 - \Phi \left( \frac{\log(K/S(0)) - (r - \frac{1}{2}\sigma^2)T}{\sigma\sqrt{T}} \right) \\
+        &= \Phi \left( \frac{\log(S(0)/K) + (r - \frac{1}{2}\sigma^2)T}{\sigma\sqrt{T}} \right)
+    \end{align*}
+    \par Note: $\Phi$ is the CDF of the standard normal distribution.
+    }
+\end{frame}
+\begin{frame}{Black-Scholes Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par For $I$, we apply the change of numeraire and use stock itself as numeraire. Then based on the eraly definition
+    we have $\left.\frac{d\tilde{\mathbb{P}}}{d\mathbb{P}^*}\right|_{\mathcal{F}_T} = Z_T :=  e^{-rT}\frac{S(T)}{S(0)}$
+    and $\gamma_t = \sigma$. Therefore, under \(\tilde{\mathbb{P}}\) we have the following dynamics of \(S(t)\):
+    \[
+    \frac{dS_t}{S_t} = rdt + \sigma^2 dt + \sigma \tilde{dW_t},\;
+    S(t) = S(0) \exp \left\{ (r + \sigma^2/2) t + \sigma \tilde{W_t} \right\}
+    \]
+    \par Then we can rewrite $I$:
+    \begin{align*}
+        I = S(0)\mathbb{E}^{\mathbb{P}^*} \left( e^{-rT} \frac{S(T)}{S(0)} I(S(T) \geq K) \right) &= S(0) \mathbb{E}^{\tilde{\mathbb{P}}} (I(S(T) \geq K)) \\
+        &= S(0) \tilde{\mathbb{P}}(S(T) \geq K)\\
+       & = S(0) \Phi \left( \frac{\log(S(0)/K) + (r + \frac{1}{2} \sigma^2) T}{\sigma \sqrt{T}} \right).
+    \end{align*}
+   \par Putting together, we have the price of the call option is given by:
+    \[
+    I - Ke^{-rT} \cdot II = S(0) \Phi(d_+) - Ke^{-rT} \Phi(d_-)
+    \]
+where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sqrt{T}}.$
+
+    }
+\end{frame}
+
+\section{One Dimensional Barrier Options}
+\begin{frame}{One Dimensional Barrier Options}
+
+    {\footnotesize \footnotesize
+    \par Barrier options are path-dependent derivatives whose payoff is activated (knock-in) or extinguished (knock-out) 
+    if the underlying asset crosses a pre-specified barrier. They extend vanilla 
+    calls/puts by adding a barrier condition.
+    \par We first study continuously monitored barriers and derive 
+    Merton’s closed-form pricing formulas (1973) for single-barrier options.
+    \vspace{1em}
+    \par Given $(\Omega, \mathcal{F}, (\mathcal{F}_t)_{t \geq 0}, \mathbb{P}^*)$ with 1-dim Brownian $W$. 
+    The Market setting following:
+    \begin{align*}
+        dB_t =  B_t r dt\;,\;dS_t = r S_t  dt + \sigma S_t  dW_t
+    \end{align*}
+    % \begin{center}
+    %     $\begin{cases}
+    %     dB_t =  B_t r dt\\ 
+    % \end{cases}$
+    % \end{center}
+    \par A continuously monitored barrier option has 
+    payoff = vanilla option payoff \(\times\) indicator of the barrier condition. For example: 
+    \begin{itemize}
+        \item Up-and-out call: $V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (S_T - K)^+ I{\left\{ \max\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right], \quad H > S_0$
+        \item Down-and-in put: $ V_0 = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} (K - S_T)^+ I{\left\{ \min\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right], \quad H < S_0$
+    \end{itemize}
+     \par Study the case of the down-and-in call option (DAIC) with strike \( K \), barrier \( H < S_0 \):
+    \begin{align*}
+        \text{DAIC} = e^{-rT}  \mathbb{E}^{\mathbb{P}^* }
+        \left[ (S_T - K)^+ I{\left\{\min\limits_{0 \leq t \leq T} S_t \leq H \right\}} \right] 
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{One Dimensional Barrier Options Con.}
+    
+    {\footnotesize \footnotesize
+    \par For notation simplicity, denote a drifted Brownian motion:
+          \[
+          W_{\mu,\sigma}(t) = \mu t + \sigma W(t), \quad M_t = \max_{0 \leq s \leq t} W_{\mu,\sigma}(s).
+          \]
+    \par Some useful results from the reflection principle for a Brownian motion with a  drift:
+    \par (i) When \( x \leq y \), $y > 0,  \sigma > 0$ :
+    \begin{itemize}
+         {\footnotesize \scriptsize
+        \item $P(W_{\mu, \sigma}(t) \leq x,  M_t \geq y) = e^{2\mu y / \sigma^2} 
+        \Phi \left( \frac{x - 2y - \mu t}{\sigma \sqrt{t}} \right)$
+        \item $P(W_{\mu, \sigma}(t) \leq x,  M_t \leq y) = \Phi \left( \frac{x - \mu t}{\sigma \sqrt{t}} \right) - e^{2\mu y / \sigma^2} 
+         \Phi \left( \frac{x - 2y - \mu t}{\sigma \sqrt{t}} \right)$
+         }
+    \end{itemize}
+    \par (ii) When \( x \geq y>0 \), $\sigma > 0$:
+    \begin{itemize}
+         {\footnotesize \scriptsize
+        \item $P(W_{\mu, \sigma}(t) \leq x,  M_t \leq y) = P(M_t \leq y) \nonumber =
+            \Phi \left( \frac{y - \mu t}{\sigma \sqrt{t}} \right) - e^{2\mu y / \sigma^2} \Phi 
+            \left( \frac{-y - \mu t}{\sigma \sqrt{t}} \right)$
+        \item $P(W_{\mu, \sigma}(t) \leq x,  M_t \geq y) = P(W_{\mu, \sigma}(t) \leq x) - P(W_{\mu, \sigma}(t) \leq x,  M_t \leq y) \nonumber 
+            = \Phi \left( \frac{x - \mu t}{\sigma \sqrt{t}} \right) - 
+            \Phi \left( \frac{y - \mu t}{\sigma \sqrt{t}} \right) + e^{2\mu y / \sigma^2} \Phi \left( \frac{-y - \mu t}{\sigma \sqrt{t}} \right)$
+         }
+    \end{itemize}
+    \par (iii) When \( x \geq y \), $y < 0$, $\sigma > 0$:
+    \begin{itemize}{\footnotesize \scriptsize
+        \item $P\left( W_{\mu, \sigma}(t) \geq x, \min_{0 \leq s \leq t} W_{\mu, \sigma}(s) \leq y \right) 
+        = e^{2\mu y / \sigma^2} \Phi \left( \frac{-x + 2y + \mu t}{\sigma \sqrt{t}} \right)$
+        }
+    \end{itemize}
+    }
+\end{frame}
+\begin{frame}{One Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Back to the valuation of DAIC:
+    \begin{align*}
+        X+T
+    \end{align*}
+    }
+\end{frame}
+
+% \mathbb{P}^*
+% \tilde{\mathbb{P}}
+% {\footnotesize \footnotesize
+% }
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize (default)
+% \large
+% \Large
+% \LARGE
+% \huge
+% \Huge
 \end{document}
