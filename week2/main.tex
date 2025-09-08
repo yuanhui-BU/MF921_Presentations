@@ -910,9 +910,11 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
         N(t) = \max\{n : S_n \leq t\} = \min\{n : S_{n+1} > t\} \tag{*}
     \end{align*}
     \par With \( T_i \overset{iid}{\sim} \text{Exp}(\lambda) \).
+    \vspace{1em}
     \par Note: If \( N(t) \) satisfies Definition II, then \( T_i \) are exponential \(\Rightarrow\) $(*)$. 
     Conversely, if we build \( N(t) \) from i.i.d. exponential interarrivals via $(*)$, 
     then \( N(t) \) has Poisson(\(\lambda t\)) law \(\Rightarrow\) Definition I.
+     \vspace{1em}
     \par Moreover, a Poisson process can be expressed as \( N(t) = M(t) - 1 \), where $M(t)$ corresponds to a special case of a rst passage
     time process, defned as:
     \begin{align*}
@@ -923,9 +925,335 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
     
 \end{frame}
 
+\begin{frame}{Compound Poisson Processes}
 
+    {\footnotesize \footnotesize
+    \par  Suppose \( N(t) \) is a Poisson process with rate \(\lambda\).
+    Suppose \(\{Y_i\}_{i \geq 1}\) are i.i.d. random variables with finite mean ($\mu_Y$) and variance ($\sigma^2_Y$), independent of \(N(t)\). Then the process:
+    \begin{align*}
+        X(t) = \sum_{i=1}^{N(t)} Y_i
+    \end{align*}
+    \par  is called a compound Poisson process.
+    \vspace{1em}
+    \par Interpretation: at each jump of \(N(t)\), we add a random amount \(Y_i\). This models cumulative claims, shocks, or losses.
+    \vspace{1em}
+    \par The conditional expectation is given by:
+        \[
+        E \left[ \sum_{i=1}^{N(t)} Y_i | N(t) = n \right] = E \left[ \sum_{i=1}^n Y_i | N(t) = n \right] = E \left[ \sum_{i=1}^n Y_i \right] = n \mu_Y
+        \]
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Compound Poisson Processes Con.}
+
+    {\footnotesize \footnotesize
+    \par Consequently,
+    \[
+    E \left[ \sum_{i=1}^{N(t)} Y_i | N(t) \right] = N(t) \mu_Y,
+    \vspace{1em}
+    \]
+    and by the law of iterated expectations:
+    \vspace{1em}
+    \[
+    E \left[ \sum_{i=1}^{N(t)} Y_i \right] = E \left\{ E \left[ \sum_{i=1}^{N(t)} Y_i | N(t) \right] \right\} = E [N(t) \mu_Y] = \mu_Y \lambda t.
+    \]
+    \vspace{1em}
+    \par Intuition: Think of \(N(t)\) as "number of claims by time \(t\)" and \(Y_i\) as "size of each claim".  
+     Then \(\sum_{i=1}^{N(t)} Y_i\) is total claim cost.The expected cost = (expected number of claims) × (expected claim size).
+    }
+    
+\end{frame}
+
+\begin{frame}{Compound Poisson Processes Con.}
+
+    {\footnotesize \footnotesize
+    \par  The conditional variance is given by:
+    \vspace{1em }
+    \begin{align*}
+        \text{Var}(\sum_{i=1}^n Y_i | N(t) = n) = \text{Var}\left(\sum_{i=1}^n Y_i\right) 
+        =\sum_{i=1}^n \text{Var}(Y_i) +  \sum_{i=1}^n \sum_{j \neq i}^{n-1} \text{Cov}(Y_i, Y_j)= n\sigma^2_Y
+    \end{align*}
+    \par By law of total variance:
+    \vspace{1em }
+    \begin{align*}
+        \text{Var}(X(t)) &= \mathbb{E}[\text{Var}(X(t) | N(t))] + \text{Var}(\mathbb{E}[X(t) | N(t)])\\
+        &= \mathbb{E}[N(t)\sigma_Y^2] + \text{Var}(N(t)\mu_Y) \\
+        &= \sigma_Y^2 \mathbb{E}[N(t)] + \mu_Y^2 \text{Var}(N(t))\\
+        & =  \lambda t (\sigma_Y^2 + \mu_Y^2) = \lambda t \mathbb{E}[Y^2]
+    \end{align*}
+
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Compound Poisson Processes Con.}
+
+    {\footnotesize \footnotesize
+    \par Determining the exact distribution function of a compound Poisson process
+    is substantially more intricate. However, one can effectively compute its Laplace
+    transform. Specifically, let \(\psi(\theta)\) denote the Laplace transform of the claim size distribution \(Y\), i.e., \(\psi(\theta) = E[e^{-\theta Y}]\). 
+    The Laplace transform of the compound Poisson process \(\sum_{i=1}^{N(t)} Y_i\) is given by:
+
+    \vspace{1em}
+    \begin{align*}
+        E \left[ \exp\left\{ -\theta \sum_{i=1}^{N(t)} Y_i \right\} \right] 
+        &= E \left[ E \left[ \exp\left\{ -\theta \sum_{i=1}^{N(t)} Y_i \right\} \right] \bigg| N(t) \right] \\
+        &= E \left[ \{\psi(\theta)\}^{N(t)} \right] \\
+        &= \sum_{n=0}^{\infty} e^{-\lambda t} \frac{(\lambda t)^n}{n!} (\psi(\theta))^n \\
+        &= e^{-\lambda t} \exp \{\lambda t \psi(\theta)\}.
+    \end{align*}
+    
+    }
+    
+\end{frame}
+
+
+\section{A Data Set}
+\begin{frame}{A Data Set}
+
+    {\footnotesize \footnotesize
+    \par  Consider the following data set from Biihlman (1970, p. 107, Mathematical Methods in Risk Theory, Springer), 
+    which is based on accident claims in 1961 for a class of automobile insurance by firms in Switzerland.
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{2025-09-08 155257}
+    % \caption{This is a sample figure caption}
+    % \label{fig:example}
+    \end{figure}
+    \par To see whether the Poisson distribution fits the data, 
+    we shall fit the data first under Poisson distribution with the 
+    unknown parameter $\lambda$ estimated by using Maximum Likelihood Estimation.
+
+
+
+    }
+    
+\end{frame}
+\section{A Data Set}
+\begin{frame}{A Data Set Con.}
+
+    {\footnotesize \footnotesize
+    \par  Consider i.i.d. samples $A_i$, $i=1,2,...,n$, from a Poisson distribution with rate $\lambda$. We want to estimate $\lambda$. 
+    The likelihood is given by:
+    \[
+    L(\lambda) = \prod_{i=1}^{n} e^{-\lambda} \frac{\lambda^{A_i}}{A_i!}.
+    \]
+    \par Therefore, the log-likelihood is:
+    \[
+    \log L(\lambda) = \sum_{i=1}^{n} \{ - \lambda + A_i \log (\lambda) - \log (A_i!) \} 
+    = -n \lambda + \log (\lambda) \sum_{i=1}^{n} A_i - \sum_{i=1}^{n} \log (A_i!)
+    \]
+    \par Taking derivatives with respect to $\lambda$ and then setting them to zero yield:
+    \[
+    -n + \frac{\sum_{i=1}^n A_i}{\lambda} = 0
+    \]
+    \par Therefore, the estimators for $\lambda$ is $\hat{\lambda} = \frac{1}{n} \sum\limits_{i=1}^n A_i.$
+
+
+    }
+    
+\end{frame}
+\begin{frame}{A Data Set Con.}
+
+    {\footnotesize \footnotesize
+    \par  In our example of the accident claims in 1961 for a class of automobile insurance by firms in Switzerland, we have:
+    \[
+    \hat{\lambda} = \frac{1}{n} \sum_{i=1}^n A_i
+    \]
+    \[
+    = \frac{1}{n} \left\{ 0 \times 103,704 + 1 \times 14,075 + 2 \times 1,766 + 
+    3 \times 255 + 4 \times 45 + 5 \times 6 + 6 \times 2 \right\}
+    \]
+    \[
+    = 0.15514
+    \]
+    \par where the total sample size is:
+    \[
+    n = 103704 + 14075 + 1766 + 255 + 45 + 6 + 2 = 119853
+    \]
+    \par Therefore, the fitted model for zero claims is:
+    \[
+    n \times \left( e^{-\hat{\lambda}} \frac{\hat{\lambda}^0}{0!} \right) = 
+    119853 \times e^{-\hat{\lambda}} = 119853 \times e^{-0.15514} = 102629.6
+    \]
+
+    
+
+    }
+    
+\end{frame}
+
+\begin{frame}{A Data Set Con.}
+
+
+    {\footnotesize \footnotesize
+    \par We can continue to get all the fitted values for one claim, two claims, 
+    etc. The fitted model can be summarized in the following table.
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{2025-09-08 155325}
+    % \caption{This is a sample figure caption}
+    % \label{fig:example}
+    \end{figure}
+    \par Note that the Poisson process fts the tail part of the data rather poorly.
+    Next, we shall discuss how to fit models to data better using an alternative
+    model.
+    }
+    
+\end{frame}
+
+\section{Pólya counting process}
+\begin{frame}{Pólya counting process}
+
+    {\footnotesize \footnotesize
+    \par To get a better fit of the data, we shall consider the Pólya counting process,
+    which is a generalization of the Poisson process.
+    \vspace{1em}
+
+    \par The Pólya counting process $N(t)$ has a negative binomial distribution:
+    \begin{align*}
+        P(N(t) = i) = \binom{a + i - 1}{i}
+         \left( \frac{b}{t + b} \right)^a \left( \frac{t}{t + b} \right)^i, 
+         \quad t \geq 0, \quad i \geq 0, \quad a > 0, \quad b > 0
+    \end{align*}
+    \par Note that \( a > 0 \) is not necessarily an integer, where the binomial coefficients for non-integers are defined as:
+
+    \[
+    \binom{x}{y} = \frac{\Gamma(x + 1)}{\Gamma(y + 1)\Gamma(x - y + 1)}
+    \]
+
+    \par via the gamma function.
+
+        }
+\end{frame}
+
+
+\begin{frame}{Pólya counting process Con.}
+
+    {\footnotesize \footnotesize
+    \par The Pólya counting process is a generalization of Poisson processes, because it is a mixed Poisson process with the rate \( \lambda \) is a random variable \( \Lambda \) with a gamma density
+
+    \[
+    \frac{b^a}{\Gamma(a)} e^{-bx}x^{a-1}
+    \]
+
+    \par where \( \Gamma(a) \) is a gamma function.
+    
+    \vspace{1em}
+    \par The properties of the Pólya counting process:
+    \vspace{1em}
+    \par (1) Stationary but dependent increments. The Pólya counting process
+    has a property that the arrival of one event tends to trigger more arrival events,
+    leading to the positive correlation of increments. Indeed, $\text{Cov}(N(t),\ N(t+h)-N(t)) = ht\text{Var}(\Lambda) = ht\frac{a}{b^{2}}.$
+    \par [Proof]
+    \begin{align*}
+        E[N(t)(N(t+h)-N(t))] &= E[E[N(t)(N(t+h)-N(t))|\Lambda]]\\ 
+        &= E[t\Lambda\cdot h\Lambda]\\&= th\cdot E[\Lambda^{2}]
+    \end{align*}
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Pólya counting process Con.}
+
+    {\footnotesize \footnotesize
+    \par Therefore:
+
+    \[
+    \begin{aligned}
+    &\text{Cov}(N(t),\ N(t+h)-N(t)) \\
+    &= E[N(t)(N(t+h)-N(t))]-E[N(t)]E[(N(t+h)-N(t))] \\
+    &= thE[\Lambda^{2}]-thE[\Lambda]E[\Lambda] = th\text{Var}(\Lambda)
+    \end{aligned}
+    \]
+    \par Due to dependent increments, it is more challenging to analyze the Pólya counting process.
+    \vspace{1em}
+    \par (2) The Pólya counting process is a pure birth process with a birth rate being:
+
+    \[
+    q_{i,i+1}(t) = \frac{a+i}{b+t},
+    \]
+
+    \par where \(a\) and \(b\) are two parameters in the negative binomial distribution. 
+    This fact may be helpful when one tries to simulate the Pólya counting process.
+    
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Estimation}
+
+    {\footnotesize \footnotesize
+    \par  It is challenging to get the maximum likelihood estimators for \(a\) and \(b\), involving infinite series 
+    and two implicit equations. However, it is easier to get estimators via the method of moments. Oberve that:
+
+    \[
+    E\left[N(t)\right]=\frac{at}{b},\quad \text{Var}\left[N(t)\right]=a\frac{t}{b}\left(1+ \frac{t}{b}\right)
+    \]
+
+    \par Setting up two equations
+
+    \[
+    \frac{at}{b}=\bar{X},\quad a\frac{t}{b}\left(1+\frac{t}{b}\right)=S^{2}
+    \]
+
+    \par yields
+
+    \[
+    \hat{a}=\frac{(\bar{X})^{2}}{S^{2}-\bar{X}},\quad \hat{b}=\frac{t}{(S^{2}/\bar{X})-1}
+    \]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Estimation Con.}
+
+    {\footnotesize \footnotesize
+    \par In our example, $\sum X_{i}=18594,\;\sum X_{i}^{2}=24376,\; n=119853,\;t=1.$ So:
+    \[
+    \bar{X}=0.1551400466,\quad S^{2}=0.1793155390.
+    \]
+    % \vspace{-0.5em}
+    \par Thus:
+    % \vspace{-0.5em}
+    \[
+    \hat{a}=0.9955716169,\quad \hat{b}=6.417244540
+    \]
+    \par Using the estimator \(\hat{a}\) and \(\hat{b}\) we get the following table for the negative binomial model.
+    \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{2025-09-08_1}
+    % \caption{This is a sample figure caption}
+    % \label{fig:example}
+    \end{figure}
+    \par The negative binomial model fits the data better than the Poisson model,
+    especially in the tail part.
+    }
+    
+\end{frame}
+
+\section{Introduction to Jump Diffusion Processes}
+\begin{frame}{Introduction to Jump Diffusion Processes}
+
+    {\footnotesize \footnotesize
+    \par A finite-activity jump process $J(t)$ is a process such that:
+    \begin{itemize}
+        \item (i) \( J(t) \) is right-continuous. 
+        At a jump time \( t \), \( J(t-) \) is the value just before the jump, \( J(t) \) is just after.
+        \item (ii) There is no jump at time t, i.e. \( J(t-) = J(t) \).
+        \item (iii) Finite number of jumps in any finite interval. In other words, there is only a finite number of points such that \( J(t-) \neq J(t) \).
+    \end{itemize}
+    }
+\end{frame}
 
 % \begin{frame}
+
 %     {\footnotesize \footnotesize
 
 %     }
