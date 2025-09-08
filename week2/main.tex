@@ -824,10 +824,9 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
 
 
     {\footnotesize \footnotesize
-    \par Probability of $\geq 2$ events in a subinterval is negligible ($o(h)$). 
-    So each $X_i$ behaves like a Bernoulli$(\lambda h)$. due to the independent increments property, the \( X_i \) are mutually independent. 
-    Since the sum of independent and identically distributed Bernoulli random variables follows a binomial distribution, 
-    it follows that \( N(t) \) is approximately binomial with parameters \( m \) and \( p = \lambda h \).
+    \par So each $X_i$ behaves like a Bernoulli$(\lambda h)$. due to the independent increments property, the \( X_i \) are mutually independent. 
+    % Since the sum of independent and identically distributed Bernoulli random variables follows a binomial distribution, 
+    It follows that \( N(t) \) is approximately binomial with parameters \( m \) and \( p = \lambda h \).
     \vspace{1em}
     \par As \( m \to \infty \) and \( p \to 0 \), the classical Poisson approximation to the binomial distribution implies
      that \( N(t) \) converges in distribution to a Poisson random variable with rate
@@ -837,12 +836,91 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
         \]
     \vspace{1em}
     \par  which precisely corresponds to the distribution given in equation of the requirement three in the first definition. 
-    Hence, this approximation provides intuition for the equivalence of the two definitions.
+
     \vspace{1em}
     \par \textbf{Remark}: Powerful tool for modeling infrequent extreme events. In financial contexts, 
     poisson processes can capture market shocks and discontinuities missed by continuous-path models. Important for pricing derivatives sensitive to jump risk.
 
     }
+\end{frame}
+
+
+\begin{frame}{Interarrival and Waiting Times}
+
+
+     {\footnotesize \footnotesize
+    \par Interarrival time \( T_n \) is the time between the \((n - 1)\)st and \(n\)th event. Waiting time \( S_n \) is the time of the \(n\)th event:
+    \begin{align*}
+        S_n = \sum_{i=1}^n T_i
+    \end{align*}
+    \par Key properties:
+    \vspace{1em}
+    \begin{itemize}
+        \item \( S_n \leq t \iff N(t) \geq n \). (\(n\)th event occurs by time \(t\) $\iff$ at least \(n\) arrivals by \(t\)).\vspace{1em}
+        \item Alternative representation of counting process:
+    
+        \[
+        N(t) = \max\{n : S_n \leq t\} = \min\{n : S_{n+1} > t\}.
+        \]
+    \end{itemize}
+     }
+    
+\end{frame}
+
+
+
+\begin{frame}{The Third Definition of Poisson Processes}
+
+
+    {\footnotesize \footnotesize
+    \par Suppose the counting process \( N(t) \) satisfies the second definition of a Poisson process. 
+    Demonstrate that the interarrival times \( T_n,  n \geq 1 \), are independent exponential 
+    random variables with rate \(\lambda\). 
+    Consequently, the expected value of the first interarrival time is \( \mathbb{E}[T_1] = 1/\lambda \).
+    \vspace{1em}
+    \par [Proof]
+    \par Npte that since \( T_1 > t \) means that there is no event before time \( t \). Therefore, we have  
+        \[
+        P(T_1 > t) = P(N(t) = 0) = e^{-\lambda t}.
+        \]  
+    \par Furthermore,  
+    \[
+    P(T_2 > t|T_1 = s) = P(\text{no events in } (s, s + t]|T_1 = s) = P(\text{no events in } (s, s + t]) = e^{-\lambda t},
+    \]  
+    \par Thus, conditioning on \( T_1 \) we have  
+    \[
+    P(T_2 > t) = \int_{0}^{\infty} P(T_2 > t|T_1 = s)f_{T_1}(s)ds = \int_{0}^{\infty} e^{-\lambda t}f_{T_1}(s)ds
+     =  e^{-\lambda t}
+    \]  
+     \par Therefore, \( T_2 \) has an exponential distribution with same rate $\lambda$ and  \( T_1 \) and \( T_2 \) are independent.  
+    Repeating the same argument, we can show $T_3, T_4.....$
+    }
+    
+\end{frame}
+
+\begin{frame}{The Third Definition of Poisson Processes Con.}
+
+    {\footnotesize \footnotesize
+   \par  Since the sum of independent and identically distributed exponential random variables follows a gamma distribution:
+   \begin{align*}
+    S_n = \sum_{i=1}^n T_i \sim \text{Gamma}(n, \lambda),\;\;\; f_{S_n}(t) = \frac{\lambda e^{-\lambda t} (\lambda t)^{n-1}}{\Gamma(n)}
+   \end{align*}
+    \par  Third equivalent definition(III), poisson process can be defined via arrival times:
+    \begin{align*}
+        N(t) = \max\{n : S_n \leq t\} = \min\{n : S_{n+1} > t\} \tag{*}
+    \end{align*}
+    \par With \( T_i \overset{iid}{\sim} \text{Exp}(\lambda) \).
+    \par Note: If \( N(t) \) satisfies Definition II, then \( T_i \) are exponential \(\Rightarrow\) $(*)$. 
+    Conversely, if we build \( N(t) \) from i.i.d. exponential interarrivals via $(*)$, 
+    then \( N(t) \) has Poisson(\(\lambda t\)) law \(\Rightarrow\) Definition I.
+    \par Moreover, a Poisson process can be expressed as \( N(t) = M(t) - 1 \), where $M(t)$ corresponds to a special case of a rst passage
+    time process, defned as:
+    \begin{align*}
+        M(t) = \min\{n > 0 : S_n > t\}, \quad S_0 = 0, \quad t > 0
+    \end{align*}
+
+    }
+    
 \end{frame}
 
 
