@@ -31,7 +31,7 @@
 \title{MF921 Topics in Dynamic Asset Pricing}
 \subtitle{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
 \author{Yuanhui Zhao}
-\date{Boston University\\Week 2}
+\date{Boston University \\ \;\;Week 2}
 
 \begin{document}
 \frame{\titlepage}
@@ -39,6 +39,14 @@
 % \frametitle{Outline}
 % \tableofcontents
 % \end{frame}
+\section{Part I}
+\begin{frame}{Part I, Chapter 15}
+    \begin{center}
+    Option
+    Pricing via the Change of
+    Numeraire Argument
+    \end{center}
+\end{frame}
 \section{Change of Numeraire}
 \begin{frame}{Change of Numeraire: Motivation and Key Idea}
     \par In option pricing, we usually price under the risk-neutral measure using 
@@ -482,10 +490,370 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
         \[
         V(T) \sim N((\mu_1 - \rho \mu_2)T, (1 - \rho^2)T).
         \]
+    \par Incidentally, the same logic applying to two standard normal random variables with correlation \(\rho\) also leads to a representation for the bivariate normal distribution:
+    \[
+    \Phi_2(\alpha, \beta; \rho) = \int_{z_2=-\infty}^{\beta} \int_{z_1=-\infty}^{\alpha} \frac{1}{\sqrt{1 - \rho^2}} \varphi\left( \frac{z_1 - \rho z_2}{\sqrt{1 - \rho^2}} \right) \varphi(z_2) \, dz_1 \, dz_2.
+    \]
+    \par Where $\varphi(\cdot)$ is the standard normal density function, $\varphi(z) = \frac{1}{\sqrt{2\pi}}\exp\left(-\frac{z^2}{2}\right).$
+
     }
     
 \end{frame}
-% {\mathbb{P}^*}
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Now, in terms of \(V(T)\), we can rewrite \(P(X(T) < a,  \tau_b^Y > T)\) as:
+        \begin{align*}
+        &P(X(T) < a,  \tau_b^Y > T) \\
+        &= \int_{x=-\infty}^{a} \int_{y=-\infty}^{b} P(X(T) \in dx,  Y(T) \in dy,  \tau_b^Y > T) \\
+        &\text{Note:the transformation is linear with determinant 1 and the independence of \(V\) and \(Y\)}\\
+        &= \int_{x=-\infty}^{a} \int_{y=-\infty}^{b} P(V(T) \in dx - \rho dy) P(Y(T) \in dy,  \tau_b^Y > T)
+        \end{align*}
+    \par There are two terms inside the integrand. For the first term since \( V(T) \) has a normal distribution with mean \( \mu_1 T - \rho \mu_2 T \) 
+    and variance \( (1 - \rho^2)T \), we have:
+        \[
+        P(V(T) \in dx - \rho dy) = \frac{1}{\sqrt{(1 - \rho^2)T}} \varphi \left( \frac{x - \rho y - \mu_1 T + \rho \mu_2 T}{\sqrt{(1 - \rho^2)T}} \right),
+        \]
+    }
+\end{frame}
+    
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par For the second term, recall the eraly result in one-dim, When \( x \leq y \), $y > 0,  \sigma > 0$:
+    \begin{align*}
+        P(W_{\mu, \sigma}(t) \leq x,  M_t \leq y) = \Phi \left( \frac{x - \mu t}{\sigma \sqrt{t}} \right) - e^{2\mu y / \sigma^2} 
+         \Phi \left( \frac{x - 2y - \mu t}{\sigma \sqrt{t}} \right)
+    \end{align*}
+    \par We have for all \( y < b,  b > 0 \):
+            \[
+        P(Y(T) \leq y,  \tau_b^Y > T) = \Phi \left( \frac{y - \mu_2 T}{\sqrt{T}} \right) - e^{2\mu_2 b} \Phi \left( \frac{y - 2b - \mu_2 T}{\sqrt{T}} \right).
+        \]
+    \par Differentiating the above equation yields:
+        \[
+        P(Y(T) \in dy,  \tau_b^Y > T) = \frac{1}{\sqrt{T}} \varphi \left( \frac{y - \mu_2 T}{\sqrt{T}} \right) - \frac{1}{\sqrt{T}} e^{2\mu_2 b} \varphi \left( \frac{y - 2b - \mu_2 T}{\sqrt{T}} \right).
+        \]
+    \par  Plugging the above two terms into:
+    \begin{align*}
+        \int_{x=-\infty}^{a} \int_{y=-\infty}^{b} P(V(T) \in dx - \rho dy) P(Y(T) \in dy,  \tau_b^Y > T)
+    \end{align*}
+    }
+
+\end{frame}
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \begin{align*}
+        P(X(T)<a, \tau_b^Y >T)=I - II
+    \end{align*}
+    \par where:
+     {\footnotesize \tiny
+    \begin{align*}
+        I &= \int_{x=-\infty}^a \int_{y=-\infty}^b \frac{1}{\sqrt{(1-\rho^2)T}} \varphi \left( \frac{x-\rho y-\mu_1 T+\rho\mu_2 T}{\sqrt{(1-\rho^2)T}} \right) \frac{1}{\sqrt{T}} \varphi \left( \frac{y-\mu_2 T}{\sqrt{T}} \right) dy dx, \\
+        II &= e^{2\mu_2 b} \int_{x=-\infty}^a \int_{y=-\infty}^b \frac{1}{\sqrt{(1-\rho^2)T}} \varphi \left( \frac{x-\rho y-\mu_1 T+\rho\mu_2 T}{\sqrt{(1-\rho^2)T}} \right) \frac{1}{\sqrt{T}} \varphi \left( \frac{y-2b-\mu_2 T}{\sqrt{T}} \right) dy dx,
+        \end{align*}
+    
+     }
+     \par and \(\varphi(x)=e^{-x^2/2}/\sqrt{2\pi}\) is the standard normal density function. 
+     \vspace{1em}
+     \par With $\tilde{x}=\frac{x-\mu_1 T}{\sqrt{T}}, \quad \tilde{y}=\frac{y-\mu_2 T}{\sqrt{T}}$, Then:
+     \begin{align*}
+        dx = \sqrt{T}  d\tilde{x}, \quad dy = \sqrt{T}  d\tilde{y}
+     \end{align*}
+     \begin{align*}
+        x \leq a \iff \tilde{x} \leq \frac{a - \mu_1 T}{\sqrt{T}}, \quad y \leq b \iff \tilde{y} \leq \frac{b - \mu_2 T}{\sqrt{T}}
+     \end{align*}
+
+    }
+    
+\end{frame}
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par  we have
+    \begin{align*}
+    I &= \int_{x=-\infty}^a \int_{y=-\infty}^b \frac{1}{\sqrt{(1-\rho^2)T}} \varphi \left( \frac{\tilde{x}-\rho\tilde{y}}{\sqrt{(1-\rho^2)}} \right)
+     \frac{1}{\sqrt{T}} \varphi (\tilde{y}) dy dx \\
+    &= \int_{-\infty}^{\frac{a-\mu_1 T}{\sqrt{T}}} \int_{-\infty}^{\frac{b-\mu_2 T}{\sqrt{T}}} \frac{1}{\sqrt{(1-\rho^2)}} 
+    \varphi \left( \frac{\tilde{x}-\rho\tilde{y}}{\sqrt{(1-\rho^2)}} \right) \varphi (\tilde{y}) d\tilde{y} d\tilde{x}\\
+    \end{align*}
+    \par By the conditional-Gaussian factorization, this integrand is exactly the joint pdf of a standard bivariate normal \((Z_1, Z_2)\) with correlation \(\rho\):
+\[
+f_{Z_1, Z_2} (\tilde{x}, \tilde{y}) = \frac{1}{\sqrt{1 - \rho^2}} \varphi \left( \frac{\tilde{x} - \rho \tilde{y}}{\sqrt{1 - \rho^2}} \right) \varphi (\tilde{y})
+\]
+Hence the double integral is, by definition,
+\[
+I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \rho \right)
+\]
+            }
+        
+\end{frame}
+
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Similarly, with
+        \[
+    \hat{x} = \frac{x - \mu_1 T - 2 \rho b}{\sqrt{T}}, \quad \hat{y} = \frac{y - 2b - \mu_2 T}{\sqrt{T}}
+    \]
+    simplifying the term \( II \) yields
+    \begin{align*}
+    II &= \int_{x=-\infty}^{a} \int_{y=-\infty}^{b} \frac{1}{\sqrt{(1 - \rho^2)T}} \varphi \left( \frac{\hat{x} - \rho \hat{y}}{\sqrt{(1 - \rho^2)}} \right) \frac{1}{\sqrt{T}} e^{2 \mu_2 b} \varphi (\hat{y}) dy dx \\
+    &= \int_{-\infty}^{\frac{a - \mu_1 T - 2 \rho b}{\sqrt{T}}} \int_{-\infty}^{\frac{-b - \mu_2 T}{\sqrt{T}}} \frac{1}{\sqrt{(1 - \rho^2)}} \varphi \left( \frac{\hat{x} - \rho \hat{y}}{\sqrt{(1 - \rho^2)}} \right) e^{2 \mu_2 b} \varphi (\hat{y}) dy dx \\
+    &= e^{2 \mu_2 b} \Phi_2 \left( \frac{a - \mu_1 T - 2 \rho b}{\sqrt{T}}, \frac{-b - \mu_2 T}{\sqrt{T}} ; \rho \right),
+    \end{align*}
+    from which the result follows. The general case can be reduced to this particular case by letting:
+    \begin{align*}
+        \tilde{X}(t) &= X(t)/\sigma_1, \quad \tilde{Y}(t) = Y(t)/\sigma_2,\\
+        \tilde{b} = b/\sigma_2, \quad \tilde{a} &= a/\sigma_1, \quad \tilde{\mu}_1 = \mu_1/\sigma_1, \quad \tilde{\mu}_2 = \mu_2/\sigma_2.
+    \end{align*}
+    }
+    
+\end{frame}
+
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Given the joint distribution between \( X(T) \) and the first passage time of \( Y(t) \) by :
+    \vspace{-1em}
+    {\footnotesize \tiny
+    \begin{align*}
+    P(X(T) < a, \tau_b^Y > T) &= P\left(X(T) < a, \max_{0 \leq t \leq T} Y(t) < b\right) \\
+    = \Phi_2 & \left( \frac{a - \mu_1 T}{\sigma_1 \sqrt{T}}, \frac{b - \mu_2 T}{\sigma_2 \sqrt{T}} ; \rho \right) - 
+    e^{\frac{2 \mu_2 b}{\sigma_2^2} } \Phi_2 \left( \frac{a - \mu_1 T - 2 \rho b \sigma_1 / \sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b - \mu_2 T}{\sigma_2 \sqrt{T}} ; \rho \right)
+    \end{align*}
+    
+    \par Remark: 
+    \par (i) Using the facts that $P(X(T) > a, \tau_b^Y > T) = P(-X(T) < -a, \tau_b^Y > T)$, 
+    that the correlation between \(-X(t)\) and \(Y(t)\) is \(-\rho\),we can show that for \(b > 0\)(the following equation will use for next example 
+    to price of an up-and-out option):
+    \begin{align*}
+    &P(X(T) > a, \tau_b^Y > T) = P\left(-X(T) < - a, \max_{0 \leq t \leq T} Y(t) < b\right) \\
+    &= \Phi_2 \left( -\frac{a - \mu_1 T}{\sigma_1 \sqrt{T}}, \frac{b - \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right)
+    - e^{\frac{2 \mu_2 b}{\sigma_2^2} } \Phi_2 \left( -\frac{a - \mu_1 T - 
+    2\rho b\sigma_1/\sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b - \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right)
+    \end{align*}
+    \par (ii) Using the fact that $ P(X(T) < a, \tau_{-b}^Y > T) = P(X(T) < a, \tau_b^{-Y} > T),$
+     that the correlation between \(X(t)\) and \(-Y(t)\) is \(-\rho\), we can show that for \(b > 0\):
+    \begin{align*}
+    P(X(T) < a, \tau_{-b}^Y > T) &= P\left(X(T) < a, \min_{0 \leq t \leq T} Y(t) > -b\right) 
+    = P\left(X(T) < a, \max_{0 \leq t \leq T} (-Y(t)) < b\right) \\
+    &= \Phi_2 \left( \frac{a - \mu_1 T}{\sigma_1 \sqrt{T}}, \frac{b + \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right) 
+    - e^{\frac{2 \mu_2 b}{\sigma_2^2} }\Phi_2 \left( \frac{a - \mu_1 T + 2\rho b\sigma_1/\sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b + \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right).
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Let's calculate the price of an up-and-out call option, we have the following set up:
+    {\footnotesize \scriptsize
+    \begin{align*}
+        U_0 = e^{-rT} \mathbb{E}^{\mathbb{P}^*}\left[ (S_1(T) - K)^+ 
+       I{\left\{ \max_{0 \leq t \leq T} S_2(t) \leq H \right\}} \right], \quad S_i(t) = S_i(0)e^{X_i(t)}, X_1 
+        = X,  X_2 = Y
+    \end{align*}
+    }
+    \par Under the risk-neutral measure \(\mathbb{P}^*\),
+    {\footnotesize \scriptsize
+    \begin{align*}
+    dX(t) &= \mu_1 dt + \sigma_1 dW_1(t), \quad \mu_1 = r - \frac{1}{2} \sigma_1^2, \\
+    dY(t) &= \mu_2 dt + \sigma_2 \left\{\rho dW_1(t) + \sqrt{1 - \rho^2} dW_2(t)\right\}, \quad \mu_2 = r - \frac{1}{2} \sigma_2^2,
+    \end{align*}
+    }
+    with \(W_1, W_2\) independent.
+    \par Write the barrier level in log space
+    \[
+    b := \log \frac{H}{S_2(0)}, \quad \text{and } a := \log \frac{K}{S_1(0)}
+    \]
+    \par Then we have:\\
+    {\footnotesize \scriptsize
+    \begin{center}
+        $\left\{ \max S_2(t) \leq H \right\} = \left\{ \max S_2(0)e^{Y(t)} \leq H \right\}
+         = \left\{ \max\limits_{0 \leq t \leq T} Y(t) \leq b \right\}$
+    \end{center}
+     \begin{center}
+        $\{S_1(T) > K\} = \{S_1(0)e^{X(t)} > K\} = \{X(T) > a\}$
+    \end{center}
+    }
+    
+    }
+    
+\end{frame}
+
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \scriptsize
+    \begin{align*}
+        U_0 & = e^{-rT} \mathbb{E}^{\mathbb{P}^*}\left[ (S_1(T) - K)^+ 
+       I{\left\{ \max_{0 \leq t \leq T} S_2(t) \leq H \right\}} \right]\\
+       &= e^{-rT} \mathbb{E}^{\mathbb{P}^*}\left[ (S_1(T) - K) 
+       I{\left\{S_1(T) > K \max_{0 \leq t \leq T} S_2(t) \leq H \right\}} \right]\\
+       &= e^{-rT} \mathbb{E}^{\mathbb{P}^*}\left[ S_1(T) I{\left\{ X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b \right\}} \right] 
+       - Ke^{-rT} {\mathbb{P}^*}(X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b)\\
+       &= I - Ke^{-rT} \cdot II 
+    \end{align*}
+    
+    \par Apply Itô, we have the Radon$-$Nikodym derivative for numeraire:
+    \begin{align*}
+        \left.\frac{d\tilde{\mathbb{P}}}{d\mathbb{P}^*}\right|_{\mathcal{F}_T}& = Z_T := \frac{e^{-rT} S_1(T)}{S_1(0)}
+         = \exp \left[ \sigma_1W_1(T) - \frac{1}{2}\sigma_1^2 T \right]\\
+    \end{align*}
+    \par \vspace{-2em}
+    \par By Girsanov theorem, under new measure $\tilde{\mathbb{P}}$:
+    \begin{align*}
+        \tilde{W}_1(t) &= W_1(t) - \sigma_1 t, \;\; \tilde{W}_2(t) = W_2(t)
+    \end{align*}
+    \par And the drifts of $X$ and $Y$ under $\tilde{\mathbb{P}}$ become:
+    \begin{align*}
+        \mu_1^{(1)} = \mu_1 + \sigma_1^2 = r + \frac{1}{2}\sigma_1^2, 
+        \quad \mu_2^{(1)} = \mu_2 + \rho\sigma_1\sigma_2 = r - \frac{1}{2}\sigma_2^2 + \rho\sigma_1\sigma_2
+    \end{align*}
+    }
+\end{frame}
+
+\begin{frame}{Two-Dimensional Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par For I, using change of numeraire and the formula in remark (i) :
+    {\footnotesize \tiny
+    \begin{align*}
+        I = & \mathbb{E}^{\mathbb{P}^*}\left[ e^{-rT}S_1(T) I{\left\{ X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b \right\}} \right] \\
+        = & \mathbb{E}^{\mathbb{P}^*}\left[ \frac{e^{-rT}S_1(T)}{S_1(0)}S_1(0) I{\left\{ X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b \right\}} \right] \\
+        = &  S_1(0) \tilde{\mathbb{P}}{\left\{ X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b \right\}} \\
+        = S_1(0) & \left[\Phi_2 \left( -\frac{a - \mu_1^{(1)} T}{\sigma_1 \sqrt{T}}, \frac{b - \mu_2^{(2)} T}{\sigma_2 \sqrt{T}}; -\rho \right)
+        - e^{\frac{2 \mu_2^{(2)} b}{\sigma_2^2} } \Phi_2 \left( -\frac{a - \mu_1^{(1)} T - 
+        2\rho b\sigma_1/\sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b - \mu_2^{(2)} T}{\sigma_2 \sqrt{T}}; -\rho \right)\right]\\
+    \end{align*}
+    }
+    \par For II, apply the formula in remakr(i) directly:
+    {\footnotesize \tiny
+    \begin{align*}
+        II = & {\mathbb{P}^*}(X(T) > a, \max\limits_{0 \leq t \leq T} Y(t) \leq b)\\
+        = & \Phi_2 \left( -\frac{a - \mu_1 T}{\sigma_1 \sqrt{T}}, \frac{b - \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right)
+        - e^{\frac{2 \mu_2 b}{\sigma_2^2} } \Phi_2 \left( -\frac{a - \mu_1 T - 
+        2\rho b\sigma_1/\sigma_2}{\sigma_1 \sqrt{T}}, \frac{-b - \mu_2 T}{\sigma_2 \sqrt{T}}; -\rho \right)
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+
+\section{Part II}
+\begin{frame}{Part II: Chapter 17}
+    \begin{center}
+        Introduction to Stochastic
+    Calculus for Jump
+    Processes
+    \end{center}
+\end{frame}
+
+\section{Poisson Process}
+\begin{frame}{Counting Processes}
+    \par A counting process \( N(t) \): tracks the number of events up to time \( t \). 
+    We have the following Key properties of any counting process:
+    \begin{itemize}
+        \item \( N(t) \geq 0 \)
+        \item Takes integer values
+        \item Non-decreasing \( (N(s) \leq N(t) \) if \( s < t \))
+        \item Increment \( N(t) - N(s) \) counts events in \( (s, t] \)
+    \end{itemize}
+    \par To make analysis tractable, the following assumptions are typically imposed:
+     \begin{itemize}
+        \item Independent increments: the number of events occurring in disjoint time
+            intervals is statistically independent
+        \item Stationary increments: distribution of increments depends only on interval length, not location.
+    \end{itemize}
+    \par These two properties are also underpin the definition of Brownian motion.
+\end{frame}
+
+\begin{frame}{Two Equivalent Definitions of Poisson Processes}
+
+    {\footnotesize \footnotesize
+    \par First definition(I) of a Poisson process:
+    \par Counting process $\{N(t), t \geq 0\}$ with rate $\lambda > 0$ such that :
+    \begin{enumerate}
+        \item $N(0) = 0$  
+        \item The process exhibits independent and stationary increments  
+        \item For each $t\geq 0$, the random variable $N(t)$ follows a Poisson distribution:
+        \[
+        \mathbb{P}[N(t) = n] = e^{-\lambda t} \frac{(\lambda t)^n}{n!} \quad \text{for } n = 0, 1, 2, \ldots, \;\; \mathbb{E}[N(t)] = \lambda t
+        \]
+    \end{enumerate}
+    \par Second definition(II) of a Poisson process:
+    \par Counting process $\{N(t), t \geq 0\}$ with rate $\lambda > 0$ such that :
+    \begin{enumerate}
+        \item $N(0) = 0$  
+        \item The process exhibits independent and stationary increments
+        \item $\mathbb{P}[N(h) = 1] = \lambda h + o(h)$
+        \item $\mathbb{P}[N(h) \geq 2] = o(h)$
+    \end{enumerate}
+    }
+\end{frame}
+
+\begin{frame}{Two Equivalent Definitions of Poisson Processes Con.}
+
+     {\footnotesize \scriptsize
+    \par We show the equivalence of the two definitions:
+    \par Proof:
+    \par (i) $I \Rightarrow II$
+    \par For small $h$, use Taylor expansion of the exponential:
+    \begin{align*}
+         \mathbb{P}(N(h) = 1) = e^{-\lambda h}(\lambda h) = (1 - \lambda h + \frac{1}{2}(\lambda h)^2 + o(h^2))(\lambda h) = \lambda h + o(h)
+    \end{align*}
+    \par Similarly:
+    \begin{align*}
+        \mathbb{P}(N(h) \geq 2) = 
+        1 - \mathbb{P}(0) - \mathbb{P}(1) = 1 - \left(1 - \lambda h 
+        + \frac{1}{2}(\lambda h)^2 + o(h^2)\right) - \left(\lambda h + o(h)\right) = o(h)
+    \end{align*}
+    \par (ii) $II \Rightarrow I$(Some Intuition)
+    \par Partition $(0, t]$ into $m$ small subintervals of length $h = t/m$ and define increments $X_i = N(ih) - N((i - 1)h)$:
+    \begin{align*}
+        N(t) = \sum_{i=1}^m X_i
+    \end{align*}
+    \par Let $m \rightarrow \infty$, by the small-interval conditions:
+    \begin{align*}
+        \mathbb{P}\{X_i = 1\} = \lambda h + o(h), \quad \mathbb{P}\{X_i = 0\} = 1 - \lambda h + o(h), \quad \mathbb{P}\{X_i \geq 2\} = o(h)
+    \end{align*}
+     }
+\end{frame}
+\begin{frame}{Two Equivalent Definitions of Poisson Processes Con.}
+
+
+    {\footnotesize \footnotesize
+    \par Probability of $\geq 2$ events in a subinterval is negligible ($o(h)$). 
+    So each $X_i$ behaves like a Bernoulli$(\lambda h)$. due to the independent increments property, the \( X_i \) are mutually independent. 
+    Since the sum of independent and identically distributed Bernoulli random variables follows a binomial distribution, 
+    it follows that \( N(t) \) is approximately binomial with parameters \( m \) and \( p = \lambda h \).
+    \vspace{1em}
+    \par As \( m \to \infty \) and \( p \to 0 \), the classical Poisson approximation to the binomial distribution implies
+     that \( N(t) \) converges in distribution to a Poisson random variable with rate
+
+        \[
+        mp = m\lambda h = m\lambda \frac{t}{m} = \lambda t,
+        \]
+    \vspace{1em}
+    \par  which precisely corresponds to the distribution given in equation of the requirement three in the first definition. 
+    Hence, this approximation provides intuition for the equivalence of the two definitions.
+    \vspace{1em}
+    \par \textbf{Remark}: Powerful tool for modeling infrequent extreme events. In financial contexts, 
+    poisson processes can capture market shocks and discontinuities missed by continuous-path models. Important for pricing derivatives sensitive to jump risk.
+
+    }
+\end{frame}
+
+
+
+% \begin{frame}
+%     {\footnotesize \footnotesize
+
+%     }
+    
+% \end{frame}
+% % {\mathbb{P}^*}
 % \tilde{\mathbb{P}}
 % {\footnotesize \footnotesize
 % }
