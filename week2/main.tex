@@ -1507,8 +1507,58 @@ First of all, \( W^*(t) \) is a new Brownian motion due to the standard Girsanov
 \begin{frame}{Girsanov Theorem Con.}
 
     {\footnotesize \footnotesize
-    \par 
+    \par Consider the jump arrival times $\tau_1, ..., \tau_n, ...,$ and the related jump sizes $V_1, V_2, ...,$. 
+    Conditioning on the event that $\{\tau_n \in [t, t + dt]\}$, we have the jump intensity under the old measure $P$ is given by:
+    \begin{align*}
+        \lambda(dt, dx) := P(\tau_n \in [t, t + dt],  V_n \in [x, x + dx] | \mathcal{F}_{t-}) = \lambda dt \cdot f_V(x) dx
+    \end{align*}
+    \par This means that a jump happens in \([t, t + dt]\) with probability about \(\lambda dt\) and 
+    conditional on a jump, the size distribution is \(f_V(x)\). By the Bayes formula for the measure transform, we have the new intensity:
+
+    \[
+    \begin{aligned}
+    \lambda^*(dt, dx) &= P^*(\tau_n \in [t, t + dt],  V_n \in [x, x + dx] | \mathcal{F}_{t-}) \\
+    &= E^*[I(\tau_n \in [t, t + dt]) I(V_n \in [x, x + dx]) | \mathcal{F}_{t-}] \\
+    &= E \left[ \frac{Z(t)}{Z(t-)} \cdot I(\tau_n \in [t, t + dt]) I(V_n \in [x, x + dx]) | \mathcal{F}_{t-} \right]
+    \end{aligned}
+    \]
+    \par Conditioning on the event that $\{\tau_n \in [t, t + dt]\}$, \( Z(t) \) is updated by a multiplicative factor \( V_n \):
+
+    \[
+    \frac{Z(t)}{Z(t-)} = V_n
+    \]
+    }
     
+\end{frame}
+
+\begin{frame}{Girsanov Theorem Con.}
+
+    {\footnotesize \footnotesize
+    \par which yields:
+    \[
+    \begin{aligned}
+    \lambda^*(dt, dx) &= E \left[ E \left\{ \frac{Z(t)}{Z(t-)} \cdot I(\tau_n \in [t, t + dt]) I(V_n \in [x, x + dx]) | \tau_n \in [t, t + dt] \right\} \middle| \mathcal{F}_{t-} \right] \\
+    &= E \left[ E \left\{ V_n I(\tau_n \in [t, t + dt]) I(V_n \in [x, x + dx]) \middle| \tau_n \in [t, t + dt] \right\} \middle| \mathcal{F}_{t-} \right] \\
+    &= E \left[ I(\tau_n \in [t, t + dt]) E \{ V_n I(V_n \in [x, x + dx]) | \tau_n \in [t, t + dt] \} | \mathcal{F}_{t-} \right] \\
+    &= E \left[ I(\tau_n \in [t, t + dt] | \mathcal{F}_{t-}) \right] \cdot E \{ V_n I(V_n \in [x, x + dx]) | \mathcal{F}_{t-} \} \\
+    &= \lambda dt \cdot E \left[ V_n I(V_n \in [x, x + dx]) | \mathcal{F}_{t-} \right],
+    \end{aligned}
+    \]
+    \par via independence. Thus:
+    \[
+    \begin{aligned}
+    \lambda^*(dt, dx) &= \lambda dt \cdot x f_V(x) dx = (E [V] \lambda) dt \cdot \frac{x f_V(x)}{E [V]} dx
+    \end{aligned}
+    \]
+
+which is the jump intensity of a new jump diffusion process with jump rate $\lambda^* = E [V] \lambda$, and jump size density:
+
+\[
+\frac{x f_V(x)}{E [V]}, \;\;\; \text{with} \int_{0}^{\infty} \frac{x f_V(x)}{E[V]}  dx =  1
+\]
+
+where the normalizing constant $E [V]$ is needed to get a proper density function.
+
     }
     
 \end{frame}
