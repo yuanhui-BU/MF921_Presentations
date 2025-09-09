@@ -915,8 +915,8 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
     Conversely, if we build \( N(t) \) from i.i.d. exponential interarrivals via $(*)$, 
     then \( N(t) \) has Poisson(\(\lambda t\)) law \(\Rightarrow\) Definition I.
      \vspace{1em}
-    \par Moreover, a Poisson process can be expressed as \( N(t) = M(t) - 1 \), where $M(t)$ corresponds to a special case of a rst passage
-    time process, defned as:
+    \par Moreover, a Poisson process can be expressed as \( N(t) = M(t) - 1 \), where $M(t)$ corresponds 
+    to a special case of a first passage time process, defned as:
     \begin{align*}
         M(t) = \min\{n > 0 : S_n > t\}, \quad S_0 = 0, \quad t > 0
     \end{align*}
@@ -1249,7 +1249,268 @@ I = \Phi_2 \left( \frac{a - \mu_1 T}{\sqrt{T}}, \frac{b - \mu_2 T}{\sqrt{T}}; \r
         \item (ii) There is no jump at time t, i.e. \( J(t-) = J(t) \).
         \item (iii) Finite number of jumps in any finite interval. In other words, there is only a finite number of points such that \( J(t-) \neq J(t) \).
     \end{itemize}
+    \vspace{1em}
+    \par These assumptions make stochastic 
+    calculus with jumps easier than with infinite-activity processes. Consider a stochastic process: 
+
+        \[
+        X(t) = X(0) + \int_{0}^{t} \theta(s) dW(s) + \int_{0}^{t} \mu(s) ds + J(t).
+        \]
+
+    \par We can also write this as $X(t) = X^{c}(t) + J(t)$, where:
+    
+
+    \[
+    X^{c}(t) = X(0) + \int_{0}^{t} \theta(s) dW(s) + \int_{0}^{t} \mu(s) ds
+    \]
+
+    \par is the part with a continuous sample path.
+
     }
+\end{frame}
+
+\section{The Definition of Stochastic Integral}
+\begin{frame}{The Definition of Stochastic Integral}
+
+    {\footnotesize \footnotesize
+    \par We can define the stochastic integral \(\int_0^t \pi(s) dX(s)\). If \(\pi(t) \in \mathcal{F}_t\) and \(\pi(t)\) is left-continuous then the definition is given by
+    \[
+    \int_0^t \pi(s) dX(s) = \int_0^t \pi(s) \theta(s) dW(s) + \int_0^t \pi(s) \mu(s) ds + \sum_{0 < s \leq t} \pi(s) \Delta J(s),
+    \]
+    \par or we can denote in differential form
+    \[
+    \pi(t) dX(t) = \pi(t) \theta(t) dW(t) + \pi(t) \mu(t) dt + \pi(t) \Delta J(t).
+    \]
+
+    \par Note that the sum is only active for the finite number of terms.
+    \vspace{1em}
+    \par If \( X(t) \) is a martingale, then under suitable integrability:
+    \[
+    \mathbb{E} \left[ \int_{0}^{t} \pi^2(s) \theta^2(s) \, ds \right] < \infty
+    \]
+    \par The stochastic integral \(\int_{0}^{t} \pi(s) \, dX(s)\) is also a martingale. \( \pi(t) \) 
+    must be predictable (left-continuous). Otherwise, the martingale property may fail.
+
+    }
+    
+\end{frame}
+
+\section{Itô Formula}
+ \begin{frame}{Itô Formula}
+
+    {\footnotesize \footnotesize
+    \par Recall Itô formula without jumps, for a continuous semimartingale \( X^c(t) \):
+    \[
+    f(X^c(t)) = f(X^c(0)) + \int_0^t f'(X^c(s)) \, dX^c(s) + \frac{1}{2} \int_0^t f''(X^c(s)) \, d[X^c(s), X^c(s)]
+    \]
+    \par The Itô formula for a jump process \( X(t) \):
+    \begin{align*}
+        f(X(t)) = f(X(0)) + &\int_{0}^{t} f'(X(s))dX^{c}(s) 
+        + \frac{1}{2}\int_{0}^{t} f''(X(s))d[X^{c}(s), X^{c}(s)]\\
+        & + \sum_{0<s\leq t}[f(X(s)) - f(X(s-))]
+    \end{align*}
+    \par Denote $\Delta f(X(s)) = f(X(s)) - f(X(s-))$.
+    \vspace{1em}
+    \par The Itô formula in differential form: 
+
+    \[
+    df(X(t)) = f'(X(t))dX^{c}(t) + \frac{1}{2}f''(X(t))d[X^{c}(t), X^{c}(t)] + \Delta(f(X(t)))
+    \]
+    }
+    
+\end{frame}
+
+ \begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par Consider a jump-diffusion process for the return processes:
+
+    \[
+    X(t) = X(0) + (\mu - \frac{1}{2} \sigma^2)t + \sigma W(t) + \sum_{i=1}^{N(t)} \ln(V_i).
+    \]
+
+    \par Then the stock price \( S(t) = e^{X(t)} \) is given by:
+    \begin{align*}
+        S(t) = e^{X(t)} = S(0) \exp \left\{ (\mu - \frac{1}{2} \sigma^2)t 
+        + \sigma W(t) \right\} \prod_{i=1}^{N(t)} V_i
+    \end{align*}
+    \par Now apply Itô formula to \( e^{X(t)} \), we have:
+
+    \[
+    \begin{aligned}
+    dS(t) &= e^{X(t)} d \left\{ (\mu - \frac{1}{2} \sigma^2)t + \sigma W(t) \right\} + \frac{1}{2} \sigma^2 e^{X(t)} dt + \Delta S(t) \\
+    &= (\mu - \frac{1}{2} \sigma^2) S(t) dt + S(t) \sigma dW(t) + \frac{1}{2} \sigma^2 S(t) dt + \Delta S(t) \\
+    &= \mu S(t) dt + S(t) \sigma dW(t) + \Delta S(t)
+    \end{aligned}
+    \]
+    }
+    
+\end{frame}
+
+ \begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par Example 1: Consider a jump-diffusion process for the return processes:
+
+    \[
+    X(t) = X(0) + (\mu - \frac{1}{2} \sigma^2)t + \sigma W(t) + \sum_{i=1}^{N(t)} \ln(V_i).
+    \]
+
+    \par Then the stock price \( S(t) = e^{X(t)} \) is given by:
+    \begin{align*}
+        S(t) = e^{X(t)} = S(0) \exp \left\{ (\mu - \frac{1}{2} \sigma^2)t 
+        + \sigma W(t) \right\} \prod_{i=1}^{N(t)} V_i
+    \end{align*}
+    \par Now apply Itô formula to \( e^{X(t)} \), we have:
+
+    \[
+    \begin{aligned}
+    dS(t) &= e^{X(t)} d \left\{ (\mu - \frac{1}{2} \sigma^2)t + \sigma W(t) \right\} + \frac{1}{2} \sigma^2 e^{X(t)} dt + \Delta S(t) \\
+    &= (\mu - \frac{1}{2} \sigma^2) S(t) dt + S(t) \sigma dW(t) + \frac{1}{2} \sigma^2 S(t) dt + \Delta S(t) \\
+    &= \mu S(t) dt + S(t) \sigma dW(t) + \Delta S(t)
+    \end{aligned}
+    \]
+    }
+    
+\end{frame}
+
+ \begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par Now we need to compute \(\Delta S(t)\). Suppose the \(i\)th jump occur at time \(t\), 
+        the change in \(S\) is from \(S(t-)\) to \(S(t-)V_i\).
+     Therefore, the change is \(S(t-)V_i - S(t-) = S(t-)(V_i - 1)\). 
+     \par In this case, at the \(i\)th jump time \(t\) is \(V_i - 1\), which can also be written more generally as
+
+    \[
+    V_i - 1 = d \left( \sum_{i=1}^{N(t)} (V_i - 1) \right)
+    \]
+    \vspace{1em}
+    \par Which interpret as increment of the cumulative process at time t is equal to the jump size at t. 
+    Therefore, without referring to the specific jump time, we have: 
+    \begin{align*}
+        \Delta S(t) = S(t-)d \left( \sum_{i=1}^{N(t)} (V_i - 1) \right)
+    \end{align*}
+    }
+    
+\end{frame}
+
+\begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par Since in continuous parts of the trajectory (no jump), $S(t) = S(t-)$. In summary, we have: 
+
+    \[
+    \begin{aligned}
+    dS(t) &= \mu S(t)dt + S(t)\sigma dW(t) + S(t-)d \left( \sum_{i=1}^{N(t)} (V_i - 1) \right) \\
+    &= \mu S(t-)dt + S(t-)\sigma dW(t) + S(t-)d \left( \sum_{i=1}^{N(t)} (V_i - 1) \right)
+    \end{aligned}
+    \]
+
+    \par or
+
+    \[
+    \frac{dS(t)}{S(t-)} = \mu dt + \sigma dW(t) + d \left( \sum_{i=1}^{N(t)} (V_i - 1) \right)
+    \]
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par Example 2: Suppose  
+    \[
+    \frac{dZ(t)}{Z(t-)} = \mu_0 dt + \sigma dW(t) + d \left[ \sum_{i=1}^{N(t)} (V_i - 1) \right], \quad Z(0) = 1
+    \]
+    \par where  
+    \[
+    \mu_0 = -\lambda E[V - 1]
+    \]
+    \par Then we shall show that \(Z(t)\) is a martingale. We know from Example 1 that:
+    \[
+    Z(t) = \exp \left\{ -\frac{1}{2} \sigma^2 t + \sigma W(t) \right\} e^{\mu_0 t} \prod_{i=1}^{N(t)} V_i
+    \]
+    \par But  
+    \[
+    E \left[ \prod_{i=1}^{N(t)} V_i \middle| \mathcal{F}_s \right] 
+    = \prod_{i=1}^{N(s)} V_i \cdot E \left[ \prod_{i=N(s)+1}^{N(t)} V_i \right]
+    \]
+    }
+    
+\end{frame}
+
+\begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par However
+
+    \[
+    \begin{aligned}
+    E \left[ \prod_{i=N(s)+1}^{N(t)} V_i \right] 
+    &=\sum_{n=0}^{\infty} \mathbb{E} \left[ \prod_{i=1}^{n} V_i \middle| N(t)-N(s) = n \right] \cdot \text{P}(N(t)-N(s) = n)\\
+    &= \sum_{n=0}^{\infty} e^{-\lambda (t-s)} \frac{(\lambda (t-s))^n}{n!} E \left[ \prod_{i=0}^{n} V_i \right] \\
+    &= \sum_{n=0}^{\infty} e^{-\lambda (t-s)} \frac{(\lambda (t-s))^n}{n!} (E [V])^n \\
+    &= e^{-\lambda (t-s)} \sum_{n=0}^{\infty} \frac{(\lambda E [V] (t-s))^n}{n!} \\
+    &= e^{-\lambda (t-s)} e^{\lambda E [V] (t-s)} \\
+    &= e^{-\mu_0 (t-s)}
+    \end{aligned}
+    \]
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Itô Formula Con.}
+
+    {\footnotesize \footnotesize
+    \par which show that for any $s<t$:
+    \[
+    \begin{aligned}
+    E [Z(t) | \mathcal{F}_s] &= E \left[ \exp \left\{ -\frac{1}{2} \sigma^2 t + \sigma W(t) \right\} e^{\mu_0 t} \prod_{i=1}^{N(t)} V_i \middle| \mathcal{F}_s \right] \\
+    &= Z(s) E \left[ \exp \left\{ -\frac{1}{2} \sigma^2 (t-s) + \sigma (W(t) - W(s)) \right\} e^{\mu_0 (t-s)} \prod_{i=N(s)+1}^{N(t)} V_i \middle| \mathcal{F}_s \right] \\
+    = &Z(s) E \left[ \exp \left\{ -\frac{1}{2} \sigma^2 (t-s) + \sigma (W(t) - W(s)) \right\}\right]\cdot
+    E \left[ e^{\mu_0 (t-s)} \prod_{i=N(s)+1}^{N(t)} V_i \middle| \mathcal{F}_s \right] \\
+    &= Z(s)
+    \end{aligned}
+    \]
+
+    }
+    
+\end{frame}
+
+\section{Girsanov Theorem}
+\begin{frame}{Girsanov Theorem}
+
+    {\footnotesize \footnotesize
+    \par If we use \( Z(t) \) in Example 2, i.e.
+
+\[
+\frac{dZ(t)}{Z(t-)} = \mu_0 dt + \sigma dW(t) + d \left[ \sum_{i=1}^{N(t)} (V_i - 1) \right], \quad Z(0) = 1
+\]
+
+to define a new probability measure \( P^* \) via $\frac{dP^*}{dP} = Z(t).$ 
+Then Girsanov theorem says that under \( P^* \):
+\begin{itemize}
+    \item $W^*(t) = W(t) - \sigma t$ is a standard Brownian motion.
+    \item The new jump density of \( V \) is given by $f_V^*(x) = \frac{1}{E[V]} x f_V(x)$.
+    \item The new jump rate is given by $\lambda^* = \lambda E[V]$.
+\end{itemize}
+\vspace{1em}
+\par Instead of giving rigorous proof of the theorem, we present a heuristic derivation. 
+First of all, \( W^*(t) \) is a new Brownian motion due to the standard Girsanov theorem for Brownian motion. Thus, we shall focus on the jump part.
+    }
+    
+\end{frame}
+
+\begin{frame}{Girsanov Theorem Con.}
+
+    {\footnotesize \footnotesize
+    \par 
+    
+    }
+    
 \end{frame}
 
 % \begin{frame}
