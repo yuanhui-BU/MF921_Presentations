@@ -100,7 +100,7 @@
 
     {\footnotesize \footnotesize
     \par What is the $dS(t)$ looks like under meausre $\tilde{\mathbb{P}}?$
-    \par Note: Under $Q$, we have $\begin{cases}
+    \par Note: Under $\mathbb{P}^*$, we have $\begin{cases}
         dS(t) = r(t) S(t) \,dt + \sigma(t) S(t) \,dW(t)\\dN(t) = r(t) N(t) \,dt + \gamma(t) N(t) \,dW(t)
     \end{cases}$
     \par Denote $\widehat N_t = \frac{N_t}{B_t}$, apply Itô we get
@@ -164,7 +164,7 @@
     \begin{align*}
         I = S(0)\mathbb{E}^{\mathbb{P}^*} \left( e^{-rT} \frac{S(T)}{S(0)} I(S(T) \geq K) \right) &= S(0) \mathbb{E}^{\tilde{\mathbb{P}}} (I(S(T) \geq K)) \\
         &= S(0) \tilde{\mathbb{P}}(S(T) \geq K)\\
-       & = S(0) \Phi \left( \frac{\log(S(0)/K) + (r + \frac{1}{2} \sigma^2) T}{\sigma \sqrt{T}} \right).
+       & = S(0) \Phi \left( \frac{\log(S(0)/K) + (r + \frac{1}{2} \sigma^2) T}{\sigma \sqrt{T}} \right)
     \end{align*}\pause
    \par Putting together, we have the price of the call option is given by:
     \[
@@ -256,8 +256,8 @@ where $d_{\pm} = \frac{\log(S(0)/K) + (r \pm \frac{1}{2} \sigma^2) T}{\sigma \sq
     &\quad - Ke^{-rT}P^*\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right) \\
     &= I - Ke^{-rT} \cdot II 
     \vspace{-0.5em}
-    \end{align*}\pause
-    \par For II:
+    \end{align*}
+    \par \pause For II:
     \vspace{-0.5em}
     \begin{align*}
     II &= P^*\left(S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H\right) \\
