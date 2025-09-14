@@ -1,11 +1,16 @@
 \documentclass{beamer}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{lmodern}   % modern Latin Modern fonts
+\usepackage{textcomp}  % provides \textquoteright
+\usepackage{lmodern} % Latin Modern fonts with T1 shapes
+
+
 \usepackage{graphicx}
 \usepackage{ragged2e} % for generating dummy text
 \usepackage[backend=biber,style=authoryear]{biblatex}
-\addbibresource{references.bib}
+% \addbibresource{references.bib}
 
 \usetheme{Madrid}
 \usecolortheme{default}
@@ -14,11 +19,14 @@
 \usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
 \usepackage{mathrsfs}                 % optional: \mathscr for fancy script
 
+% \setbeamercovered{invisible} 
+\setbeamercovered{transparent}
+
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
+\subtitle{Week 3}
 \author{Yuanhui Zhao}
-\date{Boston University\\Week 2}
+\date{Boston University}
 %Today, I will present the paper Valuing Data as an Asset, written by Professor Laura Veldkamp from Columbia Business School. This is a survey paper which summarize the data valuation works that professor Laura Veldkamp and her team did in the past few years. 
 \begin{document}
 \frame{\titlepage}
@@ -38,4 +46,23 @@
 \vspace{1em}
 \par Note: Everyone learn from the historical services outcomes. Intermediary knows more about the agent than the clients. Clients do not observe agent's compensation but do observe if agent is retained.
 \end{frame}
+
+
+
+% \begin{frame}
+
+%     {\footnotesize \footnotesize
+
+%     }
+    
+% \end{frame}
+% % {\mathbb{P}^*}
+% \tilde{\mathbb{P}}
+% {\footnotesize \footnotesize
+% }
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize (default)
 \end{document}
