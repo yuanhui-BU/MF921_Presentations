@@ -49,6 +49,24 @@
     American options and analytical solutions for popular path-dependent options (such as lookback, barrier, and perpetual American options). We will focus on lookback and barrier options here.
  \end{frame}
 
+ \section{Part II}
+\begin{frame}{Part II}
+
+    \begin{center}
+        Pricing Path-Dependent Options with Jump Risk via Laplace Transforms
+    \end{center}
+    \vspace{2em}
+    \begin{center}
+        Steven Kou\\
+        Giovanni Petrella\\
+        Hui Wang
+    \end{center}
+    \vspace{3em}
+    \par  Show the analytical solutions for two-dimensional Laplace transforms of barrier option prices,
+     as well as an approximation based on Laplace transforms for the prices of finite-time horizon American options, under a double exponential jump diffusion model.
+    
+\end{frame}
+
 
 \section{Background}
 \begin{frame}{Background}
@@ -311,6 +329,26 @@ where:
 \par Intuition: The algorithm generates a sequence \( f_n(x) \) such that \( f_n(x) \to f(x),  n \to \infty \)
 
     }
+\end{frame}
+
+
+\begin{frame}{Lookback Options Con.}
+
+
+    {\footnotesize \footnotesize
+    \par Another method:
+    \vspace{1em}
+    \par We shall invert the transform in the complex domain by using the Euler inversion algorithm
+     (EUL) developed by Abate and Whitt (1995), rather than in the real domain by the Gaver--Stehfest algorithm (GS). 
+    \vspace{1em}
+    \par The main reason for this is that the EUL inversion (which is carried out in the complex-domain) does not require the high numerical precision of the GS: A precision of 12 digits will suffice for the EUL, compared with the 80 
+    digits accuracy required by the GS. The EUL algorithm is made possible partly due to an explicit formula 
+    for the roots of \( G(x) \).
+    \vspace{1em}
+    \par The statistical results show that the difference between the EUL and GS results are small. So the  the EUL implementation is preferable, 
+    since it's simple to implement, and it converges fast without requiring high numerical precision as in the GS.
+    }   
+    
     
 \end{frame}
 
@@ -360,39 +398,107 @@ where:
     }
     
 \end{frame}
-\begin{frame}{Numerical Results}
+% \begin{frame}{Numerical Results}
+
+%     {\footnotesize \footnotesize
+    
+%     \par Setting: For the lookback put option the predetermined maximum is $M = 110$. 
+%     \par For the UIC option the barrier and the strike price are given by $H = 120$ and $K = 100$. 
+%     \par For others \( T = 1 ,  r = 5\% ,\sigma = 0.2,  p = 0.3,  \frac{1}{\eta_1} = 0.02,  \frac{1}{\eta_2}  = 0.04, \lambda = 3, S(0) = 100\).
+%     }
+%     \begin{figure}
+%     \centering
+%     \includegraphics[width=0.7\textwidth]{1}
+%     % \caption{This is a sample figure caption}
+%     % \label{fig:example}
+%     \end{figure}
+    
+% \end{frame}
+
+
+
+\begin{frame}{Barrier Options}
 
     {\footnotesize \footnotesize
-    
-    \par Setting: For the lookback put option the predetermined maximum is $M = 110$. 
-    \par For the UIC option the barrier and the strike price are given by $H = 120$ and $K = 100$. 
-    \par For others \( T = 1 ,  r = 5\% ,\sigma = 0.2,  p = 0.3,  \frac{1}{\eta_1} = 0.02,  \frac{1}{\eta_2}  = 0.04, \lambda = 3, S(0) = 100\).
+    \par Rewrite the pricing formula of up-and-in call option(UIC) in early silde:
+    \begin{align*}
+        UIC(k,T) = E^{\mathbb{P}^*} \left[ e^{-rT} \left( S(T) - e^{-k} \right)^+ I{[\tau_b < T]} \right]
+    \end{align*}
+    \par where \( H > S(0) \) is the barrier level, \( k = -\log(K) \) the transformed strike and \( b = \log(H/S(0)) \). In previous paper, we obtain:
+    \begin{align*}
+        UIC(k,T) = S(0) \tilde{\Psi}_{UI}(k,T) - Ke^{-rT} \Psi_{UI}(k,T)
+    \end{align*}
+    \par where:
+    \begin{align*}
+        \Psi_{UI}(k,T) = P^*(S(T) \geq e^{-k},  \tau_b < T), \quad \widetilde{\Psi}_{UI}(k,T) = \widetilde{P}(S(T) \geq e^{-k},  \tau_b < T) 
+    \end{align*}
+    \par Remark: Here we will relies on a two-dimensional Laplace transform for botth the option price and the probabilities. The formulae after doing two-dimensional 
+    transforms become much simpler than the one-dimensional formulae in Kou and Wang (2003), which involve many special functions.
     }
-    \begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth]{1}
-    % \caption{This is a sample figure caption}
-    % \label{fig:example}
-    \end{figure}
     
 \end{frame}
 
-\section{Part II}
-\begin{frame}{Part II}
 
-    \begin{center}
-        Pricing Path-Dependent Options with Jump Risk via Laplace Transforms
-    \end{center}
-    \vspace{2em}
-    \begin{center}
-        Steven Kou\\
-        Giovanni Petrella\\
-        Hui Wang
-    \end{center}
-    \vspace{3em}
-    \par  Show the analytical solutions for two-dimensional Laplace transforms of barrier option prices,
-     as well as an approximation based on Laplace transforms for the prices of finite-time horizon American options, under a double exponential jump diffusion model.
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Theorem:  For \(\xi\) and \(\alpha\) such that \(0 < \xi < \eta_1 - 1\) and \(\alpha > \max(G(\xi + 1) - r, 0)\) (such a choice of \(\xi\) and \(\alpha\) is possible 
+    for all small enough \(\xi\) as \(G(1) - r = -\delta < 0\)). The Laplace transform with respect to \(k\) and \(T\) of \(UIC(k, T)\) is given by
+    \begin{align*}
+    \tilde{f}_{UIC}(\xi, \alpha) &= \int_{0}^{\infty} \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} UIC(k, T) dk dT \\
+    &= \frac{H^{\xi+1}}{\xi (\xi + 1)} \frac{1}{r + \alpha - G(\xi + 1)} \left( A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi + 1)} + B(r + \alpha) \right)
+    \end{align*}
+    \par where
+
+    \begin{align*}
+    A(h) &:= E^* \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}} \right] =
+     \frac{(\eta_1 - \beta_{1,h}) (\beta_{2,h} - \eta_1)}{\eta_1 (\beta_{2,h} - \beta_{1,h})} \left[ e^{-b\beta_{1,h}} - e^{-b\beta_{2,h}} \right]\\
+    B(h) &:= E^* \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b = b)\}} \right] =
+    \frac{\eta_1 - \beta_{1,h}}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{1,h}} + \frac{\beta_{2,h} - \eta_1}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{2,h}}
+    \end{align*}
+    \par with \(b = \log(H/S(0))\).
+    }
     
+
+
+\end{frame}
+
+
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par  If \(0 < \xi < \eta_1\) and \(\alpha > \max(G(\xi), 0)\) (again this choice of \(\xi\) and \(\alpha\) is possible for 
+    all \(\xi\) small enough as \(G(0) = 0\)), then the Laplace transform with respect to \(k\) and \(T\) of \(\Psi_{UI}(k, T)\) is:
+     \vspace{1em}
+    \begin{align*}
+        \tilde{f}_{\Psi_{UI}}(\xi, \alpha) &= \int_0^{\infty} \left( \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} \Psi_{UI}(k, T) dk \right) dT\\
+    &= \frac{H^{\xi}}{\xi} \frac{1}{\alpha - G(\xi)} \left( A(\alpha) \frac{\eta_1}{\eta_1 - \xi} + B(\alpha) \right)
+    \end{align*}
+
+    \vspace{1em}
+    \par The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
+    similarly with \(\tilde{G}\) replacing \(G\) and the functions \(\tilde{A}\) and \(\tilde{B}\) defined similarly. 
+    To perform the inversion, They use the two-sided Euler method(EUL) as in Petrella (2004). Compare with GS method, EUL use standard double
+     precision, get stable answers, and convergence is much faster.
+
+    }
+\end{frame}
+
+
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Statistical results:
+    \vspace{1em}
+    \par The author price up-and-in calls using the two-dimensional transform
+     herein and compare the results with the one-dimensional transform in Kou and Wang (2003) (KW from now on and in the table) 
+     and Monte Carlo simulation (MC). 
+      \vspace{1em}
+    \par For the two-dimensional transform, the price obtained in both inverting $ \tilde{f}_{UIC}(\xi, \alpha)$ and inverting $ \tilde{f}_{\Psi_{UI}}(\xi, \alpha)$.
+     \vspace{1em}
+    \par The two-dimensional Laplace transform approach is more efficient, simpler, and numerically 
+    stable compared to Kou-Wang's GS inversion method, while achieving accuracy comparable to or better than Monte Carlo at a fraction of the computational cost.
+    }   
 \end{frame}
 
 % \begin{frame}
