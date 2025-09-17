@@ -45,8 +45,8 @@
         Hui Wang
     \end{center}
     \vspace{3em}
-    \par This paper aims to show that a double exponential jump diffusion model can lead to an analytic approximation for finite-horizon
-    American options and analytical solutions for popular path-dependent options (such as lookback, barrier, and perpetual American options). We will focus on lookback and barrier options here.
+    \par Focus on section 2 and 4. The model setup, the pricing and Laplace transforms formula of Barrier 
+    and Lookback option and the numerical results based on Gaver-Stehfest (GS) method.
  \end{frame}
 
  \section{Part II}
@@ -62,8 +62,8 @@
         Hui Wang
     \end{center}
     \vspace{3em}
-    \par  Show the analytical solutions for two-dimensional Laplace transforms of barrier option prices,
-     as well as an approximation based on Laplace transforms for the prices of finite-time horizon American options, under a double exponential jump diffusion model.
+    \par  An alternative two-dimensional Laplace transforms of Barrier and Lookback option prices
+    and the numerical results based on two-sided Euler method.
     
 \end{frame}
 
@@ -106,7 +106,7 @@
     \begin{align*}
         \frac{dS(t)}{S(t^-)} = (r - \lambda^*(t)\zeta^*)dt + \sigma dW^*(t) + d\left(\sum_{i=1}^{N^*(t)}(V_i^*-1)\right)
     \end{align*}
-    \par where:
+    \par \pause where:
     \begin{itemize}
         \item \( W^*(t) \): Brownian motion under \( P^* \),
         \item \( N^*(t) \): Poisson process with intensity \( \lambda^* \),
@@ -132,7 +132,7 @@
     barrier, and lookback options is straightforward. First passage times are tractable, and 
     closed-form formulas are well known (as what we show in last week).
     \vspace{1em}
-    \item With jumps, however, analytical pricing becomes difficult 
+    \item  \pause With jumps, however, analytical pricing becomes difficult 
     because the process can cross barriers by jumping over them (Overshoot Problem).
 \end{itemize}
     
@@ -149,7 +149,7 @@
     \end{align*}
     \par In a jump diffusion, when the process crosses \( b \), it may overshoot: $X(\tau_{b}) - b > 0$.
     \vspace{1em}
-    \par This overshoot creates complications to compute the distribution of the first passage
+    \par  \pause This overshoot creates complications to compute the distribution of the first passage
 times analytically: 
     \begin{itemize}
         \item Need the distribution of overshoot \( X(\tau_{b}) - b \).
@@ -157,7 +157,7 @@ times analytically:
         \item Need correlation between overshoot and the terminal state \( X(T) \)
     \end{itemize}
     \vspace{1em}
-    \par \textbf{Note}: Double exponential distribution assumption has a memoryless property, this property 
+    \par  \pause \textbf{Note}: Double exponential distribution assumption has a memoryless property, this property 
     simplifies the overshoot distribution and allows tractable Laplace transforms of first passage times.
     }
     
@@ -202,7 +202,7 @@ times analytically:
         G(x) = x \left( r - \frac{1}{2} \sigma^2 - \lambda \zeta \right) + \frac{1}{2} x^2 \sigma^2 
         + \lambda \left( \frac{p \eta_1}{\eta_1 - x} + \frac{q \eta_2}{\eta_2 + x} - 1 \right)
     \end{align*}
-    \par \textbf{Note}: Lemma 3.1 in Kou and Wang (2003) shows that the 
+    \par  \pause \textbf{Note}: Lemma 3.1 in Kou and Wang (2003) shows that the 
     equation \( G(x) = \alpha, \forall \alpha > 0 \), has exactly 
     four roots: \(\beta_{1,\alpha}\), \(\beta_{2,\alpha}\), \(-\beta_{3,\alpha}\), and \(-\beta_{4,\alpha}\), where: 
     \begin{align*}
@@ -223,7 +223,7 @@ times analytically:
         - \lambda\zeta\right)V'(x) + \lambda \int_{-\infty}^{\infty}\left(V(x+y) - V(x)\right)f_Y(y)\,dy
     \end{align*}
     \vspace{1em}
-    \par The generator describes how expectations of functions of \( X(t) \) evolve in time:
+    \par \pause  The generator describes how expectations of functions of \( X(t) \) evolve in time:
     \vspace{1em}
     \begin{align*}
         \frac{d}{dt}\mathbb{E}[V(X_t)] = \mathbb{E}[(\mathcal{L}V)(X_t)]
@@ -248,7 +248,7 @@ times analytically:
         & =   \mathbb{E}^{\mathbb{P}^*}\left[ e^{-rT} \max\{M, \max_{0 \leq t \leq T} S(t)\} \right] - S(0)\\
     \end{align*}
 
-    \par You need the joint distribution of $\max S(t)$ and $S(T)$, which is complicated for jump processes. 
+    \par  \pause You need the joint distribution of $\max S(t)$ and $S(T)$, which is complicated for jump processes. 
     Laplace transforms convert a complicated path integral over time into a function of roots of $G(x)$
     which we can solve algebraically.
     }
@@ -272,7 +272,7 @@ times analytically:
     \end{align*}
     }
     \vspace{1em}
-    \par For all \(\alpha > 0\); here:
+    \par  \pause For all \(\alpha > 0\); here:
     \vspace{1em}
     \begin{align*}
         A_\alpha &= \frac{(\eta_1 - \beta_{1,\alpha+r}) \beta_{2,\alpha+r}}{\beta_{1,\alpha+r} - 1} \\
@@ -295,7 +295,7 @@ times analytically:
     \end{align*}
     \par This is the Bromwich inversion integral, intractable in closed form.
      So we approximate it numerically. 
-     \par The most widely used numerical methods for Laplace transform inversion is
+     \par  \pause The most widely used numerical methods for Laplace transform inversion is
      Gaver-Stehfest (GS) algorithm. Suppose you know the Laplace transform of a function \( f(t) \):
      \begin{align*}
         F(\alpha) = \int_{0}^{\infty} e^{-\alpha t} f(t)  dt
@@ -341,11 +341,11 @@ where:
     \par We shall invert the transform in the complex domain by using the Euler inversion algorithm
      (EUL) developed by Abate and Whitt (1995), rather than in the real domain by the Gaver--Stehfest algorithm (GS). 
     \vspace{1em}
-    \par The main reason for this is that the EUL inversion (which is carried out in the complex-domain) does not require the high numerical precision of the GS: A precision of 12 digits will suffice for the EUL, compared with the 80 
+    \par  \pause The main reason for this is that the EUL inversion (which is carried out in the complex-domain) does not require the high numerical precision of the GS: A precision of 12 digits will suffice for the EUL, compared with the 80 
     digits accuracy required by the GS. The EUL algorithm is made possible partly due to an explicit formula 
     for the roots of \( G(x) \).
     \vspace{1em}
-    \par The statistical results show that the difference between the EUL and GS results are small. So the  the EUL implementation is preferable, 
+    \par  \pause The statistical results show that the difference between the EUL and GS results are small. So the  the EUL implementation is preferable, 
     since it's simple to implement, and it converges fast without requiring high numerical precision as in the GS.
     }   
     
@@ -362,7 +362,7 @@ where:
         UIC = E^{\mathbb{P}^*}[e^{-rT}(S(T) - K)^+I{\{ \max\limits_{0 \leq t \leq T} S(t) \geq H \}}]
     \end{align*}
     \vspace{1em}
-    \par For any given probability \( P \), define:
+    \par  \pause For any given probability \( P \), define:
     \vspace{1em}
     \begin{align*}
         \Psi(\mu, \sigma, \lambda, p, \eta_1, \eta_2; a, b, T):= P[Z(T) \geq a, \max_{0 \leq t \leq T} Z(t) \geq b]
@@ -428,7 +428,7 @@ where:
     \begin{align*}
         UIC(k,T) = S(0) \tilde{\Psi}_{UI}(k,T) - Ke^{-rT} \Psi_{UI}(k,T)
     \end{align*}
-    \par where:
+    \par  \pause  where:
     \begin{align*}
         \Psi_{UI}(k,T) = P^*(S(T) \geq e^{-k},  \tau_b < T), \quad \widetilde{\Psi}_{UI}(k,T) = \widetilde{P}(S(T) \geq e^{-k},  \tau_b < T) 
     \end{align*}
@@ -448,7 +448,7 @@ where:
     \tilde{f}_{UIC}(\xi, \alpha) &= \int_{0}^{\infty} \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} UIC(k, T) dk dT \\
     &= \frac{H^{\xi+1}}{\xi (\xi + 1)} \frac{1}{r + \alpha - G(\xi + 1)} \left( A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi + 1)} + B(r + \alpha) \right)
     \end{align*}
-    \par where
+    \par  \pause where:
 
     \begin{align*}
     A(h) &:= E^* \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}} \right] =
@@ -476,7 +476,7 @@ where:
     \end{align*}
 
     \vspace{1em}
-    \par The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
+    \par  \pause The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
     similarly with \(\tilde{G}\) replacing \(G\) and the functions \(\tilde{A}\) and \(\tilde{B}\) defined similarly. 
     To perform the inversion, They use the two-sided Euler method(EUL) as in Petrella (2004). Compare with GS method, EUL use standard double
      precision, get stable answers, and convergence is much faster.
@@ -496,7 +496,7 @@ where:
       \vspace{1em}
     \par For the two-dimensional transform, the price obtained in both inverting $ \tilde{f}_{UIC}(\xi, \alpha)$ and inverting $ \tilde{f}_{\Psi_{UI}}(\xi, \alpha)$.
      \vspace{1em}
-    \par The two-dimensional Laplace transform approach is more efficient, simpler, and numerically 
+    \par \pause  The two-dimensional Laplace transform approach is more efficient, simpler, and numerically 
     stable compared to Kou-Wang's GS inversion method, while achieving accuracy comparable to or better than Monte Carlo at a fraction of the computational cost.
     }   
 \end{frame}
