@@ -91,7 +91,7 @@
     {\footnotesize \footnotesize
     \par Moment Generating Function of the log-price process, \( X(t) \):
     \begin{align*}
-        \mathbb{E}^* \left[ e^{\theta X(t)} \right] = \exp\{G(\theta)t\}
+        \mathbb{E}^{\mathbb{P}^*} \left[ e^{\theta X(t)} \right] = \exp\{G(\theta)t\}
     \end{align*}
     \par Where the function $G(\cdot)$ is defined as:
     \begin{align*}
@@ -132,6 +132,19 @@
     }
     
 \end{frame}
+
+\begin{frame}{Part I}
+    \begin{center}
+        Option Pricing Under a Double Exponential Jump Diffusion Model
+    \end{center}
+    \vspace{2em}
+    \begin{center}
+        S.G. Kou\\
+        Hui Wang
+    \end{center}
+    \vspace{3em}
+    \par Proof of two Theorems. The Laplace transform of lookback option and barrier option.
+ \end{frame}
 \section{Pricing Path-Dependent Options}
 \begin{frame}{Lookback Options}
 
@@ -185,14 +198,14 @@
     \par Lemma :  \(\lim\limits_{y\to\infty}e^{y}\mathbb{P}^{*}[M_{X}(T)\geq y]=0\), \(\forall T\geq 0\). \(M_{X}(T):=\max\limits_{0\leq t\leq T}X(t)\)
     \par [Proof]
     \vspace{1em}
-    \par Given \(\theta\in(-\eta_{2},\,\eta_{1})\), $\mathbb{E}^*[e^{\theta X(t)}]<\infty$, 
+    \par Given \(\theta\in(-\eta_{2},\,\eta_{1})\), $\mathbb{E}^{\mathbb{P}^*}[e^{\theta X(t)}]<\infty$, 
     by stationary independent increments we can get that the process \(\{e^{\theta X(t)-G(\theta)t}; t\geq 0\}\) is a martingale.
      \vspace{1em}
     \par Observe that $G(x)$ is continuous and \(G(1)=r>0\), thus we can fix an \(\theta\in(1,\,\eta_{1})\) such that \(G(\theta)>0\).
      Let $\tau_y = \inf\{t \geq 0 : X(t) \geq y\}$. By Optional Sampling Theorem:
       \vspace{1em}
     \begin{align*}
-      1 = \mathbb{E}^*[M_{\tau_y \land T}]  \mathbb{E}^* \left[ e^{\theta X(\tau_y \land T)} e^{-G(\theta)(\tau_y \land T)} \right] 
+      1 = \mathbb{E}^{\mathbb{P}^*}[M_{\tau_y \land T}]  \mathbb{E}^{\mathbb{P}^*} \left[ e^{\theta X(\tau_y \land T)} e^{-G(\theta)(\tau_y \land T)} \right] 
       \geq e^{\theta y} e^{-G(\theta)T} \mathbb{P}^* (\tau_y \leq T)
     \end{align*}
      \vspace{1em}
@@ -276,8 +289,8 @@
 \begin{frame}{Proof Con}
 
     {\footnotesize \footnotesize
-    \par Note that \(\beta_{2,\alpha+r} > \eta_1 > 1\), \(\beta_{1,\alpha+r} > \beta_{1,r} = 1\). Therefore:Note that \(\beta_{2,\alpha+r} > \eta_1 > 1\), \(\beta_{1,\alpha+r} > \beta_{1,r} = 1\). Therefore,
-
+    \par Note that \(\beta_{2,\alpha+r} > \eta_1 > 1\), \(\beta_{1,\alpha+r} > \beta_{1,r} = 1\). 
+    Therefore:
 \begin{align*}
 \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
 &= s \int_{z}^{\infty} e^{y} A_1 e^{-y\beta_{1,\alpha+r}} dy + s \int_{z}^{\infty} e^{y} B_1 e^{-y\beta_{2,\alpha+r}} dy + \frac{M}{\alpha + r} \\
@@ -285,7 +298,7 @@
 &= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}.
 \end{align*}
 
-This yields the Laplace transform we obtained in Theorem 1.
+This yields the Laplace transform we obtained in the Theorem:
 
     \begin{align*}
     \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
@@ -297,6 +310,441 @@ This yields the Laplace transform we obtained in Theorem 1.
     \par This yields the Laplace transform we obtained in the Theorem.
     }
     
+\end{frame}
+
+\begin{frame}{Barrier Options}
+
+
+    {\footnotesize \footnotesize
+    \par Consider the up-and-in call (UIC) option with the barrier level $H$ ($H>S(0)$):
+    \vspace{1em}
+    \begin{align*}
+        UIC = E^{\mathbb{P}^*}[e^{-rT}(S(T) - K)^+I{\{ \max\limits_{0 \leq t \leq T} S(t) \geq H \}}]
+    \end{align*}
+    \vspace{1em}
+    \par For any given probability \( P \), define:
+    \vspace{1em}
+    \begin{align*}
+        \Psi(\mu, \sigma, \lambda, p, \eta_1, \eta_2; a, b, T):= P[Z(T) \geq a, \max_{0 \leq t \leq T} Z(t) \geq b]
+    \end{align*}
+    \vspace{1em}
+    \par where under \( P, Z(t) \) is a double exponential jump diffusion 
+    process with drift \( \mu \), volatility \( \sigma \), and jump rate \( \lambda \), i.e., \( Z(t) = \mu t + \sigma W(t) + \sum_{i=1}^{N(t)} Y_i \), 
+    and \( Y \) has a double exponential distribution with 
+    density \( f_Y(y) \sim p \cdot \eta_1 e^{-\eta_1 y} 1_{\{y \geq 0\}} + q \cdot \eta_2 e^{y \eta_2} 1_{\{y < 0\}} \).
+    }
+    
+    
+\end{frame}
+\begin{frame}{Barrier Options Con.}
+
+    \par Theorem:
+    \vspace{1em}
+    {\footnotesize \footnotesize
+    
+    \par The price of the UIC option is obtained as:
+    \vspace{1em}
+    \begin{align*}
+        \text{UIC} = & S(0) \Psi \left( r + \frac{1}{2} \sigma^2 - \lambda \zeta, \sigma, \tilde{\lambda}, \tilde{p}, \tilde{\eta}_1, \tilde{\eta}_2; \right. 
+        \left. \log \left( \frac{K}{S(0)} \right), \log \left( \frac{H}{S(0)} \right), T \right) \\
+        & -Ke^{-rT} \cdot \Psi \left( r - \frac{1}{2} \sigma^2 - \lambda \zeta, \sigma, \lambda, p, \eta_1, \eta_2; \right. 
+         \left. \log \left( \frac{K}{S(0)} \right), \log \left( \frac{H}{S(0)} \right), T \right)
+    \end{align*}
+    \vspace{1em}
+    \par where \( \tilde{p} = (p/(1 + \zeta)) \cdot (\eta_1 / (\eta_1 - 1)), \tilde{\eta}_1 
+    = \eta_1 - 1, \tilde{\eta}_2 = \eta_2 + 1, \tilde{\lambda} = \lambda(\zeta + 1) \), 
+    with \(\zeta = E^{P^*}[V] - 1 = \frac{p\eta_{1}}{\eta_{1}-1} + \frac{q\eta_{2}}{\eta_{2}+1} - 1\). 
+    The Laplace transforms of \( \Psi \) is computed explicitly in Kou and Wang (2003).
+    }
+    
+\end{frame}
+\begin{frame}{Proof}
+
+    
+    {\footnotesize \footnotesize
+    \par Theorem 3.1 in Kou and Wang (2003):
+    \par For any \(\alpha \in (0, \infty)\), let \(\beta_{1,\alpha}\) and \(\beta_{2,\alpha}\) be the only two positive roots of the equation  
+    \[
+    \alpha = G(\beta),
+    \]  
+    where \(0 < \beta_{1,\alpha} < \eta_1 < \beta_{2,\alpha} < \infty\). Then we have the following results concerning the Laplace transforms of \(\tau_b\) and \(X_{\tau_b}\):  
+
+    \[
+    \mathbb{E}[e^{-\alpha\tau_b}] = \frac{\eta_1 - \beta_{1,\alpha}}{\eta_1} \frac{\beta_{2,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{1,\alpha}} 
+    + \frac{\beta_{2,\alpha} - \eta_1}{\eta_1} \frac{\beta_{1,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{2,\alpha}}
+    \]
+
+    \[
+    \mathbb{E}[e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b} - b > y\}}] = e^{-\eta_1 y} \frac{(\eta_1 - \beta_{1,\alpha})(\beta_{2,\alpha} - \eta_1)}{\eta_1 (\beta_{2,\alpha} 
+    - \beta_{1,\alpha})} [e^{-b\beta_{1,\alpha}} - e^{-b\beta_{2,\alpha}}] \text{ for all } y \geq 0
+    \]
+
+    \[
+    \mathbb{E}[e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b} = b\}}] = \frac{\eta_1 - \beta_{1,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{1,\alpha}} +
+     \frac{\beta_{2,\alpha} - \eta_1}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{2,\alpha}}
+    \]
+    \par The definition of $\tau_b$ are same and definition of $X$ equilivent to $Z$ here.
+
+
+
+
+    }
+    
+\end{frame}
+\begin{frame}{Proof Con.}
+
+    
+    {\footnotesize \footnotesize
+    \par Based on the Theorem 3.1, we can get explicit formula of the Laplace transform 
+    for $\Psi(\mu, \sigma, \lambda, p, \eta_1, \eta_2; a, b, T)$ (write as $\Psi(a, b, T)$ for simplicity). Define the Laplace transform in \( T \):
+
+    \[
+    \Phi_\alpha(a, b) := \int_0^\infty e^{-\alpha T} \Psi(a, b, T)  dT = 
+    \int_0^\infty e^{-\alpha T} \mathbb{E}[1_{\{\tau_b \leq T\}} 1_{\{X(T) \geq a\}}]  dT
+    \]
+
+    \par We first use Fubini Theorem and strong Markov property can rewrite the formula, then split by overshoot and use tail-integration eventuality
+    we will end up with the following:
+    {\footnotesize \tiny
+    \begin{align*}
+        \Phi_\alpha(a,b) &= A_1 e^{-\beta_{1,\alpha}(a-b)} \left( \mathbb{E} \left[ e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b}=b\}} \right] +
+         \beta_{1,\alpha} \int_0^{a-b} e^{\beta_{1,\alpha}y} \mathbb{E} \left[ e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b}-b>y\}} \right] dy \right) \\
+        &\quad + B_1 e^{-\beta_{2,\alpha}(a-b)} \left( \mathbb{E} \left[ e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b}=b\}} \right]
+        + \beta_{2,\alpha} \int_0^{a-b} e^{\beta_{2,\alpha}y} \mathbb{E} \left[ e^{-\alpha\tau_b} \mathbf{1}_{\{X_{\tau_b}-b>y\}} \right] dy \right)
+    \end{align*}
+    
+
+    }
+    \par where:
+    {\footnotesize \tiny
+    \begin{align*}
+        A_1 = \frac{1}{\alpha} \frac{\eta_1 - \beta_{1,\alpha}}{\eta_1} \cdot \frac{\beta_{2,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}}, 
+        \quad B_1 = \frac{1}{\alpha} \frac{\beta_{2,\alpha} - \eta_1}{\eta_1} \cdot \frac{\beta_{1,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}}
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+
+\begin{frame}{Proof Con.}
+
+    
+    {\footnotesize \footnotesize
+    \par Back to the proof of the Theorem for Barrier option. First rewrite UIC as:
+    {\footnotesize \tiny
+    \begin{align*}
+        UIC & = E^{\mathbb{P}^*}[e^{-rT}(S(T) - K)^+I{\{ \max\limits_{0 \leq t \leq T} S(t) \geq H \}}]\\
+        &= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} S(T) \mathbf{1}_{\{S(T) \geq K, \max_{0 \leq t \leq T} S(t) \geq H\}} \right]\\
+        &- Ke^{-rT} \mathbb{P}^* \left[ S(T) \geq K, \max_{0 \leq t \leq T} S(t) \geq H \right]\\
+        &= I - Ke^{-rT} \cdot II 
+    \end{align*}
+    }
+    \par Since the log–price \( X(t) = \log(S(t)/S(0)) \):
+    {\footnotesize \tiny
+    \begin{align*}
+        S(T) \geq K \iff X(T) \geq \log \frac{K}{S(0)},
+        \quad \max_{0 \leq t \leq T} S(t) \geq H \iff \max_{0 \leq t \leq T} X(t) \geq \log \frac{H}{S(0)}.
+    \end{align*}
+    }
+    \par Based on the definition of $\Psi(\mu, \sigma, \lambda, p, \eta_1, \eta_2; a, b, T)$:
+    {\footnotesize \tiny
+    \begin{align*}
+        II = \Psi \left( r - \frac{1}{2} \sigma^2 - \lambda \zeta, \sigma, \lambda, p, \eta_1, \eta_2; \log \left( \frac{K}{S(0)} \right), \log \left( \frac{H}{S(0)} \right), T \right)
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+
+\begin{frame}{Proof Con.}
+
+    
+    {\footnotesize \scriptsize
+    \par For the first term, we can use a change of numeraire argument. More precisely, introduce a new probability \(\tilde{\mathbb{P}}\) defined as:
+     {\footnotesize \tiny
+    \begin{align*}
+        \frac{d \tilde{\mathbb{P}}}{d \mathbb{P}^*} \bigg|_{t=T} = e^{-rT} \frac{S(T)}{S(0)} = e^{-rT} e^{X(T)} 
+    = \exp \left\{ \left( -\frac{1}{2} \sigma^2 - \lambda \zeta \right) T + \sigma W(T) + \sum_{i=1}^{N(T)} Y_i \right\}
+    \end{align*}
+    }
+    \par Note that this is a well-defined probability as $\mathbb{E}^{\mathbb{P}^*}[e^{-rt}(S(t)/S(0))] = 1$. Then we 
+    reparametrize everything we need under  \(\tilde{\mathbb{P}}\). The Brownian part by Girsanov is $\tilde{W}(t) = W(t) - \sigma t$. 
+    The diffusion drift shifts by \(+\sigma^2\), $\tilde{\mu} = r + \frac{1}{2}\sigma^2 - \lambda\zeta$. 
+    The modified jump rate and the jump distribution:
+    {\footnotesize \tiny
+    \begin{align*}
+        \text{New rate : } \tilde{\lambda} = \lambda\mathbb{E}^{\mathbb{P}^*}[e^Y] 
+        = \lambda(1 + \zeta), \quad \text{where } \zeta = \mathbb{E}^{\mathbb{P}^*}[e^Y] - 1 = \frac{p\eta_1}{\eta_1 - 1} + \frac{q\eta_2}{\eta_2 + 1} - 1
+    \end{align*}
+    }
+    \vspace{-2em}
+    {\footnotesize \tiny
+    \begin{align*}
+        \text{New jump density: }\tilde{f}_Y(y) = \frac{e^y}{\mathbb{E}^{\mathbb{P}^*}[e^Y]} f_Y(y) 
+        = \tilde{p}\tilde{\eta}_1 e^{-\tilde{\eta}_1 y}\mathbf{1}_{y\geq 0} + \tilde{q}\tilde{\eta}_2 e^{\tilde{\eta}_2 y}\mathbf{1}_{y<0}
+    \end{align*}
+    }
+     \vspace{-2em}
+    {\footnotesize \tiny
+    \begin{align*}
+        \text{With: } \tilde{\eta}_1 = \eta_1 - 1,\;\tilde{\eta}_2 = \eta_2 + 1,\;\tilde{p} = p\left(\frac{p\eta_1}{\eta_1 - 1}
+         + \frac{q\eta_2}{\eta_2 + 1}\right)^{-1} \frac{\eta_1}{\eta_1 - 1},
+         \; \tilde{q} = q\left(\frac{p\eta_1}{\eta_1 - 1} + \frac{q\eta_2}{\eta_2 + 1}\right)^{-1} \frac{\eta_2}{\eta_2 + 1}
+    \end{align*}
+    }
+    \par For I:
+    \vspace{-2em}
+     {\footnotesize \tiny
+    \begin{align*}
+        I 
+        &= S(0) \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \frac{S(T)}{S(0)} \cdot \mathbf{1}_{\{S(T) \geq K, \max_{0 \leq t \leq T} S(t) \geq H\}} \right]\\
+        &= S(0) \tilde{\mathbb{P}} \left[ S(T) \geq K, \min_{0 \leq t \leq T} S(t) \leq H \right]\\
+        & = S(0) \Psi \left( r + \frac{1}{2} \sigma^2 - \lambda \zeta, \sigma, \tilde{\lambda}, \tilde{p}, \tilde{\eta}_1, \tilde{\eta}_2; \log \left( \frac{K}{S(0)} \right), \log \left( \frac{H}{S(0)} \right), T \right)
+    \end{align*}
+    }
+
+    }
+    
+\end{frame}
+
+ \section{Part II}
+\begin{frame}{Part II}
+
+    \begin{center}
+        Pricing Path-Dependent Options with Jump Risk via Laplace Transforms
+    \end{center}
+    \vspace{2em}
+    \begin{center}
+        Steven Kou\\
+        Giovanni Petrella\\
+        Hui Wang
+    \end{center}
+    \vspace{3em}
+    \par  Derive the Laplace transforms for 
+    casepricing of European call and put options. Derive the two dimensional Laplace transform for barrier option.
+    
+\end{frame}
+
+
+
+\begin{frame}{European call and put options}
+
+    {\footnotesize \footnotesize
+    \par The price of a European call and put with maturity \( T \) and strike \( K \), is given:
+    
+    \begin{align*}
+        C_T(k) &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} [(S(T) - K)^+] = e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ (S(0)e^{X(T)} - e^{-k})^+ \right]\\
+        P_T(k')& = e^{-rT} \mathbb{E}^{\mathbb{P}^*} [(K - S(T))^+] = e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ (e^{k'} - S(0)e^{X(T)})^+ \right]
+    \end{align*}
+    
+    \par By the change of numeraire argument w.r.t $S(t)$:
+    
+    \begin{align*}
+       C_T(k) &= S(0) \tilde{\Psi}_C(k) - e^{-k} e^{-rT} \Psi_C(k)\\
+        P_T(k') &= e^{k'} e^{-rT} \Psi_P(k') - S(0) \tilde{\Psi}_P(k')\\
+    \end{align*}
+    
+    \vspace{-2em}
+    \par where: 
+    \begin{align*}
+      \Psi_C(k) &= \mathbb{P}^*(S(T) \geq e^{-k}),\;\tilde{\Psi}_C(k) = \tilde{\mathbb{P}}(S(T) \geq e^{-k})\\
+      \Psi_P(k') &= \mathbb{P}^*(S(T) < e^{k'}), \; \tilde{\Psi}_P(k') = \tilde{\mathbb{P}}(S(T) < e^{k'})
+    \end{align*}
+    }
+    
+\end{frame}
+
+\begin{frame}{European call and put options Con.}
+
+    {\footnotesize \footnotesize
+    \par Lemma. The Laplace transform with respect to \( k \) of \( C_T(k) \) and with respect to \( k' \) for 
+    the put option \( P_T(k') \) are given by:
+    \begin{align*}
+        \tilde{f}_C(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k} C_T(k)  dk 
+        = e^{-rT} \frac{S(0)^{\xi+1}}{\xi(\xi+1)} \exp(G(\xi+1)T), \quad \xi > 0\\
+        \tilde{f}_P(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k'} P_T(k')  dk' 
+        = e^{-rT} \frac{S(0)^{-\xi-1}}{\xi(\xi-1)} \exp(G(-(\xi-1))T), \quad \xi > 1
+    \end{align*}
+    \par The Laplace transforms with respect to \( k \)  of \( \Psi_C(k) \) and \( k' \) of \( \Psi_P(k') \) are:
+    \begin{align*}
+        \tilde{f}_{\Psi_C}(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k} \Psi_C(k)  dk = \frac{S(0)^{\xi}}{\xi} \exp(G(\xi)T), \quad \xi > 0\\
+        \tilde{f}_{\Psi_P}(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k'} \Psi_P(k')  dk' = e^{-rT} \frac{S(0)^{-\xi}}{\xi} \exp(G(-\xi)T), \quad \xi > 0
+    \end{align*}
+    }
+    
+\end{frame}
+
+
+\begin{frame}{European call and put options Con.}
+
+    {\footnotesize \scriptsize
+    \par Proof:
+    \par The Laplace transform for the call option is:
+    \begin{align*}
+        \hat{f}_C(\xi) = e^{-rT} \int_{-\infty}^{\infty} e^{-\xi k} \mathbb{E}^{\mathbb{P}^*} \left[ (S(0)e^{X(T)} - e^{-k})^+ \right]  dk
+    \end{align*}
+    \par Applying the Fubini theorem yields for every \(\xi > 0\):
+    \begin{align*}
+        \hat{f}_C(\xi) &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{-\infty}^{\infty} e^{-\xi k} \left( S(0)e^{X(T)} - e^{-k} \right)^+  dk \right]\\
+        &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{-X(T)-\log S(0)}^{\infty} e^{-\xi k} \left( S(0)e^{X(T)} - e^{-k} \right)  dk \right]\\
+        &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ S(0)e^{X(T)} e^{\xi (X(T)+\log S(0))} \frac{1}{\xi} - e^{(\xi+1)(X(T)+\log S(0))} \frac{1}{\xi+1} \right]\\
+        &= e^{-rT} \frac{S(0)^{\xi+1}}{\xi (\xi+1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{(\xi+1)X(T)} \right] \overset{\text{MGF}}{=}
+          e^{-rT} \frac{S(0)^{\xi+1}}{\xi (\xi+1)} e^{G(\xi+1)T}
+    \end{align*}
+    
+    \par Similary, we can get the  Laplace transform for the put option. 
+    }
+    
+\end{frame}
+\begin{frame}{European call and put options Con.}
+
+    {\footnotesize \scriptsize
+    \par  The Laplace transforms with respect to \( k \) of \( \Psi_C(k) \):
+    \begin{align*}
+        \hat{f}_{\Psi_C}(\xi) &= \int_{-\infty}^{\infty} e^{-\xi k} \mathbb{E}^ {\mathbb{P}^*} \left[ \mathbf{1}_{\{S(T) \geq e^{-k}\}} \right]  dk \\
+       &  = \int_{-\infty}^{\infty} e^{-\xi k} \mathbb{E}^{\mathbb{P}^*} \left[ \mathbf{1}_{\{k \geq -\log S(T)\}} \right]  dk\\
+       & =\mathbb{E}^{\mathbb{P}^*} \left[ \int_{-\log S(T)}^{\infty} e^{-\xi k}  dk \right] \\
+       &= \frac{1}{\xi} \mathbb{E}^{\mathbb{P}^*} \left[ S(T)^{\xi} \right] = 
+       \frac{S(0)^{\xi}}{\xi} \mathbb{E}^{\mathbb{P}^*} \left[ e^{\xi X(T)} \right] \overset{\text{MGF}}{=} \frac{S(0)^{\xi}}{\xi} e^{G(\xi)T}
+    \end{align*}
+    \par Similary, we can get the  Laplace transform for $\Psi_P(k')$. 
+    }
+    
+\end{frame}
+\begin{frame}{Barrier Options}
+
+    {\footnotesize \footnotesize
+    \par Rewrite the pricing formula of up-and-in call option(UIC) in early silde:
+    \begin{align*}
+        UIC(k,T) = E^{\mathbb{P}^*} \left[ e^{-rT} \left( S(T) - e^{-k} \right)^+ I{[\tau_b < T]} \right]
+    \end{align*}
+    \par where \( H > S(0) \) is the barrier level, \( k = -\log(K) \) the transformed strike and \( b = \log(H/S(0)) \). In previous paper, we obtain:
+    \begin{align*}
+        UIC(k,T) = S(0) \tilde{\Psi}_{UI}(k,T) - Ke^{-rT} \Psi_{UI}(k,T)
+    \end{align*}
+    \par where:
+    \begin{align*}
+        \Psi_{UI}(k,T) = P^*(S(T) \geq e^{-k},  \tau_b < T), \quad \widetilde{\Psi}_{UI}(k,T) = \widetilde{P}(S(T) \geq e^{-k},  \tau_b < T) 
+    \end{align*}
+    % \par Remark: Here we will relies on a two-dimensional Laplace transform for botth the option price and the probabilities. The formulae after doing two-dimensional 
+    % transforms become much simpler than the one-dimensional formulae in Kou and Wang (2003), which involve many special functions.
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par Theorem:  For \(\xi\) and \(\alpha\) such that \(0 < \xi < \eta_1 - 1\) and \(\alpha > \max(G(\xi + 1) - r, 0)\) (such a choice of \(\xi\) and \(\alpha\) is possible 
+    for all small enough \(\xi\) as \(G(1) - r = -\delta < 0\)). The Laplace transform with respect to \(k\) and \(T\) of \(UIC(k, T)\) is given by
+    \begin{align*}
+    \tilde{f}_{UIC}(\xi, \alpha) &= \int_{0}^{\infty} \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} UIC(k, T) dk dT \\
+    &= \frac{H^{\xi+1}}{\xi (\xi + 1)} \frac{1}{r + \alpha - G(\xi + 1)} \left( A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi + 1)} + B(r + \alpha) \right)
+    \end{align*}
+    \par where
+
+    \begin{align*}
+    A(h) &:= E^{\mathbb{P}^*} \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}} \right] =
+     \frac{(\eta_1 - \beta_{1,h}) (\beta_{2,h} - \eta_1)}{\eta_1 (\beta_{2,h} - \beta_{1,h})} \left[ e^{-b\beta_{1,h}} - e^{-b\beta_{2,h}} \right]\\
+    B(h) &:= E^{\mathbb{P}^*} \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b = b)\}} \right] =
+    \frac{\eta_1 - \beta_{1,h}}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{1,h}} + \frac{\beta_{2,h} - \eta_1}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{2,h}}
+    \end{align*}
+    \par with \(b = \log(H/S(0))\).
+    }
+    
+
+
+\end{frame}
+
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \footnotesize
+    \par  If \(0 < \xi < \eta_1\) and \(\alpha > \max(G(\xi), 0)\) (again this choice of \(\xi\) and \(\alpha\) is possible for 
+    all \(\xi\) small enough as \(G(0) = 0\)), then the Laplace transform with respect to \(k\) and \(T\) of \(\Psi_{UI}(k, T)\) is:
+     \vspace{1em}
+    \begin{align*}
+        \tilde{f}_{\Psi_{UI}}(\xi, \alpha) &= \int_0^{\infty} \left( \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} \Psi_{UI}(k, T) dk \right) dT\\
+    &= \frac{H^{\xi}}{\xi} \frac{1}{\alpha - G(\xi)} \left( A(\alpha) \frac{\eta_1}{\eta_1 - \xi} + B(\alpha) \right)
+    \end{align*}
+
+    \vspace{1em}
+    \par The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
+    similarly with \(\tilde{G}\) replacing \(G\) and the functions \(\tilde{A}\) and \(\tilde{B}\) defined similarly. 
+    % To perform the inversion, They use the two-sided Euler method(EUL) as in Petrella (2004). Compare with GS method, EUL use standard double
+    %  precision, get stable answers, and convergence is much faster.
+    }
+\end{frame}
+
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \scriptsize
+    \par Proof: Follow the pricing formula of UIC and the Fubini theorem:
+    \begin{align*}
+        \tilde{f}_{UIC}(\xi, \alpha) &= \int_{0}^{\infty} \int_{-\infty}^{\infty} e^{-\xi k - (r + \alpha) T}
+         \mathbb{E}^{\mathbb{P}^*} \left[ \left( S(T) - e^{-k} \right)^+ \mathbf{1}_{\{\tau_b < T\}} \right] dkdT\\
+        & = \mathbb{E}^{\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) T} \mathbf{1}_{\{\tau_b < T\}}
+          \left( \int_{-\log S(T)}^{\infty} e^{-\xi k} \left( S(T) - e^{-k} \right) dk \right) dT \right]\\
+          &= \frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) T} \mathbf{1}_{\{\tau_b < T\}} S(T)^{\xi + 1} dT \right]\\
+          {\footnotesize \tiny(\text{$T = \tau_b + t$ with $t>0$})} &=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} \int_{0}^{\infty} e^{-(r + \alpha) t} S(t + \tau_b)^{\xi + 1} 
+          dt \right]\\
+          &=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} 
+            \mathbb{E}^ {\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) t} S(t + \tau_b)^{\xi + 1} dt \middle| \mathcal{F}_{\tau_b} \right] 
+           \right]\\
+           {\footnotesize \tiny(\text{$i$})}&=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} 
+            S(\tau_b)^{\xi+1} \int_0^\infty e^{-(r+\alpha)t} \mathbb{E}^{\mathbb{P}^*} \left[ e^{(\xi+1)X(t)} \right]  dt 
+           \right]\\
+    \end{align*}
+    \vspace{-2em}
+    \par Where $i$ is based on $S(\tau_b + t)^{\xi+1} = \left(S(\tau_b)\right)^{\xi+1} \cdot e^{(\xi+1)(X(\tau_b + t) - X(\tau_b))}$ and 
+    strong Markov property that $\mathbb{E}^{\mathbb{P}^*} \left[ e^{(\xi+1)(X(\tau_b + t) - X(\tau_b))} \middle| \mathcal{F}_{\tau_b} \right] 
+    = \mathbb{E}^{\mathbb{P}^*} \left[ e^{(\xi+1)X(t)} \right]$
+    
+    }
+\end{frame}
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \begin{align*}
+         {\footnotesize \tiny(\text{MGF})}  &=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} 
+            S(\tau_b)^{\xi+1} \int_0^\infty e^{-(r+\alpha)t} e^{G(\xi+1)t} dt 
+           \right]\\
+        & = \frac{1}{\xi(\xi+1)} \frac{1}{r + \alpha - G(\xi+1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r+\alpha) \tau_b} S(\tau_b)^{\xi+1} \right]\\
+        &= \frac{1}{\xi(\xi+1)} \frac{1}{r + \alpha - G(\xi+1)} \left\{\mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r+\alpha) \tau_b} H^{\xi+1} \mathbf{1}_{\{X(\tau_b)>b\}} \right] 
+        \mathbb{E}^{\mathbb{P}^*} \left[ e^{(\xi+1)\chi^+} \right]\right. \\
+        & +\left. \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r+\alpha) \tau_b} H^{\xi+1} \mathbf{1}_{\{X(\tau_b)=b\}} \right] \right\}\\
+        & = \frac{H^{\xi+1}}{\xi(\xi+1)} \frac{1}{r + \alpha - G(\xi+1)} 
+        \left\{ A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi+1)} + B(r + \alpha) \right\}
+    \end{align*}
+    \par Where \( \chi^+ \sim \text{Exp}(\eta_1) \), and $A(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}}],  B(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) = b\}}].$
+    \par Kou-Wang compute \( A(h) \) and \( B(h) \) explicitly (via first-passage Laplace transforms) with \(\beta_{1,h}, \beta_{2,h}\) being the two positive roots of \( G(\beta) = h\):
+        \[
+        A(h) = \frac{(\eta_1 - \beta_{1,h})(\beta_{2,h} - \eta_1)}{\eta_1 (\beta_{2,h} - \beta_{1,h})} \left( e^{-b\beta_{1,h}} - e^{-b\beta_{2,h}} \right)
+        \]
+        \[
+        B(h) = \frac{\eta_1 - \beta_{1,h}}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{1,h}} + \frac{\beta_{2,h} - \eta_1}{\beta_{2,h} - \beta_{1,h}} e^{-b\beta_{2,h}}
+        \]
+    }
+\end{frame}
+\begin{frame}{Barrier Options Con.}
+
+    {\footnotesize \scriptsize
+    \par For the Laplace transform of the probability \(\Psi_{UI}\), apply the same trick we have: 
+    \begin{align*}
+        \hat{f}_{\Psi_{UI}}(\xi, \alpha) &= \int_0^\infty \left[ \int_{-\infty}^\infty e^{-\xi k - \alpha T} \cdot
+         \mathbb{E}^{\mathbb{P}^*} \left\{ \mathbf{1}_{\{k > -\log(S(T)), \tau_b < T\}} \right\}  dk \right] dT\\
+        &= \mathbb{E}^{\mathbb{P}^*} \left\{ \int_{\tau_b}^\infty \left[ \int_{-\log S(T)}^\infty e^{-\xi k - \alpha T}  dk \right] dT \right\}\\
+        &= \frac{1}{\xi} \mathbb{E}^{\mathbb{P}^*} \left\{ \int_{\tau_b}^\infty S(T)^{\xi} e^{-\alpha T} dT \right\}\\
+        &= \frac{1}{\xi} \mathbb{E}^{\mathbb{P}^*} \left\{ e^{-\alpha \tau_b} \int_0^\infty \{ S(t + \tau_b) \}^{\xi} e^{-\alpha t} dt \right\}\\
+        &= \frac{1}{\xi} \mathbb{E}^{\mathbb{P}^*} \left\{ e^{-\alpha \tau_b} \mathbb{E}^{\mathbb{P}^*} \left[ \int_0^\infty S(\tau_b + t)^\xi e^{-\alpha t} 
+         dt \middle| \mathcal{F}_{\tau_b} \right]\right\}\\
+         & =\frac{1}{\xi} \frac{1}{\alpha - G(\xi)} \mathbb{E}^{\mathbb{P}^*} \left\{ e^{-\alpha \tau_b} [S(\tau_b)]^{\xi} \right\}\\
+         & =  \frac{1}{\xi} \frac{1}{\alpha - G(\xi)} \left\{ \mathbb{E}^{\mathbb{P}^*} \left[ e^{-\alpha \tau_b} H^{\xi} \mathbf{1}_{[X(\tau_b) > b]} \right] \mathbb{E}^{\mathbb{P}^*} \left[ e^{\xi \chi^+} \right] 
+         + \mathbb{E}^{\mathbb{P}^*} \left[ e^{-\alpha \tau_b} H^{\xi} \mathbf{1}_{[X(\tau_b) = b]} \right] \right\}\\
+         &= \frac{H^{\xi}}{\xi} \frac{1}{\alpha - G(\xi)} \left\{ A(\alpha) \frac{\eta_1}{\eta_1 - \xi} + B(\alpha) \right\}
+    \end{align*}
+    }
 \end{frame}
 
 % \begin{frame}
@@ -316,3 +764,14 @@ This yields the Laplace transform we obtained in Theorem 1.
 % \small
 % \normalsize (default)
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
