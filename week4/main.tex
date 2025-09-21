@@ -1,65 +1,318 @@
-% !TEX program = xelatex
 \documentclass{beamer}
 
-% --- XeLaTeX fonts ---
-\usepackage{fontspec}
-\setmainfont{Times New Roman}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{lmodern}   % modern Latin Modern fonts
+\usepackage{textcomp}  % provides \textquoteright
+\usepackage{lmodern} % Latin Modern fonts with T1 shapes
 
-% Chinese support (optional). Mac first, then Windows fallback.
-\usepackage{xeCJK}
-\IfFontExistsTF{PingFang SC}
-  {\setCJKmainfont{PingFang SC}}
-  {\IfFontExistsTF{Microsoft YaHei}{\setCJKmainfont{Microsoft YaHei}}{}}
 
-% --- graphics & layout helpers ---
 \usepackage{graphicx}
-\usepackage{ragged2e}
-
-% --- bibliography ---
+\usepackage{ragged2e} % for generating dummy text
 \usepackage[backend=biber,style=authoryear]{biblatex}
-% if you want per-week references.bib:
-\addbibresource{references.bib}
-% or shared bibliography in common/:
-% \addbibresource{../common/references.bib}
+% \addbibresource{references.bib}
 
-% --- beamer look ---
 \usetheme{Madrid}
 \usecolortheme{default}
-\usefonttheme{professionalfonts}
+\usefonttheme{professionalfonts} % keeps proper math fonts
 
-% --- math packages ---
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{mathrsfs}
+\usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
+\usepackage{mathrsfs}                 % optional: \mathscr for fancy script
+
+% \setbeamercovered{invisible} 
+\setbeamercovered{transparent}
+
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
+\subtitle{Week 4}
 \author{Yuanhui Zhao}
-\date{Boston University\\Week 2}
+\date{Boston University}
 
 \begin{document}
-
 \frame{\titlepage}
+% \begin{frame}
+% \frametitle{Outline}
+% \tableofcontents
+% \end{frame}
 
 \section{Background}
 \begin{frame}{Background}
-Intermediary (Hedge Fund Firm, Law Firm, Consulting Firm...).  
-Agent (Fund Manager, Lawyer, Consultant...).  
-Client (Looking for services).
 
-\vspace{2em}
-\begin{itemize}
-    \item The agent is hired by the intermediary and provides services indirectly. The intermediary charges the clients and pays wages to the agent.
+    {\footnotesize \footnotesize
+    \par Recall The Double Exponential Jump Diffusion Model:
+    \begin{align*}
+        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
+    \end{align*}
+    \par\begin{itemize}
+    \item \( W(t) \): Brownian motion under the real-world measure.
+    \item \( N(t) \): Poisson process with rate \(\lambda\).
+    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
+    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
+    \end{itemize}   
+    \begin{align*}
+        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
+    \end{align*}
+    \par with parameters:
+    \begin{itemize}
+        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
+        \item \(\eta_1 > 1\): rate for upward jumps.
+        \item \(\eta_2 > 0\): rate for downward jumps.
+    \end{itemize}
+    }
+    
+\end{frame}
+\begin{frame}{Background Con.}
+
+    {\footnotesize \footnotesize
+    \par For option pricing, we switch to a risk-neutral measure \( P^* \), so that the discounted price process is a martingale:
+    \begin{align*}
+        E^{P^*}[e^{-rt}S(t)] = S(0)
+    \end{align*}
+    \par Under \( P^* \), the dynamics adjust:
+    \begin{align*}
+        \frac{dS(t)}{S(t^-)} = (r - \lambda^*(t)\zeta^*)dt + \sigma dW^*(t) + d\left(\sum_{i=1}^{N^*(t)}(V_i^*-1)\right)
+    \end{align*}
+    \par where:
+    \begin{itemize}
+        \item \( W^*(t) \): Brownian motion under \( P^* \),
+        \item \( N^*(t) \): Poisson process with intensity \( \lambda^* \),
+        \item \( V^* = e^{Y^*} \): jump multiplier with new parameters \( (p^*, q^*, \eta_1^*, \eta_2^*) \),
+        \item \( \zeta^* = E^{P^*}[V^*] - 1 = \frac{p^{*}\eta_{1}^{*}}{\eta_{1}^{*}-1} + \frac{q^{*}\eta_{2}^{*}}{\eta_{2}^{*}+1} - 1\) is mean percentage jump size.
+    \end{itemize}
+    \par The log-price process:  
+    \begin{align*}
+        X(t) = \log\left(\frac{S(t)}{S(0)}\right) = \left(r - \frac{1}{2}\sigma^2 - 
+    \lambda^*\zeta^*\right)t + \sigma W^*(t) + \sum_{i=1}^{N^*(t)} Y_i^*,\;\;X(0)=0
+    \end{align*}
+    }
+\end{frame}
+\begin{frame}{Some Useful Formulas Con}
+
+    {\footnotesize \footnotesize
+    \par Moment Generating Function of the log-price process, \( X(t) \):
+    \begin{align*}
+        \mathbb{E}^* \left[ e^{\theta X(t)} \right] = \exp\{G(\theta)t\}
+    \end{align*}
+    \par Where the function $G(\cdot)$ is defined as:
+    \begin{align*}
+        G(x) = x \left( r - \frac{1}{2} \sigma^2 - \lambda \zeta \right) + \frac{1}{2} x^2 \sigma^2 
+        + \lambda \left( \frac{p \eta_1}{\eta_1 - x} + \frac{q \eta_2}{\eta_2 + x} - 1 \right)
+    \end{align*}
+    \par \textbf{Note}: Lemma 3.1 in Kou and Wang (2003) shows that the 
+    equation \( G(x) = \alpha, \forall \alpha > 0 \), has exactly 
+    four roots: \(\beta_{1,\alpha}\), \(\beta_{2,\alpha}\), \(-\beta_{3,\alpha}\), and \(-\beta_{4,\alpha}\), where: 
+    \begin{align*}
+        0 &< \beta_{1,\alpha} < \eta_1 < \beta_{2,\alpha} < \infty\\
+        0 &< \beta_{3,\alpha} < \eta_2 < \beta_{4,\alpha} < \infty
+    \end{align*}
+    \par These roots determine the structure of Laplace transforms for first passage times.
+    }
+    
+\end{frame}
+\begin{frame}{Some Useful Formulas Con}
+
+    {\footnotesize \footnotesize
+    \par Infinitesimal Generator of the log-price process, \( X(t) \):
     \vspace{1em}
-    \item The agent contracts directly with clients. The clients pay the agent.
-\end{itemize}
+    \begin{align*}
+        (\mathcal{L}V)(x) = \frac{1}{2}\sigma^2 V''(x) + \left(r - \frac{1}{2}\sigma^2 
+        - \lambda\zeta\right)V'(x) + \lambda \int_{-\infty}^{\infty}\left(V(x+y) - V(x)\right)f_Y(y)\,dy
+    \end{align*}
+    \vspace{1em}
+    \par The generator describes how expectations of functions of \( X(t) \) evolve in time:
+    \vspace{1em}
+    \begin{align*}
+        \frac{d}{dt}\mathbb{E}[V(X_t)] = \mathbb{E}[(\mathcal{L}V)(X_t)]
+    \end{align*}
+    \vspace{1em}
+    \par They provide the mathematical foundation to derive option pricing formulas.
 
-\vspace{1em}
-Note: Everyone learns from historical outcomes. The intermediary knows more about the agent than clients. Clients don’t observe pay, only retention.
+
+
+    }
+    
+\end{frame}
+\section{Pricing Path-Dependent Options}
+\begin{frame}{Lookback Options}
+
+    {\footnotesize \footnotesize
+    \par Consider a lookback put option with an initial "prefixed maximum" \( M \geq S(0) \):
+    \vspace{1em}
+    \begin{align*}
+        LP(T) &= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \left( \max\{M, \max_{0 \leq t \leq T} S(t)\} - S(T) \right) \right]\\
+        & =   \mathbb{E}^{\mathbb{P}^*}\left[ e^{-rT} \max\{M, \max_{0 \leq t \leq T} S(t)\} \right] - S(0)\\
+    \end{align*}
+
+    \par You need the joint distribution of $\max S(t)$ and $S(T)$, which is complicated for jump processes. 
+    Laplace transforms convert a complicated path integral over time into a function of roots of $G(x)$
+    which we can solve algebraically.
+    }
+    
 \end{frame}
 
-% \begin{frame}[allowframebreaks]{References}
-% \nocite{*} % show all refs from .bib even if not cited
-% \printbibliography
-% \end{frame}
+\begin{frame}{Lookback Options Con.}
 
+    \par Theorem:
+    {\footnotesize \footnotesize
+    
+    \vspace{1em}
+    \par Using the notations \(\beta_{1,\alpha+r}\) 
+    and \(\beta_{2,\alpha+r}\) as in early silde, the Laplace transform of the lookback put is given by:
+    \vspace{1em}
+    {\footnotesize \tiny
+    \begin{align*}
+        \hat{L}(T) = \int_0^\infty e^{-\alpha T} \mathrm{LP}(T)  dT = \frac{S(0)A_\alpha}{C_\alpha} \left( \frac{S(0)}{M} \right)^{\beta_{1,\alpha+r}-1} 
+        + \frac{S(0)B_\alpha}{C_\alpha} \left( \frac{S(0)}{M} \right)^{\beta_{2,\alpha+r}-1}  
+        + \frac{M}{\alpha+r} - \frac{S(0)}{\alpha}
+    \end{align*}
+    }
+    \vspace{1em}
+    \par For all \(\alpha > 0\); here:
+    \vspace{1em}
+    \begin{align*}
+        A_\alpha &= \frac{(\eta_1 - \beta_{1,\alpha+r}) \beta_{2,\alpha+r}}{\beta_{1,\alpha+r} - 1} \\
+        B_\alpha &= \frac{(\beta_{2,\alpha+r} - \eta_1) \beta_{1,\alpha+r}}{\beta_{2,\alpha+r} - 1}\\
+        C_\alpha &= (\alpha + r) \eta_1 (\beta_{2,\alpha+r} - \beta_{1,\alpha+r})
+    \end{align*}
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Proof}
+
+    {\footnotesize \footnotesize
+    \par Lemma :  \(\lim\limits_{y\to\infty}e^{y}\mathbb{P}^{*}[M_{X}(T)\geq y]=0\), \(\forall T\geq 0\). \(M_{X}(T):=\max\limits_{0\leq t\leq T}X(t)\)
+    \par [Proof]
+    \vspace{1em}
+    \par Given \(\theta\in(-\eta_{2},\,\eta_{1})\), $\mathbb{E}^*[e^{\theta X(t)}]<\infty$, 
+    by stationary independent increments we can get that the process \(\{e^{\theta X(t)-G(\theta)t}; t\geq 0\}\) is a martingale.
+     \vspace{1em}
+    \par Observe that $G(x)$ is continuous and \(G(1)=r>0\), thus we can fix an \(\theta\in(1,\,\eta_{1})\) such that \(G(\theta)>0\).
+     Let $\tau_y = \inf\{t \geq 0 : X(t) \geq y\}$. By Optional Sampling Theorem:
+      \vspace{1em}
+    \begin{align*}
+      1 = \mathbb{E}^*[M_{\tau_y \land T}]  \mathbb{E}^* \left[ e^{\theta X(\tau_y \land T)} e^{-G(\theta)(\tau_y \land T)} \right] 
+      \geq e^{\theta y} e^{-G(\theta)T} \mathbb{P}^* (\tau_y \leq T)
+    \end{align*}
+     \vspace{1em}
+    \par Thus $e^{\theta y} \mathbb{P}^* (\tau_y \leq T) \leq e^{G(\theta)T}$. Since $\theta > 1$, then we have:
+     \vspace{1em}
+    \begin{align*}
+      e^y \mathbb{P}^* (M_X(T) \geq y) = 
+      e^{(1-\theta)y} \left[ e^{\theta y} \mathbb{P}^* (\tau_y \leq T) \right] \leq e^{(1-\theta)y} e^{G(\theta)T} \xrightarrow{y \to \infty} 0
+    \end{align*}
+    \par This will use to justify the boundary term vanishing in the integration-by-parts step later.
+    }
+    
+\end{frame}
+\begin{frame}{Proof Con}
+
+    {\footnotesize \footnotesize
+    \par Given $s = S(0)$ and $M$ are constants, \(\max\limits_{0 \leq t \leq T} S(t) = s  e^{M_X(T)}\), the lookback put as:
+    \vspace{1em}
+    \begin{align*}
+      LP(T) = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \max\{M, se^{M_X(T)}\} \right] - s
+    \end{align*}
+     \vspace{1em}
+    \par  Letting \(z=\log(M/s)\geq 0\), define:
+     \vspace{1em}
+    \begin{align*}
+      L(s, M; T)  :&= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \max\{M, se^{M_X(T)}\} \right] \\
+      &= s  \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \max\{e^z, e^{M_X(T)}\} \right]\\
+      &  = s  \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \left( e^{M_X(T)} - e^z \right) \mathbf{1}_{\{M_X(T) \geq z\}} \right] + s  e^z  e^{-rT}\\
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{Proof Con}
+
+    {\footnotesize \footnotesize
+    \par Integration by parts:
+    {\footnotesize \tiny
+    \begin{align*}
+      \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} e^{M_X(T)} \mathbf{1}_{\{M_X(T) \geq z\}} \right] 
+      & = e^{-rT} \int_{z}^{\infty} e^y  d(1-\mathbb{P}^* [M_X(T) \geq y])\\
+      & = -e^{-rT} \int_{z}^{\infty} e^y  d\mathbb{P}^* [M_X(T) \geq y]\\
+      & = -e^{-rT} \left\{ \left(-e^y \mathbb{P}^* [M_X(T) \geq y]\right)\bigg|_0^{\infty} - 
+      \int_{z}^{\infty} \mathbb{P}^* [M_X(T) \geq y] e^y  dy \right\}\\
+      &= -e^{-rT} \left\{ -e^z \mathbb{P}^* [M_X(T) \geq z] - \int_{z}^{\infty} \mathbb{P}^* [M_X(T) \geq y] e^y  dy \right\}\\
+      &= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} e^z \mathbf{1}_{\{M_X(T) \geq z\}} \right] + e^{-rT} \int_{z}^{\infty} e^y \mathbb{P}^* [M_X(T) \geq y]  dy;\\
+    \end{align*}
+    }
+    \par Plug back into $ L(s, M; T)$:
+    {\footnotesize \tiny
+    \begin{align*}
+       L(s, M; T) & = s  \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \left( e^{M_X(T)} - e^z \right) \mathbf{1}_{\{M_X(T) \geq z\}} \right] + s  e^z  e^{-rT}\\
+       & =  se^{-rT} \int_{z}^{\infty} e^{y} \mathbb{P}^*[M_X(T) \geq y] dy + Me^{-rT} \\
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+\begin{frame}{Proof Con}
+
+    {\footnotesize \footnotesize
+    \par Then take Laplace in maturity and use Fubini Theorem:
+    % {\footnotesize \tiny
+    \begin{align*}
+      \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
+    &= s \int_{0}^{\infty} e^{-\alpha T} e^{-rT} \int_{z}^{\infty} e^{y} \mathbb{P}^*[M_X(T) \geq y] dy dT + \frac{M}{\alpha + r} \\
+    &= s \int_{z}^{\infty} e^{y} \int_{0}^{\infty} e^{-(\alpha + r)T} \mathbb{P}^*[M_X(T) \geq y] dT dy + \frac{M}{\alpha + r}
+    \end{align*}
+    
+    \par Follows from Kou and Wang (2003) that:
+    \[
+    \int_{0}^{\infty} e^{-(\alpha + r)T} \mathbb{P}^*[M_X(T) \geq y] dT = A_1 e^{-y\beta_{1,\alpha+r}} + B_1 e^{-y\beta_{2,\alpha+r}}
+    \]
+
+    \[
+    A_1 = \frac{1}{\alpha + r} \frac{\eta_1 - \beta_{1,\alpha+r}}{\eta_1} \cdot \frac{\beta_{2,\alpha+r}}{\beta_{2,\alpha+r} - \beta_{1,\alpha+r}}, \quad
+    B_1 = \frac{1}{\alpha + r} \frac{\beta_{2,\alpha+r} - \eta_1}{\eta_1} \cdot \frac{\beta_{1,\alpha+r}}{\beta_{2,\alpha+r} - \beta_{1,\alpha+r}}.
+    \]
+    }
+    
+\end{frame}
+\begin{frame}{Proof Con}
+
+    {\footnotesize \footnotesize
+    \par Note that \(\beta_{2,\alpha+r} > \eta_1 > 1\), \(\beta_{1,\alpha+r} > \beta_{1,r} = 1\). Therefore:Note that \(\beta_{2,\alpha+r} > \eta_1 > 1\), \(\beta_{1,\alpha+r} > \beta_{1,r} = 1\). Therefore,
+
+\begin{align*}
+\int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
+&= s \int_{z}^{\infty} e^{y} A_1 e^{-y\beta_{1,\alpha+r}} dy + s \int_{z}^{\infty} e^{y} B_1 e^{-y\beta_{2,\alpha+r}} dy + \frac{M}{\alpha + r} \\
+&= s A_1 \frac{e^{-z(\beta_{1,\alpha+r}-1)}}{\beta_{1,\alpha+r}-1} + s B_1 \frac{e^{-z(\beta_{2,\alpha+r}-1)}}{\beta_{2,\alpha+r}-1} + \frac{M}{\alpha + r} \\
+&= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}.
+\end{align*}
+
+This yields the Laplace transform we obtained in Theorem 1.
+
+    \begin{align*}
+    \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
+    &= s \int_{z}^{\infty} e^{y} A_1 e^{-y\beta_{1,\alpha+r}} dy + s \int_{z}^{\infty} e^{y} B_1 e^{-y\beta_{2,\alpha+r}} dy + \frac{M}{\alpha + r} \\
+    &= s A_1 \frac{e^{-z(\beta_{1,\alpha+r}-1)}}{\beta_{1,\alpha+r}-1} + s B_1 \frac{e^{-z(\beta_{2,\alpha+r}-1)}}{\beta_{2,\alpha+r}-1} + \frac{M}{\alpha + r} \\
+    &= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}
+    \end{align*}
+
+    \par This yields the Laplace transform we obtained in the Theorem.
+    }
+    
+\end{frame}
+
+% \begin{frame}
+
+%     {\footnotesize \footnotesize
+
+%     }
+    
+% \end{frame}
+% % {\mathbb{P}^*}
+% \tilde{\mathbb{P}}
+% {\footnotesize \footnotesize
+% }
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize (default)
 \end{document}
