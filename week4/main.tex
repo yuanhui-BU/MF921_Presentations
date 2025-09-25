@@ -72,7 +72,7 @@
     \begin{align*}
         \frac{dS(t)}{S(t^-)} = (r - \lambda^*(t)\zeta^*)dt + \sigma dW^*(t) + d\left(\sum_{i=1}^{N^*(t)}(V_i^*-1)\right)
     \end{align*}
-    \par where:
+    \par \pause where:
     \begin{itemize}
         \item \( W^*(t) \): Brownian motion under \( P^* \),
         \item \( N^*(t) \): Poisson process with intensity \( \lambda^* \),
@@ -98,7 +98,7 @@
         G(x) = x \left( r - \frac{1}{2} \sigma^2 - \lambda \zeta \right) + \frac{1}{2} x^2 \sigma^2 
         + \lambda \left( \frac{p \eta_1}{\eta_1 - x} + \frac{q \eta_2}{\eta_2 + x} - 1 \right)
     \end{align*}
-    \par \textbf{Note}: Lemma 3.1 in Kou and Wang (2003) shows that the 
+    \par  \pause \textbf{Note}: Lemma 3.1 in Kou and Wang (2003) shows that the 
     equation \( G(x) = \alpha, \forall \alpha > 0 \), has exactly 
     four roots: \(\beta_{1,\alpha}\), \(\beta_{2,\alpha}\), \(-\beta_{3,\alpha}\), and \(-\beta_{4,\alpha}\), where: 
     \begin{align*}
@@ -119,7 +119,7 @@
         - \lambda\zeta\right)V'(x) + \lambda \int_{-\infty}^{\infty}\left(V(x+y) - V(x)\right)f_Y(y)\,dy
     \end{align*}
     \vspace{1em}
-    \par The generator describes how expectations of functions of \( X(t) \) evolve in time:
+    \par  \pause  The generator describes how expectations of functions of \( X(t) \) evolve in time:
     \vspace{1em}
     \begin{align*}
         \frac{d}{dt}\mathbb{E}[V(X_t)] = \mathbb{E}[(\mathcal{L}V)(X_t)]
@@ -156,7 +156,7 @@
         & =   \mathbb{E}^{\mathbb{P}^*}\left[ e^{-rT} \max\{M, \max_{0 \leq t \leq T} S(t)\} \right] - S(0)\\
     \end{align*}
 
-    \par You need the joint distribution of $\max S(t)$ and $S(T)$, which is complicated for jump processes. 
+    \par \pause  You need the joint distribution of $\max S(t)$ and $S(T)$, which is complicated for jump processes. 
     Laplace transforms convert a complicated path integral over time into a function of roots of $G(x)$
     which we can solve algebraically.
     }
@@ -180,7 +180,7 @@
     \end{align*}
     }
     \vspace{1em}
-    \par For all \(\alpha > 0\); here:
+    \par  \pause  For all \(\alpha > 0\); here:
     \vspace{1em}
     \begin{align*}
         A_\alpha &= \frac{(\eta_1 - \beta_{1,\alpha+r}) \beta_{2,\alpha+r}}{\beta_{1,\alpha+r} - 1} \\
@@ -201,7 +201,7 @@
     \par Given \(\theta\in(-\eta_{2},\,\eta_{1})\), $\mathbb{E}^{\mathbb{P}^*}[e^{\theta X(t)}]<\infty$, 
     by stationary independent increments we can get that the process \(\{e^{\theta X(t)-G(\theta)t}; t\geq 0\}\) is a martingale.
      \vspace{1em}
-    \par Observe that $G(x)$ is continuous and \(G(1)=r>0\), thus we can fix an \(\theta\in(1,\,\eta_{1})\) such that \(G(\theta)>0\).
+    \par  \pause Observe that $G(x)$ is continuous and \(G(1)=r>0\), thus we can fix an \(\theta\in(1,\,\eta_{1})\) such that \(G(\theta)>0\).
      Let $\tau_y = \inf\{t \geq 0 : X(t) \geq y\}$. By Optional Sampling Theorem:
       \vspace{1em}
     \begin{align*}
@@ -209,7 +209,7 @@
       \geq e^{\theta y} e^{-G(\theta)T} \mathbb{P}^* (\tau_y \leq T)
     \end{align*}
      \vspace{1em}
-    \par Thus $e^{\theta y} \mathbb{P}^* (\tau_y \leq T) \leq e^{G(\theta)T}$. Since $\theta > 1$, then we have:
+    \par  \pause Thus $e^{\theta y} \mathbb{P}^* (\tau_y \leq T) \leq e^{G(\theta)T}$. Since $\theta > 1$, then we have:
      \vspace{1em}
     \begin{align*}
       e^y \mathbb{P}^* (M_X(T) \geq y) = 
@@ -228,7 +228,7 @@
       LP(T) = \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \max\{M, se^{M_X(T)}\} \right] - s
     \end{align*}
      \vspace{1em}
-    \par  Letting \(z=\log(M/s)\geq 0\), define:
+    \par  \pause  Letting \(z=\log(M/s)\geq 0\), define:
      \vspace{1em}
     \begin{align*}
       L(s, M; T)  :&= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \max\{M, se^{M_X(T)}\} \right] \\
@@ -253,7 +253,7 @@
       &= \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} e^z \mathbf{1}_{\{M_X(T) \geq z\}} \right] + e^{-rT} \int_{z}^{\infty} e^y \mathbb{P}^* [M_X(T) \geq y]  dy;\\
     \end{align*}
     }
-    \par Plug back into $ L(s, M; T)$:
+    \par \pause  Plug back into $ L(s, M; T)$:
     {\footnotesize \tiny
     \begin{align*}
        L(s, M; T) & = s  \mathbb{E}^{\mathbb{P}^*} \left[ e^{-rT} \left( e^{M_X(T)} - e^z \right) \mathbf{1}_{\{M_X(T) \geq z\}} \right] + s  e^z  e^{-rT}\\
@@ -274,7 +274,7 @@
     &= s \int_{z}^{\infty} e^{y} \int_{0}^{\infty} e^{-(\alpha + r)T} \mathbb{P}^*[M_X(T) \geq y] dT dy + \frac{M}{\alpha + r}
     \end{align*}
     
-    \par Follows from Kou and Wang (2003) that:
+    \par  \pause Follows from Kou and Wang (2003) that:
     \[
     \int_{0}^{\infty} e^{-(\alpha + r)T} \mathbb{P}^*[M_X(T) \geq y] dT = A_1 e^{-y\beta_{1,\alpha+r}} + B_1 e^{-y\beta_{2,\alpha+r}}
     \]
@@ -298,16 +298,16 @@
 &= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}.
 \end{align*}
 
-This yields the Laplace transform we obtained in the Theorem:
+\par This yields the Laplace transform we obtained in the Theorem.
 
-    \begin{align*}
-    \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
-    &= s \int_{z}^{\infty} e^{y} A_1 e^{-y\beta_{1,\alpha+r}} dy + s \int_{z}^{\infty} e^{y} B_1 e^{-y\beta_{2,\alpha+r}} dy + \frac{M}{\alpha + r} \\
-    &= s A_1 \frac{e^{-z(\beta_{1,\alpha+r}-1)}}{\beta_{1,\alpha+r}-1} + s B_1 \frac{e^{-z(\beta_{2,\alpha+r}-1)}}{\beta_{2,\alpha+r}-1} + \frac{M}{\alpha + r} \\
-    &= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}
-    \end{align*}
+    % \begin{align*}
+    % \int_{0}^{\infty} e^{-\alpha T} L(s, M; T) dT 
+    % &= s \int_{z}^{\infty} e^{y} A_1 e^{-y\beta_{1,\alpha+r}} dy + s \int_{z}^{\infty} e^{y} B_1 e^{-y\beta_{2,\alpha+r}} dy + \frac{M}{\alpha + r} \\
+    % &= s A_1 \frac{e^{-z(\beta_{1,\alpha+r}-1)}}{\beta_{1,\alpha+r}-1} + s B_1 \frac{e^{-z(\beta_{2,\alpha+r}-1)}}{\beta_{2,\alpha+r}-1} + \frac{M}{\alpha + r} \\
+    % &= s \frac{A_{\alpha}}{C_{\alpha}} e^{-z(\beta_{1,\alpha+r}-1)} + s \frac{B_{\alpha}}{C_{\alpha}} e^{-z(\beta_{2,\alpha+r}-1)} + \frac{M}{\alpha + r}
+    % \end{align*}
 
-    \par This yields the Laplace transform we obtained in the Theorem.
+    % \par This yields the Laplace transform we obtained in the Theorem.
     }
     
 \end{frame}
@@ -322,13 +322,13 @@ This yields the Laplace transform we obtained in the Theorem:
         UIC = E^{\mathbb{P}^*}[e^{-rT}(S(T) - K)^+I{\{ \max\limits_{0 \leq t \leq T} S(t) \geq H \}}]
     \end{align*}
     \vspace{1em}
-    \par For any given probability \( P \), define:
+    \par  \pause For any given probability \( P \), define:
     \vspace{1em}
     \begin{align*}
         \Psi(\mu, \sigma, \lambda, p, \eta_1, \eta_2; a, b, T):= P[Z(T) \geq a, \max_{0 \leq t \leq T} Z(t) \geq b]
     \end{align*}
     \vspace{1em}
-    \par where under \( P, Z(t) \) is a double exponential jump diffusion 
+    \par  \pause where under \( P, Z(t) \) is a double exponential jump diffusion 
     process with drift \( \mu \), volatility \( \sigma \), and jump rate \( \lambda \), i.e., \( Z(t) = \mu t + \sigma W(t) + \sum_{i=1}^{N(t)} Y_i \), 
     and \( Y \) has a double exponential distribution with 
     density \( f_Y(y) \sim p \cdot \eta_1 e^{-\eta_1 y} 1_{\{y \geq 0\}} + q \cdot \eta_2 e^{y \eta_2} 1_{\{y < 0\}} \).
@@ -351,7 +351,7 @@ This yields the Laplace transform we obtained in the Theorem:
          \left. \log \left( \frac{K}{S(0)} \right), \log \left( \frac{H}{S(0)} \right), T \right)
     \end{align*}
     \vspace{1em}
-    \par where \( \tilde{p} = (p/(1 + \zeta)) \cdot (\eta_1 / (\eta_1 - 1)), \tilde{\eta}_1 
+    \par  \pause where \( \tilde{p} = (p/(1 + \zeta)) \cdot (\eta_1 / (\eta_1 - 1)), \tilde{\eta}_1 
     = \eta_1 - 1, \tilde{\eta}_2 = \eta_2 + 1, \tilde{\lambda} = \lambda(\zeta + 1) \), 
     with \(\zeta = E^{P^*}[V] - 1 = \frac{p\eta_{1}}{\eta_{1}-1} + \frac{q\eta_{2}}{\eta_{2}+1} - 1\). 
     The Laplace transforms of \( \Psi \) is computed explicitly in Kou and Wang (2003).
@@ -363,12 +363,13 @@ This yields the Laplace transform we obtained in the Theorem:
     
     {\footnotesize \footnotesize
     \par Theorem 3.1 in Kou and Wang (2003):
+    \vspace{1em}
     \par For any \(\alpha \in (0, \infty)\), let \(\beta_{1,\alpha}\) and \(\beta_{2,\alpha}\) be the only two positive roots of the equation  
     \[
     \alpha = G(\beta),
     \]  
     where \(0 < \beta_{1,\alpha} < \eta_1 < \beta_{2,\alpha} < \infty\). Then we have the following results concerning the Laplace transforms of \(\tau_b\) and \(X_{\tau_b}\):  
-
+         \pause 
     \[
     \mathbb{E}[e^{-\alpha\tau_b}] = \frac{\eta_1 - \beta_{1,\alpha}}{\eta_1} \frac{\beta_{2,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{1,\alpha}} 
     + \frac{\beta_{2,\alpha} - \eta_1}{\eta_1} \frac{\beta_{1,\alpha}}{\beta_{2,\alpha} - \beta_{1,\alpha}} e^{-b\beta_{2,\alpha}}
@@ -403,7 +404,7 @@ This yields the Laplace transform we obtained in the Theorem:
     \int_0^\infty e^{-\alpha T} \mathbb{E}[1_{\{\tau_b \leq T\}} 1_{\{X(T) \geq a\}}]  dT
     \]
 
-    \par We first use Fubini Theorem and strong Markov property can rewrite the formula, then split by overshoot and use tail-integration eventuality
+    \par  \pause We use Fubini Theorem and strong Markov property can rewrite the formula, then split by overshoot and use tail-integration eventuality
     we will end up with the following:
     {\footnotesize \tiny
     \begin{align*}
@@ -439,7 +440,7 @@ This yields the Laplace transform we obtained in the Theorem:
         &= I - Ke^{-rT} \cdot II 
     \end{align*}
     }
-    \par Since the log–price \( X(t) = \log(S(t)/S(0)) \):
+    \par  \pause Since the log–price \( X(t) = \log(S(t)/S(0)) \):
     {\footnotesize \tiny
     \begin{align*}
         S(T) \geq K \iff X(T) \geq \log \frac{K}{S(0)},
@@ -467,10 +468,10 @@ This yields the Laplace transform we obtained in the Theorem:
     = \exp \left\{ \left( -\frac{1}{2} \sigma^2 - \lambda \zeta \right) T + \sigma W(T) + \sum_{i=1}^{N(T)} Y_i \right\}
     \end{align*}
     }
-    \par Note that this is a well-defined probability as $\mathbb{E}^{\mathbb{P}^*}[e^{-rt}(S(t)/S(0))] = 1$. Then we 
+    \par \pause  Note that this is a well-defined probability as $\mathbb{E}^{\mathbb{P}^*}[e^{-rt}(S(t)/S(0))] = 1$. Then we 
     reparametrize everything we need under  \(\tilde{\mathbb{P}}\). The Brownian part by Girsanov is $\tilde{W}(t) = W(t) - \sigma t$. 
     The diffusion drift shifts by \(+\sigma^2\), $\tilde{\mu} = r + \frac{1}{2}\sigma^2 - \lambda\zeta$. 
-    The modified jump rate and the jump distribution:
+    The modified jump rate and the jump distribution: \pause 
     {\footnotesize \tiny
     \begin{align*}
         \text{New rate : } \tilde{\lambda} = \lambda\mathbb{E}^{\mathbb{P}^*}[e^Y] 
@@ -492,7 +493,7 @@ This yields the Laplace transform we obtained in the Theorem:
          \; \tilde{q} = q\left(\frac{p\eta_1}{\eta_1 - 1} + \frac{q\eta_2}{\eta_2 + 1}\right)^{-1} \frac{\eta_2}{\eta_2 + 1}
     \end{align*}
     }
-    \par For I:
+    \par  \pause For I:
     \vspace{-2em}
      {\footnotesize \tiny
     \begin{align*}
@@ -537,7 +538,7 @@ This yields the Laplace transform we obtained in the Theorem:
         P_T(k')& = e^{-rT} \mathbb{E}^{\mathbb{P}^*} [(K - S(T))^+] = e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ (e^{k'} - S(0)e^{X(T)})^+ \right]
     \end{align*}
     
-    \par By the change of numeraire argument w.r.t $S(t)$:
+    \par  \pause By the change of numeraire argument w.r.t $S(t)$:
     
     \begin{align*}
        C_T(k) &= S(0) \tilde{\Psi}_C(k) - e^{-k} e^{-rT} \Psi_C(k)\\
@@ -565,7 +566,7 @@ This yields the Laplace transform we obtained in the Theorem:
         \tilde{f}_P(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k'} P_T(k')  dk' 
         = e^{-rT} \frac{S(0)^{-\xi-1}}{\xi(\xi-1)} \exp(G(-(\xi-1))T), \quad \xi > 1
     \end{align*}
-    \par The Laplace transforms with respect to \( k \)  of \( \Psi_C(k) \) and \( k' \) of \( \Psi_P(k') \) are:
+    \par  \pause The Laplace transforms with respect to \( k \)  of \( \Psi_C(k) \) and \( k' \) of \( \Psi_P(k') \) are:
     \begin{align*}
         \tilde{f}_{\Psi_C}(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k} \Psi_C(k)  dk = \frac{S(0)^{\xi}}{\xi} \exp(G(\xi)T), \quad \xi > 0\\
         \tilde{f}_{\Psi_P}(\xi) &:= \int_{-\infty}^{\infty} e^{-\xi k'} \Psi_P(k')  dk' = e^{-rT} \frac{S(0)^{-\xi}}{\xi} \exp(G(-\xi)T), \quad \xi > 0
@@ -583,7 +584,7 @@ This yields the Laplace transform we obtained in the Theorem:
     \begin{align*}
         \hat{f}_C(\xi) = e^{-rT} \int_{-\infty}^{\infty} e^{-\xi k} \mathbb{E}^{\mathbb{P}^*} \left[ (S(0)e^{X(T)} - e^{-k})^+ \right]  dk
     \end{align*}
-    \par Applying the Fubini theorem yields for every \(\xi > 0\):
+    \par  \pause Applying the Fubini theorem yields for every \(\xi > 0\):
     \begin{align*}
         \hat{f}_C(\xi) &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{-\infty}^{\infty} e^{-\xi k} \left( S(0)e^{X(T)} - e^{-k} \right)^+  dk \right]\\
         &= e^{-rT} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{-X(T)-\log S(0)}^{\infty} e^{-\xi k} \left( S(0)e^{X(T)} - e^{-k} \right)  dk \right]\\
@@ -598,7 +599,7 @@ This yields the Laplace transform we obtained in the Theorem:
 \end{frame}
 \begin{frame}{European call and put options Con.}
 
-    {\footnotesize \scriptsize
+    {\footnotesize \footnotesize
     \par  The Laplace transforms with respect to \( k \) of \( \Psi_C(k) \):
     \begin{align*}
         \hat{f}_{\Psi_C}(\xi) &= \int_{-\infty}^{\infty} e^{-\xi k} \mathbb{E}^ {\mathbb{P}^*} \left[ \mathbf{1}_{\{S(T) \geq e^{-k}\}} \right]  dk \\
@@ -615,6 +616,7 @@ This yields the Laplace transform we obtained in the Theorem:
 
     {\footnotesize \footnotesize
     \par Rewrite the pricing formula of up-and-in call option(UIC) in early silde:
+     \pause 
     \begin{align*}
         UIC(k,T) = E^{\mathbb{P}^*} \left[ e^{-rT} \left( S(T) - e^{-k} \right)^+ I{[\tau_b < T]} \right]
     \end{align*}
@@ -642,7 +644,7 @@ This yields the Laplace transform we obtained in the Theorem:
     \tilde{f}_{UIC}(\xi, \alpha) &= \int_{0}^{\infty} \int_{-\infty}^{\infty} e^{-\xi k - \alpha T} UIC(k, T) dk dT \\
     &= \frac{H^{\xi+1}}{\xi (\xi + 1)} \frac{1}{r + \alpha - G(\xi + 1)} \left( A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi + 1)} + B(r + \alpha) \right)
     \end{align*}
-    \par where
+    \par  \pause where
 
     \begin{align*}
     A(h) &:= E^{\mathbb{P}^*} \left[ e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}} \right] =
@@ -669,7 +671,7 @@ This yields the Laplace transform we obtained in the Theorem:
     \end{align*}
 
     \vspace{1em}
-    \par The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
+    \par  \pause The Laplace transforms with respect to \(k\) and \(T\) of \(\tilde{\Psi}_{UI}(k, T)\) is given 
     similarly with \(\tilde{G}\) replacing \(G\) and the functions \(\tilde{A}\) and \(\tilde{B}\) defined similarly. 
     % To perform the inversion, They use the two-sided Euler method(EUL) as in Petrella (2004). Compare with GS method, EUL use standard double
     %  precision, get stable answers, and convergence is much faster.
@@ -685,7 +687,7 @@ This yields the Laplace transform we obtained in the Theorem:
          \mathbb{E}^{\mathbb{P}^*} \left[ \left( S(T) - e^{-k} \right)^+ \mathbf{1}_{\{\tau_b < T\}} \right] dkdT\\
         & = \mathbb{E}^{\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) T} \mathbf{1}_{\{\tau_b < T\}}
           \left( \int_{-\log S(T)}^{\infty} e^{-\xi k} \left( S(T) - e^{-k} \right) dk \right) dT \right]\\
-          &= \frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) T} \mathbf{1}_{\{\tau_b < T\}} S(T)^{\xi + 1} dT \right]\\
+          &= \frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ \int_{0}^{\infty} e^{-(r + \alpha) T} \mathbf{1}_{\{\tau_b < T\}} S(T)^{\xi + 1} dT \right] \\
           {\footnotesize \tiny(\text{$T = \tau_b + t$ with $t>0$})} &=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} \int_{0}^{\infty} e^{-(r + \alpha) t} S(t + \tau_b)^{\xi + 1} 
           dt \right]\\
           &=\frac{1}{\xi (\xi + 1)} \mathbb{E}^{\mathbb{P}^*} \left[ e^{-(r + \alpha) \tau_b} 
@@ -717,7 +719,7 @@ This yields the Laplace transform we obtained in the Theorem:
         & = \frac{H^{\xi+1}}{\xi(\xi+1)} \frac{1}{r + \alpha - G(\xi+1)} 
         \left\{ A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi+1)} + B(r + \alpha) \right\}
     \end{align*}
-    \par Where \( \chi^+ \sim \text{Exp}(\eta_1) \), and $A(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}}],  B(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) = b\}}].$
+    \par \pause  Where \( \chi^+ \sim \text{Exp}(\eta_1) \), and $A(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}}],  B(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) = b\}}].$
     \par \( A(h) \) and \( B(h) \) explicitly (via first-passage Laplace transforms) with \(\beta_{1,h}, \beta_{2,h}\) being the two positive roots of \( G(\beta) = h\):
         \[
         A(h) = \frac{(\eta_1 - \beta_{1,h})(\beta_{2,h} - \eta_1)}{\eta_1 (\beta_{2,h} - \beta_{1,h})} \left( e^{-b\beta_{1,h}} - e^{-b\beta_{2,h}} \right)
@@ -776,11 +778,11 @@ This yields the Laplace transform we obtained in the Theorem:
     \begin{align*}
         L_f(s) = \int_{-\infty}^{\infty} e^{-st}f(t)\,dt
     \end{align*}
-    \par Where \( s = \sigma + i\omega \) is a complex variable. The region of absolute convergence (ROAC) is the set of $s$ such that:
+    \par  \pause  Where \( s = \sigma + i\omega \) is a complex variable. The region of absolute convergence (ROAC) is the set of $s$ such that:
     \begin{align*}
         \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty
     \end{align*}
-    \par Define: 
+    \par   \pause Define: 
     \begin{align*}
          \sigma_l = \inf \left\{ \sigma \in \mathbb{R} : \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty \right\}\;\;
           \sigma_u = \sup \left\{ \sigma \in \mathbb{R} : \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty \right\}
@@ -813,7 +815,7 @@ This yields the Laplace transform we obtained in the Theorem:
         \end{cases}
     \end{align*}
     \vspace{1em}
-    \par Laplace transforms are all \( L(s) = 5/(s^2 + s - 6) \) 
+    \par \pause  Laplace transforms are all \( L(s) = 5/(s^2 + s - 6) \) 
     but with different ROACs: \((2, +\infty)\), \((-3, 2)\), and \((-\infty, -3)\), respectively. 
     Consequently, when inverting a two-sided Laplace transform \( L_f(s) \), we should first specify a particular ROAC.  Moreover, the examples 
     imply that the ROAC of a two-sided Laplace transform may not include the imaginary axis \(\{s : \text{Re}(s) = 0\}\).
@@ -840,7 +842,7 @@ This yields the Laplace transform we obtained in the Theorem:
 \mathcal{F}_f(\omega) := \int_{-\infty}^{\infty} e^{-i\omega t}f(t)  dt \equiv L_f(i\omega) \quad \text{for any } \omega \in \mathbb{R}.
 \]
 
-Because the ROAC of a two-sided Laplace transform may not include the imaginary axis \(\{s : \text{Re}(s) = 0\}\), the Fourier
+\par  \pause Because the ROAC of a two-sided Laplace transform may not include the imaginary axis \(\{s : \text{Re}(s) = 0\}\), the Fourier
  transform of a function may not exist. For example, the Fourier transforms of \( f_1(t) \) and \( f_3(t) \) in the example do not exist,
   whereas their 
 two-sided Laplace transforms are well defined. Therefore, the Fourier transform is a special case of the two-sided Laplace transform.
@@ -860,7 +862,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
     That's where discretization and truncation errors come in. Our two-sided Laplace inversion formula involves 
     parameters \( C \) and \( N \) for the purpose of controlling the discretization and truncation errors, respectively.
     \vspace{1em}
-    \par \textbf{Assumption}: The function \( e^{-\sigma t} f(t) \) is of bounded variation on \( \mathbb{R} \) for any \( \sigma \in \text{ROAC} \).
+    \par  \pause \textbf{Assumption}: The function \( e^{-\sigma t} f(t) \) is of bounded variation on \( \mathbb{R} \) for any \( \sigma \in \text{ROAC} \).
     \par This ensures the inversion formula is well-defined and stable. Recall a real-valued function \( g : [a, b] \to \mathbb{R} \) is said to be of bounded variation if the total variation:
     \begin{align*}
         V_a^b(g) := \sup \left\{ \sum_{i=1}^n |g(x_i) - g(x_{i-1})| : a = x_0 < x_1 < \cdots < x_n = b \right\}
@@ -891,7 +893,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
         % + \text{sgn}(t)C} \right\}\right.\right.\\&\left.\left.\times L_f \left( \sigma + \frac{k \pi i}{t + \text{sgn}(t)C} \right) \right) \right]
     \end{align*}
     }
-    \par \( C \geq 0 \) is a constant such that \( |t| + C \neq 0 \), \( N > 0 \) is a positive integer, and \(\text{sgn}(x)\) equals \( 1 \) if \( x \geq 0 \) and equals \(-1\) otherwise.
+    \par  \pause \( C \geq 0 \) is a constant such that \( |t| + C \neq 0 \), \( N > 0 \) is a positive integer, and \(\text{sgn}(x)\) equals \( 1 \) if \( x \geq 0 \) and equals \(-1\) otherwise.
      The terms \( e_T(t, \sigma, C, N) \) and \( e_D(t, \sigma, C) \) represent the truncation error and the discretization error, respectively:
      {\footnotesize \tiny
     \begin{align*}
@@ -924,13 +926,13 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
     the point \( t + C \) if \( t \geq 0 \) or 
     to the function \( g_-(y) := f(y + C) \) at the point \( t - C \) if \( t < 0 \). This give theorem immediately. The reason why shift wich $C$ 
     is the denominator $|t|+C$ in the theorem stabilizes the formula (avoids singularity at t=0).
-    \par Now we prove above equation. Because \(\sigma \in \text{ROAC}\), substituting \(\sigma + i\omega\) for \( s \) in 
+    \par  \pause Now we prove above equation. Because \(\sigma \in \text{ROAC}\), substituting \(\sigma + i\omega\) for \( s \) in 
     the Bromwich contour integral:
     \vspace{-1em}
     \begin{align*}
         f(t) = \frac{1}{2\pi i} \lim_{T \to +\infty} \int_{\sigma-iT}^{\sigma+iT} e^{ts} L_f(s)  ds
     \end{align*}
-    \par By Euler's formula we obtain:
+    \par \pause  By Euler's formula we obtain:
     \begin{align*}
          f(t) & =\frac{e^{\sigma t}}{2\pi} \lim_{T \to +\infty}
           \int_{T}^{-T} [\cos(\omega t) + i \sin(\omega t)] L_f(\sigma + i\omega)  d\omega\\
@@ -957,14 +959,14 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
         \cos(kht) \operatorname{Re}(L_f(\sigma + ikh)) 
         + \frac{he^{\sigma t}}{\pi} \sum_{k=1}^{+\infty} \sin(kht) \operatorname{Im}(L_f(\sigma - ikh))
     \end{align*}
-    \par Because \( t \neq 0 \), letting \( h = \pi / |t| \) yields:
+    \par  \pause Because \( t \neq 0 \), letting \( h = \pi / |t| \) yields:
     \begin{align*}
         \tilde{f}(t) = \frac{e^{\sigma t} L_f(\sigma)}{2|t|} + 
         \frac{e^{\sigma t}}{|t|} \sum_{k=1}^{\infty} (-1)^k \operatorname{Re} \left( L_f \left( \sigma + \frac{k\pi i}{t} \right) \right)
     \end{align*}
     \textbf{The trapezoidal rule}: The trapezoidal rule approximates an integral $\int_{0}^{\infty} g(\omega)  d\omega$ 
     by sampling \( g \) at equally spaced points, $\frac{h}{2} g(0) + h \sum_{k=1}^{\infty} g(kh).$  
-    \par To analyze the discretization error \(\tilde{f}(t) - f(t)\) generated by
+    \par \pause  To analyze the discretization error \(\tilde{f}(t) - f(t)\) generated by
      the trapezoidal rule, we define \( g(x) := e^{-\sigma x} f(x) \) for any fixed \(\sigma \in \operatorname{ROAC}\). 
      Under the condition of Theorem, \( g(x) \) is absolutely integrable over \(\mathbb{R}\), is of bounded variation on \(\mathbb{R}\), 
      and satisfies \( 2g(x) = g(x+0) + g(x-0) \) for any \( x \).
@@ -981,7 +983,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
     \begin{align*}
         \sum_{k=-\infty}^{+\infty} g^*(2\pi k) = \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty} \int_{-\infty}^{+\infty} g^*(z)e^{-ikz} dz
     \end{align*}
-    \par \textbf{Poisson summation formula}: For a "nice" function \( g(x) \) (say, integrable and smooth enough), 
+    \par  \pause \textbf{Poisson summation formula}: For a "nice" function \( g(x) \) (say, integrable and smooth enough), 
     the Poisson summation formula says:
     \begin{align*}
         \sum_{k=-\infty}^{\infty} g(k) = \sum_{m=-\infty}^{\infty} \hat{g}(2\pi m)
@@ -1021,7 +1023,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
        & = \frac{1}{2|t|} \sum_{k=-\infty}^{+\infty} (-1)^k L_f \left( \sigma + \frac{ik\pi}{t} \right)\\
        & = \frac{1}{2|t|} L_f(\sigma) + \frac{1}{|t|} \sum_{k=1}^{+\infty} (-1)^k \text{Re} \left( L_f \left( \sigma + \frac{ik\pi}{t} \right) \right)
     \end{align*}
-    \par The last step, separate the $k=0$ term and use conjugate 
+    \par \pause  The last step, separate the $k=0$ term and use conjugate 
     symmetry, for real \( f \), \( L_f(\sigma - i\alpha) = \overline{L_f(\sigma + i\alpha)} \). Link the formula for LHS and RHS we proof the formula of $f(x)$. 
     The proof is completed by comparing $f(t)$ with $\tilde{f(t)}$.
 
@@ -1040,12 +1042,13 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
         g_{\sigma}(x) := e^{-\sigma x} f(x) = e^{(c - \sigma)x} \bar{f}(x)
      \end{align*}
      \par is of bounded variation on \(\mathbb{R}\).
-     \par \textbf{Proof}:
+     \par  \pause \textbf{Proof}:
      \par It suffices to show that, for any \(\sigma \in \text{ROAC}\), \(e^{-\sigma x} f(x)\) 
      satisfies (i) \(e^{-\sigma x} f(x) \in C^1\); (ii) \(\int_{-\infty}^{+\infty} e^{-\sigma x} |f(x)|  dx < +\infty\); 
      and (iii) \(\int_{-\infty}^{+\infty} |(e^{-\sigma x} f(x))'|  dx < +\infty\). Conditions (i) and (ii) hold obviously. 
      As regards (iii), since \(f(x) = e^{cx} \bar{f}(x)\) with \(\bar{f}(x)\) a monotone function, 
      without loss of generality, we assume that \(\bar{f}(x)\) is nondecreasing, i.e. \(\bar{f}'(x) \geq 0\). Then:
+      \pause 
      \begin{align*}
         \int_{-\infty}^{+\infty} |(e^{-\sigma x} f(x))'|  dx 
         & = \int_{-\infty}^{+\infty} |(c - \sigma) e^{(c - \sigma)x} \bar{f}(x) + e^{(c - \sigma)x} \bar{f}'(x)|  dx\\
@@ -1067,7 +1070,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
      The following theorem shows that introducing 
     the discretization parameter \(C\) can make the discretization error decay exponentially for \(\sigma \in (\sigma_1^*, \sigma_u^*)\).
     \vspace{1em}
-    \par \textbf{Theorem}: If there exists a nonnegative function \(\delta(\cdot)\) such that, for any \(\sigma \in [\sigma_1^*, \sigma_u^*]\), 
+    \par  \pause \textbf{Theorem}: If there exists a nonnegative function \(\delta(\cdot)\) such that, for any \(\sigma \in [\sigma_1^*, \sigma_u^*]\), 
     we have:
     \begin{align*}
         e^{-\sigma y} |f(y)| \leq \delta(\sigma) < +\infty \quad \text{for any } y
@@ -1108,7 +1111,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
         \leq 0 & \text{if } k < 0 \text{ and } t \geq 0
         \end{cases}
     \end{align*}
-    \par Then by $(1)$, for any fixed \( t \geq 0 \), \( \sigma \in (\sigma_{1}^{*}, \sigma_{u}^{*}) \), and \( C > 0 \):
+    \par \pause  Then by $(1)$, for any fixed \( t \geq 0 \), \( \sigma \in (\sigma_{1}^{*}, \sigma_{u}^{*}) \), and \( C > 0 \):
     \begin{align*}
           \left| e_D(t, \sigma, C) \right| & := \left| \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty} e^{-2\sigma k (t + \text{sgn}(t)C)} f(2k(t + \text{sgn}(t)C) + t)\right|\\
            & = \left| \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty}  e^{-2k(t+C)\sigma} f(2k(t + C) + t) \right|\\
@@ -1135,7 +1138,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
         + \delta(\sigma_{1}^{*}) e^{(3\sigma_{1}^{*}-2\sigma)t} \frac{1}{e^{2C(\sigma - \sigma_{1}^{*})} - 1}\\
         &\leq \frac{\rho(\sigma, t)}{e^{\theta(\sigma)C} - 1}
     \end{align*}
-    \par For (i), the second term is geometric series has ratio \( r_2 = e^{-2(t+C)(\sigma - \sigma_1^*)} \in (0, 1) \). The first term is reindex $m = -k$, 
+    \par \pause  For (i), the second term is geometric series has ratio \( r_2 = e^{-2(t+C)(\sigma - \sigma_1^*)} \in (0, 1) \). The first term is reindex $m = -k$, 
     then it is geometric series has ratio \( r_1 = e^{-2(t+C)(\sigma_{u}^{*}- \sigma)} \in (0, 1) \). For $t\geq0$, 
     this is exactly with the upper $\rho(\sigma,t)$ branch.
         \par If \( t < 0 \), we have, for any \( C \geq 0 \):
@@ -1182,7 +1185,7 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
     \par However, while the bound can be very small, it is hard to know how close it is to the ``true'' discretization error, 
     because the exact error formula depends on the original function \(f(\cdot)\), which is often unknown.
      \vspace{1em}
-    \par The tightness of the bound varies across cases, depending heavily on \(\delta(\sigma)\) and the specific function considered.
+    \par  \pause The tightness of the bound varies across cases, depending heavily on \(\delta(\sigma)\) and the specific function considered.
      \vspace{1em}
     \par  Despite this uncertainty, numerical experiments in the paper show that by
     choosing a large enough \(C\), the discretization error can be reduced to a level that guarantees the desired accuracy. Even though the bound may not always be tight, 
@@ -1190,6 +1193,125 @@ two-sided Laplace transforms are well defined. Therefore, the Fourier transform 
     }
     
 \end{frame}
+
+
+\begin{frame}{Truncation errors}
+
+
+    {\footnotesize \scriptsize
+    \par The two-sided Laplace inversion formula also contains the truncation error \( e_T(t, \sigma, C, N) \). 
+    \par Theorem: For any fixed \( t \in \mathbb{R} \), \( \sigma \in \text{ROAC} \), 
+    and \( C \geq 0 \) such that \( |t| + C > 0 \), the following statements hold:
+    \begin{itemize}
+        \item (i) If there exist \( \rho > 0 \), \( \omega^* \geq 0 \), and \( \zeta(\sigma) > 0 \) such that :
+        \begin{align*}
+            |L_f(\sigma + i\omega)| \leq \zeta(\sigma)|\omega|^{-(1+\rho)} \quad \text{for all } |\omega| > \omega^*
+        \end{align*}
+        \par then the truncation error:
+        \begin{align*}
+            |e_T(t, \sigma, C, N)| \leq \frac{\zeta(\sigma)e^{\sigma t}(|t| + C)^\rho}{\rho\pi^{1+\rho}}N^{-\rho} = O(N^{-\rho})
+        \end{align*}
+        \par For any \( N \in \mathbb{N} \) such that \( N > (|t| + C)\omega^*/ \pi - 1 \).
+        \item  \pause (ii) If there exist \(\beta \in \mathbb{R}\), \(\xi > 0\), \(\rho > 0\), \(\omega^* \geq 0\), and \(\zeta(\sigma) > 0\) such that:
+        \begin{align*}
+            |L_f(\sigma + i\omega)| \leq \zeta(\sigma)|\omega|^{-\beta}e^{-\rho|\omega|^\xi} \quad \text{for all } |\omega| > \omega^*
+        \end{align*}
+        \par then the truncation error:
+        \begin{align*}
+            |e_T(t, \sigma, C, N)| \leq \frac{\zeta(\sigma)e^{\sigma t}}{\pi \xi \rho^{(1 - \beta)/\xi}} 
+            \Gamma\left( \frac{1 - \beta}{\xi}, \rho \alpha N^\xi \right) = O(N^{1 - \beta - \xi} e^{-\rho \alpha N^\xi})
+        \end{align*}
+        \par for any \(N \in \mathbb{N}\) such that \(N > (|t| + C)\omega^*/ \pi - 1\). Here \(\alpha := (\pi / (|t| + C))^\xi > 0\), and,
+         for any \(s \in \mathbb{R}\), \(\Gamma(s, x) := \int_x^{+\infty} y^{s-1} e^{-y}  dy\) denotes the upper incomplete gamma function.
+    \end{itemize}
+    }
+    
+\end{frame}
+\begin{frame}{Truncation errors}
+
+
+    {\footnotesize \scriptsize
+    \par Proof:
+    \begin{align*}
+        |e_T(t, \sigma, C, N)|&= \left|\frac{e^{\sigma t}}{|t| + C} 
+       \sum_{k=N+1}^{+\infty} \left[ (-1)^k \text{Re} \left( \exp \left\{ -\frac{\text{sgn}(t)C k \pi i}{t + \text{sgn}(t)C} \right\} 
+       \times L_f \left( \sigma + \frac{k \pi i}{t + \text{sgn}(t)C} \right) \right) \right]\right|\\
+       & \leq \frac{e^{\sigma t}}{|t| + C} \sum_{k=N+1}^{+\infty} \left| 
+        \text{Re}\left( \exp\left(-\frac{\operatorname{sgn}(t)Ck\pi i}{t + \operatorname{sgn}(t)C}\right)
+        L_f\left(\sigma + \frac{k\pi i}{t + \operatorname{sgn}(t)C}\right)\right)\right|\\
+        &\leq \frac{e^{\sigma t}}{|t| + C} \sum_{k=N+1}^{+\infty} \left| L_f\left(\sigma + \frac{k\pi i}{t + \operatorname{sgn}(t)C}\right)\right|\\
+    \end{align*}
+    \par \pause  If \( L_f(\sigma + i\omega) \) satisfies $|L_f(\sigma + i\omega)| \leq \zeta(\sigma)|\omega|^{-(1+\rho)} \quad \text{for all } |\omega| > \omega^*$ 
+    then error bound follows because, for any \( N > (|t| + C)\omega^*/\pi - 1 \):
+    \begin{align*}
+        |e_T(t, \sigma, C, N)| &\leq \frac{e^{\sigma t}}{|t| + C} \sum_{k=N+1}^{+\infty} \zeta(\sigma) \left(\frac{k\pi}{|t| + C}\right)^{-(1+\rho)}\\
+        &= \frac{\zeta(\sigma)e^{\sigma t}(|t| + C)^{\rho}}{\pi^{1+\rho}} \sum_{k=N+1}^{+\infty} k^{-(1+\rho)}\\
+    \end{align*}
+    }
+    
+\end{frame}
+
+\begin{frame}{Truncation errors}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \par Since \( k^{-(1+\rho)} \) is monotone decreasing, We now bound the tail series by an integral:
+    \begin{align*}
+        \sum_{k=N+1}^{\infty} k^{-(1+\rho)} \leq \int_{N}^{\infty} y^{-(1+\rho)}  dy = \frac{1}{\rho} N^{-\rho}
+    \end{align*}
+    \par So we obtain $|e_T(t, \sigma, C, N)| \leq \frac{\zeta(\sigma) e^{\sigma t}(|t| + C)^{\rho}}{\rho \pi^{1+\rho}} N^{-\rho}$.
+    \par  \pause  Similarly, if \( L_f(\sigma + i\omega) \) satisfies $ |L_f(\sigma + i\omega)| \leq \zeta(\sigma)|\omega|^{-\beta}e^{-\rho|\omega|^\xi} \quad \text{for all } |\omega| > \omega^*$,
+     we have for any \( N > (|t| + C)\omega^*/\pi - 1 \):
+     \vspace{-1em}
+     \begin{align*}
+        |e_T(t, \sigma, C, N)|& \leq \frac{\zeta(\sigma)e^{\sigma t}\alpha^{-\beta/\xi}}{|t| + C} 
+        \sum_{k=N+1}^{+\infty} k^{-\beta} e^{-\rho\alpha k^{\xi}}\\
+        &\leq \frac{\zeta(\sigma)e^{\sigma t}\alpha^{-\beta/\xi}}{|t| + C} \int_{N}^{+\infty} y^{-\beta} e^{-\rho\alpha y^{\xi}}  dy\\
+        &= \frac{\zeta(\sigma)e^{\sigma t}}{\pi \xi \rho^{(1-\beta)/\xi}} \Gamma \left(\frac{1 - \beta}{\xi}, \rho \alpha N^{\xi}\right)
+     \end{align*}
+     \par  \pause The last equality by using the substitution \( u = \rho \alpha y^\xi \),
+      the integral becomes proportional to an upper incomplete gamma function. With the fact that $\lim_{x \to +\infty} \frac{\Gamma(s, x)}{x^{s-1}e^{-x}} = 1$, we end up with $O(N^{1 - \beta - \xi} e^{-\rho \alpha N^\xi})$.
+    %  \par Use the fact about the asymptotic behavior of the upper incomplete gamma function,
+    %   
+    }
+    
+\end{frame}
+\begin{frame}{Truncation errors}
+
+
+    {\footnotesize \scriptsize
+    \par The upper bounds of truncation errors depend on parameters that can be explicitly identified. Thus, for any \( C > 0 \),
+     we can easily specify a sufficiently large \( N \) to control the truncation error.
+    \par \pause  The two-sided Laplace inversion algorithm can be implemented to achieve any desired accuracy by controlling both discretization and truncation errors.
+     For example, if the desired accuracy is \( 10^{-5} \):
+     \begin{itemize}
+        \item Step 1: Select a sufficiently large \( C \) such that the discretization error is below \( 5 \times 10^{-6} \).
+        \item Step 2: For the fixed \( C \) selected in step 1, 
+        choose a sufficiently large \( N \) such that the truncation error is below \( 5 \times 10^{-6} \).
+     \end{itemize}
+     \par  \pause  The parameter \(\sigma\) also effects the selection of \(C\) and \(N\), because it appears in both discretization and truncation bounds.
+     \(\sigma\) interacts with functions like \(\delta(\sigma)\), \(\zeta(\sigma)\), and exponents in error terms.
+     The choice of \(C\) and \(N\) thus often depends on case-by-case analysis of how \(\sigma\) influences the error.
+     \par \pause  Although the value of \(\sigma\) affects the selection of \(C\) and \(N\), whatever \(\sigma\) is selected, 
+     we can always use the discretization and truncation error bounds to achieve the desired accuracy by choosing sufficiently large \(C\) and \(N\). 
+     Moreover, numerical examples suggest that the resulting algorithms are accurate and fast.
+    }
+    
+\end{frame}
+\begin{frame}{Next Time}
+
+    {\footnotesize \footnotesize
+    \begin{itemize}
+        \item Section 6: Applications in Financial Engineering
+        \item Section 7: Pricing of exotic options
+        \item Section 8: Numerical examples
+    \end{itemize}
+    }
+    
+\end{frame}
+%
+%
 %
 %
 % \begin{frame}
