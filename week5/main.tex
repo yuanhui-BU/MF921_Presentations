@@ -1,65 +1,80 @@
-% !TEX program = xelatex
 \documentclass{beamer}
 
-% --- XeLaTeX fonts ---
-\usepackage{fontspec}
-\setmainfont{Times New Roman}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{lmodern}   % modern Latin Modern fonts
+\usepackage{textcomp}  % provides \textquoteright
+\usepackage{lmodern} % Latin Modern fonts with T1 shapes
 
-% Chinese support (optional). Mac first, then Windows fallback.
-\usepackage{xeCJK}
-\IfFontExistsTF{PingFang SC}
-  {\setCJKmainfont{PingFang SC}}
-  {\IfFontExistsTF{Microsoft YaHei}{\setCJKmainfont{Microsoft YaHei}}{}}
 
-% --- graphics & layout helpers ---
 \usepackage{graphicx}
-\usepackage{ragged2e}
-
-% --- bibliography ---
+\usepackage{ragged2e} % for generating dummy text
 \usepackage[backend=biber,style=authoryear]{biblatex}
-% if you want per-week references.bib:
 % \addbibresource{references.bib}
-% or shared bibliography in common/:
-% \addbibresource{../common/references.bib}
 
-% --- beamer look ---
 \usetheme{Madrid}
 \usecolortheme{default}
-\usefonttheme{professionalfonts}
+\usefonttheme{professionalfonts} % keeps proper math fonts
 
-% --- math packages ---
-\usepackage{amsmath,amssymb,amsfonts}
-\usepackage{mathrsfs}
+\usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
+\usepackage{mathrsfs}                 % optional: \mathscr for fancy script
+
+% \setbeamercovered{invisible} 
+\setbeamercovered{transparent}
+
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Stochastic Analysis \& Stochastic Calculus in Quantitative Finance}
+\subtitle{Week 4}
 \author{Yuanhui Zhao}
-\date{Boston University\\Week 2}
+\date{Boston University}
 
 \begin{document}
-
 \frame{\titlepage}
+% \begin{frame}
+% \frametitle{Outline}
+% \tableofcontents
+% \end{frame}
 
 \section{Background}
 \begin{frame}{Background}
-Intermediary (Hedge Fund Firm, Law Firm, Consulting Firm...).  
-Agent (Fund Manager, Lawyer, Consultant...).  
-Client (Looking for services).
 
-\vspace{2em}
-\begin{itemize}
-    \item The agent is hired by the intermediary and provides services indirectly. The intermediary charges the clients and pays wages to the agent.
-    \vspace{1em}
-    \item The agent contracts directly with clients. The clients pay the agent.
-\end{itemize}
-
-\vspace{1em}
-Note: Everyone learns from historical outcomes. The intermediary knows more about the agent than clients. Clients don’t observe pay, only retention.
+    {\footnotesize \footnotesize
+    \par Recall The Double Exponential Jump Diffusion Model:
+    \begin{align*}
+        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
+    \end{align*}
+    \par\begin{itemize}
+    \item \( W(t) \): Brownian motion under the real-world measure.
+    \item \( N(t) \): Poisson process with rate \(\lambda\).
+    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
+    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
+    \end{itemize}   
+    \begin{align*}
+        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
+    \end{align*}
+    \par with parameters:
+    \begin{itemize}
+        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
+        \item \(\eta_1 > 1\): rate for upward jumps.
+        \item \(\eta_2 > 0\): rate for downward jumps.
+    \end{itemize}
+    }
+    
 \end{frame}
+% \begin{frame}
 
-% \begin{frame}[allowframebreaks]{References}
-% \nocite{*} % show all refs from .bib even if not cited
-% \printbibliography
+%     {\footnotesize \footnotesize
+
+%     }
+    
 % \end{frame}
-
+% % {\mathbb{P}^*}
+% \tilde{\mathbb{P}}
+% {\footnotesize \footnotesize
+% }
+% \tiny
+% \scriptsize
+% \footnotesize
+% \small
+% \normalsize (default)
 \end{document}

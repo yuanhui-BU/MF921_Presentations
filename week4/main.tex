@@ -522,7 +522,7 @@ This yields the Laplace transform we obtained in the Theorem:
     \vspace{3em}
     \par  Derive the Laplace transforms for 
     casepricing of European call and put options. Derive the two dimensional Laplace transform for barrier option.
-    
+
 \end{frame}
 
 
@@ -718,7 +718,7 @@ This yields the Laplace transform we obtained in the Theorem:
         \left\{ A(r + \alpha) \frac{\eta_1}{\eta_1 - (\xi+1)} + B(r + \alpha) \right\}
     \end{align*}
     \par Where \( \chi^+ \sim \text{Exp}(\eta_1) \), and $A(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) > b\}}],  B(h) := \mathbb{E}^{\mathbb{P}^*} [e^{-h\tau_b} \mathbf{1}_{\{X(\tau_b) = b\}}].$
-    \par Kou-Wang compute \( A(h) \) and \( B(h) \) explicitly (via first-passage Laplace transforms) with \(\beta_{1,h}, \beta_{2,h}\) being the two positive roots of \( G(\beta) = h\):
+    \par \( A(h) \) and \( B(h) \) explicitly (via first-passage Laplace transforms) with \(\beta_{1,h}, \beta_{2,h}\) being the two positive roots of \( G(\beta) = h\):
         \[
         A(h) = \frac{(\eta_1 - \beta_{1,h})(\beta_{2,h} - \eta_1)}{\eta_1 (\beta_{2,h} - \beta_{1,h})} \left( e^{-b\beta_{1,h}} - e^{-b\beta_{2,h}} \right)
         \]
@@ -747,6 +747,451 @@ This yields the Laplace transform we obtained in the Theorem:
     }
 \end{frame}
 
+
+ \section{Part III}
+\begin{frame}{Part III}
+
+    \begin{center}
+        A Two-Sided Laplace inversion Algorithm \\
+       With Computable Error Bounds And Its \\
+       Applications In Financial Engineering
+    \end{center}
+    \vspace{2em}
+    \begin{center}
+        Ning Cai\\
+        Steven Kou\\
+        ZongJian Liu
+    \end{center}
+    \vspace{3em}
+    \par  Derive the Laplace transforms for 
+    casepricing of European call and put options. Derive the two dimensional Laplace transform for barrier option.
+
+\end{frame}
+
+\begin{frame}{Two-sided Laplace Transform}
+
+
+    {\footnotesize \footnotesize
+    \par For a function \( f(t) \) defined on the whole real line \((-\infty, \infty)\), its two-sided Laplace transform is:
+    \begin{align*}
+        L_f(s) = \int_{-\infty}^{\infty} e^{-st}f(t)\,dt
+    \end{align*}
+    \par Where \( s = \sigma + i\omega \) is a complex variable. The region of absolute convergence (ROAC) is the set of $s$ such that:
+    \begin{align*}
+        \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty
+    \end{align*}
+    \par Define: 
+    \begin{align*}
+         \sigma_l = \inf \left\{ \sigma \in \mathbb{R} : \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty \right\}\;\;
+          \sigma_u = \sup \left\{ \sigma \in \mathbb{R} : \int_{-\infty}^{\infty} e^{-\sigma t}|f(t)|\,dt < \infty \right\}
+    \end{align*}
+    \par Then the ROAC is the strip \((\sigma_l, \sigma_u)\) in the complex plane (independent of the imaginary part \(\omega\)).
+    }
+    
+\end{frame}
+
+\begin{frame}{Ambiguity of inversion}
+
+
+    {\footnotesize \footnotesize
+    It is worth pointing out that the same 
+    two-sided Laplace transforms with different ROACs may correspond to different original functions; for example, consider three functions:
+    \vspace{1em}
+    \begin{align*}
+        f_1(t) =
+        \begin{cases} 
+        e^{2t} - e^{-3t}, & t \geq 0\\
+        0, & t < 0
+        \end{cases}\;\;f_2(t) =
+        \begin{cases} 
+        -e^{-3t}, & t \geq 0\\
+        -e^{2t}, & t < 0
+        \end{cases}\;\;f_3(t) =
+        \begin{cases} 
+        0, & t \geq 0\\
+        e^{-3t} - e^{2t}, & t < 0
+        \end{cases}
+    \end{align*}
+    \vspace{1em}
+    \par Laplace transforms are all \( L(s) = 5/(s^2 + s - 6) \) 
+    but with different ROACs: \((2, +\infty)\), \((-3, 2)\), and \((-\infty, -3)\), respectively. 
+    Consequently, when inverting a two-sided Laplace transform \( L_f(s) \), we should first specify a particular ROAC.  Moreover, the examples 
+    imply that the ROAC of a two-sided Laplace transform may not include the imaginary axis \(\{s : \text{Re}(s) = 0\}\).
+    \vspace{1em}
+    % \par Moreover, the example shows the same \( L(s) \) could correspond to 
+    % functions where the Fourier transform is well defined (\( f_2 \)) or not well defined (\( f_1, f_3 \)). The ROAC might not cross the imaginary axis, 
+    % which means the Fourier transform may fail to exist even though the Laplace transform is perfectly valid.
+    }
+    
+\end{frame}
+
+\begin{frame}{One-sided Laplace transforms and Fourier transforms}
+
+
+    {\footnotesize \footnotesize
+    If \( f(t) = 0 \) for any \( t < 0 \) then its two-sided Laplace transform is reduced to:
+    \begin{align*}
+        L_f(s) = \int_{0}^{+\infty} e^{-st}f(t)  dt \quad \text{for Re}(s) \in \text{ROAC}
+    \end{align*}
+
+    \par and we call it the one-sided Laplace transform. The Fourier transform \emph{\( \mathcal{F}_f(\omega) : \mathbb{R} \mapsto \mathbb{C} \)} of the function \( f(t) \) is defined by
+
+\[
+\mathcal{F}_f(\omega) := \int_{-\infty}^{\infty} e^{-i\omega t}f(t)  dt \equiv L_f(i\omega) \quad \text{for any } \omega \in \mathbb{R}.
+\]
+
+Because the ROAC of a two-sided Laplace transform may not include the imaginary axis \(\{s : \text{Re}(s) = 0\}\), the Fourier
+ transform of a function may not exist. For example, the Fourier transforms of \( f_1(t) \) and \( f_3(t) \) in the example do not exist,
+  whereas their 
+two-sided Laplace transforms are well defined. Therefore, the Fourier transform is a special case of the two-sided Laplace transform.
+    }
+    
+\end{frame}
+
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \footnotesize
+    \par We want to invert the two-sided Laplace transform:
+    \begin{align*}
+        L_f(s) = \int_{-\infty}^{\infty} e^{-st}f(t)  dt
+    \end{align*}
+    \par to recover \( f(t) \). The challenge is the inversion involves infinite integrals. We must approximate them. 
+    That's where discretization and truncation errors come in. Our two-sided Laplace inversion formula involves 
+    parameters \( C \) and \( N \) for the purpose of controlling the discretization and truncation errors, respectively.
+    \vspace{1em}
+    \par \textbf{Assumption}: The function \( e^{-\sigma t} f(t) \) is of bounded variation on \( \mathbb{R} \) for any \( \sigma \in \text{ROAC} \).
+    \par This ensures the inversion formula is well-defined and stable. Recall a real-valued function \( g : [a, b] \to \mathbb{R} \) is said to be of bounded variation if the total variation:
+    \begin{align*}
+        V_a^b(g) := \sup \left\{ \sum_{i=1}^n |g(x_i) - g(x_{i-1})| : a = x_0 < x_1 < \cdots < x_n = b \right\}
+    \end{align*}
+    \par is finite.
+    }
+    
+\end{frame}
+
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par \textbf{Theorem}: Consider a function \( f(t) \) normalized such that \( 2f(t) = f(t + 0) + f(t - 0) \) 
+    for any real \( t \), where \( f(t \pm 0) := \lim_{\varepsilon \downarrow 0} f(t \pm \varepsilon) \). 
+    Then, under assumption, for any \( t \) and \( \sigma \in \text{ROAC} \),
+    \begin{align*}
+        f(t) = f_A(t, \sigma, C, N) + e_T(t, \sigma, C, N) - e_D(t, \sigma, C)
+    \end{align*}
+    \par where the output of the inversion algorithm is:
+    {\footnotesize \tiny
+    \begin{align*}
+        f_A(t, \sigma, C, N) := \frac{e^{\sigma t} L_f(\sigma)}{2(|t| + C)} + \frac{e^{\sigma t}}{|t| + C} 
+        \sum_{k=1}^{N} \left[ (-1)^k \text{Re} \left( \exp \left\{ -\frac{\text{sgn}(t)C k \pi i}{t 
+        + \text{sgn}(t)C} \right\} \times L_f \left( \sigma + \frac{k \pi i}{t + \text{sgn}(t)C} \right) \right) \right]
+        % f_A(t, \sigma, C, N) := \frac{e^{\sigma t} L_f(\sigma)}{2(|t| + C)} &+ \frac{e^{\sigma t}}{|t| + C} 
+        % \sum_{k=1}^{N} \left[ (-1)^k \text{Re} \left( \exp \left\{ -\frac{\text{sgn}(t)C k \pi i}{t 
+        % + \text{sgn}(t)C} \right\}\right.\right.\\&\left.\left.\times L_f \left( \sigma + \frac{k \pi i}{t + \text{sgn}(t)C} \right) \right) \right]
+    \end{align*}
+    }
+    \par \( C \geq 0 \) is a constant such that \( |t| + C \neq 0 \), \( N > 0 \) is a positive integer, and \(\text{sgn}(x)\) equals \( 1 \) if \( x \geq 0 \) and equals \(-1\) otherwise.
+     The terms \( e_T(t, \sigma, C, N) \) and \( e_D(t, \sigma, C) \) represent the truncation error and the discretization error, respectively:
+     {\footnotesize \tiny
+    \begin{align*}
+       e_T(t, \sigma, C, N) := \frac{e^{\sigma t}}{|t| + C} 
+       \sum_{k=N+1}^{+\infty} \left[ (-1)^k \text{Re} \left( \exp \left\{ -\frac{\text{sgn}(t)C k \pi i}{t + \text{sgn}(t)C} \right\} 
+       \times L_f \left( \sigma + \frac{k \pi i}{t + \text{sgn}(t)C} \right) \right) \right]    
+    \end{align*}
+    }
+    \par and 
+     {\footnotesize \tiny
+    \begin{align*}
+      e_D(t, \sigma, C) := \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty} e^{-2\sigma k (t + \text{sgn}(t)C)} f(2k(t + \text{sgn}(t)C) + t)
+    \end{align*}
+    }
+    }
+    
+\end{frame}
+
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Proof:  It suffices to show that, for any \( t \neq 0 \) and \(\sigma \in \text{ROAC}\):
+    \begin{align*}
+        f(t) = \frac{e^{\sigma t} L_f(\sigma)}{2|t|} + \frac{e^{\sigma t}}{|t|} 
+\sum_{k=1}^{\infty} (-1)^k \text{Re} \left( L_f \left( \sigma + \frac{k\pi i}{t} \right) \right) 
+- \sum_{\substack{k=-\infty\; k\neq 0}}^{+\infty} e^{-2\sigma kt} f((2k+1)t)
+    \end{align*}
+    \par  Indeed, to evaluate \( f(t) \), we can alternatively apply above equation to the function \( g_+(y) := f(y - C) \) at 
+    the point \( t + C \) if \( t \geq 0 \) or 
+    to the function \( g_-(y) := f(y + C) \) at the point \( t - C \) if \( t < 0 \). This give theorem immediately. The reason why shift wich $C$ 
+    is the denominator $|t|+C$ in the theorem stabilizes the formula (avoids singularity at t=0).
+    \par Now we prove above equation. Because \(\sigma \in \text{ROAC}\), substituting \(\sigma + i\omega\) for \( s \) in 
+    the Bromwich contour integral:
+    \vspace{-1em}
+    \begin{align*}
+        f(t) = \frac{1}{2\pi i} \lim_{T \to +\infty} \int_{\sigma-iT}^{\sigma+iT} e^{ts} L_f(s)  ds
+    \end{align*}
+    \par By Euler's formula we obtain:
+    \begin{align*}
+         f(t) & =\frac{e^{\sigma t}}{2\pi} \lim_{T \to +\infty}
+          \int_{T}^{-T} [\cos(\omega t) + i \sin(\omega t)] L_f(\sigma + i\omega)  d\omega\\
+          &=\frac{e^{\sigma t}}{2\pi} \int_{0}^{+\infty} \{[\cos(\omega t) 
+          + i \sin(\omega t)] L_f(\sigma + i\omega) + [\cos(\omega t) - i \sin(\omega t)] L_f(\sigma - i\omega)\}  d\omega\\
+          & = \frac{e^{\sigma t}}{\pi} \int_{0}^{+\infty} [\cos(\omega t) \text{Re}(L_f(\sigma + i\omega)) 
+          + \sin(\omega t) \text{Im}(L_f(\sigma - i\omega))]  d\omega
+    \end{align*}
+    }
+    
+\end{frame}
+
+
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \par where the last equality holds because \( \text{Re}(L_f(\sigma + i\omega)) 
+    = \text{Re}(L_f(\sigma - i\omega)) \) and \( \text{Im}(L_f(\sigma + i\omega)) = -\text{Im}(L_f(\sigma - i\omega)) \). 
+    By the trapezoidal rule, for \( h > 0 \), we define \(\tilde{f}(t)\) as
+    \begin{align*}
+        \tilde{f}(t) := \frac{he^{\sigma t}}{2\pi} L_f(\sigma) + \frac{he^{\sigma t}}{\pi} \sum_{k=1}^{+\infty} 
+        \cos(kht) \operatorname{Re}(L_f(\sigma + ikh)) 
+        + \frac{he^{\sigma t}}{\pi} \sum_{k=1}^{+\infty} \sin(kht) \operatorname{Im}(L_f(\sigma - ikh))
+    \end{align*}
+    \par Because \( t \neq 0 \), letting \( h = \pi / |t| \) yields:
+    \begin{align*}
+        \tilde{f}(t) = \frac{e^{\sigma t} L_f(\sigma)}{2|t|} + 
+        \frac{e^{\sigma t}}{|t|} \sum_{k=1}^{\infty} (-1)^k \operatorname{Re} \left( L_f \left( \sigma + \frac{k\pi i}{t} \right) \right)
+    \end{align*}
+    \textbf{The trapezoidal rule}: The trapezoidal rule approximates an integral $\int_{0}^{\infty} g(\omega)  d\omega$ 
+    by sampling \( g \) at equally spaced points, $\frac{h}{2} g(0) + h \sum_{k=1}^{\infty} g(kh).$  
+    \par To analyze the discretization error \(\tilde{f}(t) - f(t)\) generated by
+     the trapezoidal rule, we define \( g(x) := e^{-\sigma x} f(x) \) for any fixed \(\sigma \in \operatorname{ROAC}\). 
+     Under the condition of Theorem, \( g(x) \) is absolutely integrable over \(\mathbb{R}\), is of bounded variation on \(\mathbb{R}\), 
+     and satisfies \( 2g(x) = g(x+0) + g(x-0) \) for any \( x \).
+      Then, for any fixed \( t \neq 0 \), \( g^*(x) := g(t + x/h) = g(t + |t| x/\pi) \) also has these three properties. 
+    }
+    
+\end{frame}
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \par Applying the Poisson summation formula to \( g^*(x) \):
+    \begin{align*}
+        \sum_{k=-\infty}^{+\infty} g^*(2\pi k) = \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty} \int_{-\infty}^{+\infty} g^*(z)e^{-ikz} dz
+    \end{align*}
+    \par \textbf{Poisson summation formula}: For a "nice" function \( g(x) \) (say, integrable and smooth enough), 
+    the Poisson summation formula says:
+    \begin{align*}
+        \sum_{k=-\infty}^{\infty} g(k) = \sum_{m=-\infty}^{\infty} \hat{g}(2\pi m)
+    \end{align*}
+    \par Where \(\hat{g}(\xi)\) is the Fourier transform of \( g(x)\), $\hat{g}(\xi) = \int_{-\infty}^{\infty} g(x) e^{-i\xi x} dx.$  
+    The left-hand side is a sum of the function's samples at the integers.  
+    The right-hand side is a sum of its Fourier transform sampled at multiples of \( 2\pi \).
+    }
+    
+\end{frame}
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \par The left-hand side:
+    \begin{align*}
+        g^*(2\pi k) & = \sum_{k=-\infty}^{+\infty} g(t + 2|t|k) \\
+        \left(\text{$t<0$, reindex $k \rightarrow -k$}\right)&= \sum_{k=-\infty}^{+\infty} g((2k + 1)t)\\
+        \left(\text{Recall \( g(x) := e^{-\sigma x} f(x) \)}\right)&=\sum_{k=-\infty}^{+\infty} e^{-\sigma(2k+1)t} f((2k + 1)t)\\
+        & = e^{-\sigma t} \left[ f(t) + \sum_{\substack{k=-\infty \\ k\neq 0}}^{+\infty} e^{-2\sigma kt} f((2k + 1)t) \right]
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \par The right-hand side:
+    \begin{align*}
+       \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty} \int_{-\infty}^{+\infty} g^*(z)e^{-ikz} dz &= 
+       \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty} \int_{-\infty}^{+\infty} g\left( t + \frac{|t|z}{\pi} \right) e^{-ikz} dz\\
+       \left(y = t+\frac{|t|}{\pi}z\right)&= \frac{1}{2|t|} \sum_{k=-\infty}^{+\infty} \left[ \left( \int_{-\infty}^{+\infty} g(y)e^{-ik\pi y/|t|} dy \right) e^{ik\pi t/|t|} \right]\\
+       \left( L_f(s) = \int_{-\infty}^{\infty} e^{-st}f(t)  dt\right)& = \frac{1}{2|t|} \sum_{k=-\infty}^{+\infty} L_f \left( \sigma + \frac{ik\pi}{|t|} \right) e^{ik\pi t/|t|}\\
+       & = \frac{1}{2|t|} \sum_{k=-\infty}^{+\infty} (-1)^k L_f \left( \sigma + \frac{ik\pi}{t} \right)\\
+       & = \frac{1}{2|t|} L_f(\sigma) + \frac{1}{|t|} \sum_{k=1}^{+\infty} (-1)^k \text{Re} \left( L_f \left( \sigma + \frac{ik\pi}{t} \right) \right)
+    \end{align*}
+    \par The last step, separate the $k=0$ term and use conjugate 
+    symmetry, for real \( f \), \( L_f(\sigma - i\alpha) = \overline{L_f(\sigma + i\alpha)} \). Link the formula for LHS and RHS we proof the formula of $f(x)$. 
+    The proof is completed by comparing $f(t)$ with $\tilde{f(t)}$.
+
+    }
+    
+\end{frame}
+\begin{frame}{The Two-sided Laplace inversion formula}
+
+
+    {\footnotesize \scriptsize
+    \par Lemma: 
+    \par Consider a function \( f(x) \in C^1 \). If there exist
+     a constant \( c \) and a monotone function \( \bar{f}(x) \) such that \( f(x) = e^{cx} \bar{f}(x) \), then 
+     then for any \(\sigma\) in the ROAC:
+     \begin{align*}
+        g_{\sigma}(x) := e^{-\sigma x} f(x) = e^{(c - \sigma)x} \bar{f}(x)
+     \end{align*}
+     \par is of bounded variation on \(\mathbb{R}\).
+     \par \textbf{Proof}:
+     \par It suffices to show that, for any \(\sigma \in \text{ROAC}\), \(e^{-\sigma x} f(x)\) 
+     satisfies (i) \(e^{-\sigma x} f(x) \in C^1\); (ii) \(\int_{-\infty}^{+\infty} e^{-\sigma x} |f(x)|  dx < +\infty\); 
+     and (iii) \(\int_{-\infty}^{+\infty} |(e^{-\sigma x} f(x))'|  dx < +\infty\). Conditions (i) and (ii) hold obviously. 
+     As regards (iii), since \(f(x) = e^{cx} \bar{f}(x)\) with \(\bar{f}(x)\) a monotone function, 
+     without loss of generality, we assume that \(\bar{f}(x)\) is nondecreasing, i.e. \(\bar{f}'(x) \geq 0\). Then:
+     \begin{align*}
+        \int_{-\infty}^{+\infty} |(e^{-\sigma x} f(x))'|  dx 
+        & = \int_{-\infty}^{+\infty} |(c - \sigma) e^{(c - \sigma)x} \bar{f}(x) + e^{(c - \sigma)x} \bar{f}'(x)|  dx\\
+        &\leq |c - \sigma| \int_{-\infty}^{+\infty} |e^{(c - \sigma)x} \bar{f}(x)|  dx + \int_{-\infty}^{+\infty} e^{(c - \sigma)x} \bar{f}'(x)  dx\\
+        &= |c - \sigma| \int_{-\infty}^{+\infty} |e^{-\sigma x} f(x)|  dx - (c - \sigma) \int_{-\infty}^{+\infty} e^{-\sigma x} f(x)  dx\\
+     \end{align*}
+         \vspace{-3em}
+      \par The second term in last equality by using integrate by part and the boundary term vanishes.
+ 
+    }
+    
+\end{frame}
+\begin{frame}{Discretization errors}
+
+
+    {\footnotesize \scriptsize
+    \par In practice, one chooses a closed interval \([\sigma_1^*, \sigma_u^*] \subset \text{ROAC}\) to do the numerical inversion.
+     Without loss of generality, we assume that \(\sigma_1^* \sigma_u^* \neq 0\), and that \(\sigma_1^*\) and \(\sigma_u^*\) are both finite. 
+     The following theorem shows that introducing 
+    the discretization parameter \(C\) can make the discretization error decay exponentially for \(\sigma \in (\sigma_1^*, \sigma_u^*)\).
+    \vspace{1em}
+    \par \textbf{Theorem}: If there exists a nonnegative function \(\delta(\cdot)\) such that, for any \(\sigma \in [\sigma_1^*, \sigma_u^*]\), 
+    we have:
+    \begin{align*}
+        e^{-\sigma y} |f(y)| \leq \delta(\sigma) < +\infty \quad \text{for any } y
+    \end{align*}
+    \par then, for any fixed \( t \in \mathbb{R} \), \(\sigma \in (\sigma_1^*, \sigma_u^*)\), and \(C > 0\), we have the error bound :
+    \begin{align*}
+        |e_D(t, \sigma, C)| \leq \frac{\rho(\sigma, t)}{e^{\theta(\sigma)C} - 1}
+    \end{align*}
+    \par where \(\theta(\sigma) := 2 \min\{\sigma_u^* - \sigma, \sigma - \sigma_1^*\} > 0\) and  
+    \begin{align*}
+        \rho(\sigma, t) := 
+    \begin{cases} 
+    \delta(\sigma_u^*) e^{(2\sigma - \sigma_u^*)t} + \delta(\sigma_1^*) e^{(3\sigma_1^*-2\sigma)t} & \text{if } t \geq 0\\
+    \delta(\sigma_1^*) e^{(2\sigma - \sigma_1^*)t} + \delta(\sigma_u^*) e^{(3\sigma_u^*-2\sigma)t} & \text{if } t < 0
+    \end{cases}
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{Discretization errors}
+
+
+    {\footnotesize \scriptsize
+    \par Proof:
+    \par From $ e^{-\sigma y} |f(y)| \leq \delta(\sigma) < +\infty \quad \text{for any } y$, we obtain:
+    \begin{align*}
+        |f(y)| \leq 
+        \begin{cases} 
+        \delta(\sigma_{1}^{*})e^{\sigma_{1}^{*}y} & \text{for any } y \geq 0 \\
+        \delta(\sigma_{u}^{*})e^{\sigma_{u}^{*}y} & \text{for any } y \leq 0 \tag{1}
+        \end{cases}
+    \end{align*}
+    \par We proceed to discuss two cases, \( t \geq 0 \) and \( t < 0 \). If \( t \geq 0 \) then, for any \( C \geq 0 \), we have:
+    \begin{align*}
+        2k(t + \text{sgn}(t)C) + t = 2k(t + C) + t 
+        \begin{cases} 
+        \geq 0 & \text{if } k > 0 \text{ and } t \geq 0 \\
+        \leq 0 & \text{if } k < 0 \text{ and } t \geq 0
+        \end{cases}
+    \end{align*}
+    \par Then by $(1)$, for any fixed \( t \geq 0 \), \( \sigma \in (\sigma_{1}^{*}, \sigma_{u}^{*}) \), and \( C > 0 \):
+    \begin{align*}
+          \left| e_D(t, \sigma, C) \right| & := \left| \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty} e^{-2\sigma k (t + \text{sgn}(t)C)} f(2k(t + \text{sgn}(t)C) + t)\right|\\
+           & = \left| \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty}  e^{-2k(t+C)\sigma} f(2k(t + C) + t) \right|\\
+           & \leq \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty}  e^{-2k(t+C)\sigma} |f(2k(t + C) + t)|
+    \end{align*}
+    
+    }
+    
+\end{frame}
+
+\begin{frame}{Discretization errors}
+
+
+    {\footnotesize \scriptsize
+    \par Con.
+    \begin{align*}
+        (by (1)) &\leq \delta(\sigma_{u}^{*}) \sum_{k=-\infty}^{-1} e^{-2k(t+C)\sigma} e^{\sigma_{u}^{*}[2k(t+C)+t]} 
+        + \delta(\sigma_{1}^{*}) \sum_{k=1}^{\infty} e^{-2k(t+C)\sigma} e^{\sigma_{1}^{*}[2k(t+C)+t]}\\
+        (i)&= \delta(\sigma_{u}^{*}) e^{(2\sigma - \sigma_{u}^{*})t} \frac{e^{-2C(\sigma_{u}^{*}-\sigma)}}{1 - e^{-2(t+C)(\sigma_{u}^{*}-\sigma)}} 
+        + \delta(\sigma_{1}^{*}) e^{(3\sigma_{1}^{*}-2\sigma)t} \frac{e^{-2C(\sigma - \sigma_{1}^{*})}}{1 - e^{-2(t+C)(\sigma - \sigma_{1}^{*})}}\\
+        & \leq \delta(\sigma_{u}^{*}) e^{(2\sigma - \sigma_{u}^{*})t} \frac{e^{-2C(\sigma_{u}^{*}-\sigma)}}{1 - e^{-2C(\sigma_{u}^{*}-\sigma)}} 
+        + \delta(\sigma_{1}^{*}) e^{(3\sigma_{1}^{*}-2\sigma)t} \frac{e^{-2C(\sigma - \sigma_{1}^{*})}}{1 - e^{-2C(\sigma - \sigma_{1}^{*})}}\\
+        & = \delta(\sigma_{u}^{*}) e^{(2\sigma - \sigma_{u}^{*})t} \frac{1}{e^{2C(\sigma_{u}^{*}-\sigma)} - 1} 
+        + \delta(\sigma_{1}^{*}) e^{(3\sigma_{1}^{*}-2\sigma)t} \frac{1}{e^{2C(\sigma - \sigma_{1}^{*})} - 1}\\
+        &\leq \frac{\rho(\sigma, t)}{e^{\theta(\sigma)C} - 1}
+    \end{align*}
+    \par For (i), the second term is geometric series has ratio \( r_2 = e^{-2(t+C)(\sigma - \sigma_1^*)} \in (0, 1) \). The first term is reindex $m = -k$, 
+    then it is geometric series has ratio \( r_1 = e^{-2(t+C)(\sigma_{u}^{*}- \sigma)} \in (0, 1) \). For $t\geq0$, 
+    this is exactly with the upper $\rho(\sigma,t)$ branch.
+        \par If \( t < 0 \), we have, for any \( C \geq 0 \):
+    \begin{align*}
+        2k(t + \text{sgn}(t)C) + t = 2k(t - C) + t 
+        \begin{cases} 
+        \geq 0 & \text{if } k < 0 \text{ and } t < 0, \\ 
+        \leq 0 & \text{if } k > 0 \text{ and } t < 0.
+        \end{cases}
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{Discretization errors}
+
+
+    {\footnotesize \scriptsize
+
+    \par By (1), the discretization error for any \( t < 0 \), \( \sigma \in (\sigma_1^*, \sigma_u^*)\),
+     and \( C > 0 \) can be bounded as follows:
+    \begin{align*}
+        \left| e_D(t, \sigma, C) \right| &= \left| \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty} e^{-2k(t-C)\sigma} f(2k(t - C) + t) \right|\\
+        &\leq \sum_{\substack{k=-\infty \; k \neq 0}}^{+\infty} e^{-2k(t-C)\sigma} |f(2k(t - C) + t)|\\
+        & \leq \delta(\sigma_u^*) \sum_{k=1}^\infty e^{-2k(t-C)\sigma} e^{\sigma_u^*[2k(t-C)+t]} 
+        + \delta(\sigma_1^*) \sum_{k=-\infty}^{-1} e^{-2k(t-C)\sigma} e^{\sigma_1^*[2k(t-C)+t]}\\
+        &= \delta(\sigma_{u}^{*})e^{(3\sigma_{u}^{*}-2\sigma)t} \frac{e^{-2C(\sigma_{u}^{*}-\sigma)}}{1-e^{-2(C-t)(\sigma_{u}^{*}-\sigma)}} 
+        + \delta(\sigma_{1}^{*})e^{(2\sigma-\sigma_{1}^{*})t} \frac{e^{-2C(\sigma-\sigma_{1}^{*})}}{1-e^{-2(C-t)(\sigma-\sigma_{1}^{*})}}\\
+        & \leq \delta(\sigma_{u}^{*})e^{(3\sigma_{u}^{*}-2\sigma)t} \frac{e^{-2C(\sigma_{u}^{*}-\sigma)}}{1-e^{-2C(\sigma_{u}^{*}-\sigma)}} 
+        + \delta(\sigma_{1}^{*})e^{(2\sigma-\sigma_{1}^{*})t} \frac{e^{-2C(\sigma-\sigma_{1}^{*})}}{1-e^{-2C(\sigma-\sigma_{1}^{*})}}\\
+        &= \delta(\sigma_{u}^{*})e^{(3\sigma_{u}^{*}-2\sigma)t} \frac{1}{e^{2C(\sigma_{u}^{*}-\sigma)}-1}
+        + \delta(\sigma_{1}^{*})e^{(2\sigma-\sigma_{1}^{*})t} \frac{1}{e^{2C(\sigma-\sigma_{1}^{*})}-1}\\
+        &\leq \frac{\rho(\sigma,t)}{e^{\theta(\sigma)C}-1}
+    \end{align*}
+    }
+    
+\end{frame}
+\begin{frame}{Discretization errors}
+
+
+    {\footnotesize \scriptsize
+    \par The error bound is computable since the function \(\delta(\sigma)\) can be specified explicitly 
+    in many applications. This allows practitioners to pick a sufficiently large parameter \(C\) to control discretization error.
+    \vspace{1em}
+    \par However, while the bound can be very small, it is hard to know how close it is to the ``true'' discretization error, 
+    because the exact error formula depends on the original function \(f(\cdot)\), which is often unknown.
+     \vspace{1em}
+    \par The tightness of the bound varies across cases, depending heavily on \(\delta(\sigma)\) and the specific function considered.
+     \vspace{1em}
+    \par  Despite this uncertainty, numerical experiments in the paper show that by
+    choosing a large enough \(C\), the discretization error can be reduced to a level that guarantees the desired accuracy. Even though the bound may not always be tight, 
+    it is practically useful because it provides a reliable way to ensure small errors in computation.
+    }
+    
+\end{frame}
+%
+%
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
