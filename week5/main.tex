@@ -24,7 +24,7 @@
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 4}
+\subtitle{Week 5}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,31 +35,33 @@
 % \tableofcontents
 % \end{frame}
 
-\section{Background}
-\begin{frame}{Background}
+\section{Chapter 14}
+\begin{frame}{Chapter 14}
+
+    \begin{center}
+        \par Black-Scholes (II): Dominance-Free Interval and Risk Neutral Pricing
+    \end{center}
+    
+\end{frame}
+
+\begin{frame}{A General Brownian Market Model}
 
     {\footnotesize \footnotesize
-    \par Recall The Double Exponential Jump Diffusion Model:
-    \begin{align*}
-        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
-    \end{align*}
-    \par\begin{itemize}
-    \item \( W(t) \): Brownian motion under the real-world measure.
-    \item \( N(t) \): Poisson process with rate \(\lambda\).
-    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
-    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
-    \end{itemize}   
-    \begin{align*}
-        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
-    \end{align*}
-    \par with parameters:
+    \par Given a complete probablity space \( (\Omega, \mathcal{F}, \mathbb{P}) \).
+    \( W(t) = (W_1(t), \ldots, W_d(t))^\top \), independent \( d \)-dimensional Brownian motion. The filtraion 
+    $\mathcal{F}_t^W = \sigma(W(s) : 0 \leq s \leq t)$ which is complete and right-continuous.
+    \vspace{1em} 
+    \par A financial market $\mathcal{M}$ with 1 bond and $d$ stocks under a finite horizon $[0,T]$:
+    \begin{gather*}
+    dS_0(t) = r(t)S_0(t)  dt, \quad S_0(0) = 1 \\
+    dS_i(t) = S_i(t)\left(b_i(t)\,dt + \sum_{j=1}^d \sigma_{ij}(t)\,dW_j(t)\right),\;\;\text{for $i$ $\in 1,2....,d$}
+    \end{gather*}
     \begin{itemize}
-        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
-        \item \(\eta_1 > 1\): rate for upward jumps.
-        \item \(\eta_2 > 0\): rate for downward jumps.
+        \item \( r(t) \): interest rate
+        \item  \( b(t) = (b_1, \ldots, b_d) \): appreciation rates
+        \item \( \sigma(t) = (\sigma_{ij}(t)) \): volatility matrix
     \end{itemize}
-    }
-    
+    }   
 \end{frame}
 % \begin{frame}
 
