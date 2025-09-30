@@ -60,9 +60,466 @@
         \item \( r(t) \): interest rate
         \item  \( b(t) = (b_1, \ldots, b_d) \): appreciation rates
         \item \( \sigma(t) = (\sigma_{ij}(t)) \): volatility matrix
+        \item \( r(t) \), \(b(t) \) and \( \sigma(t)\) all progressively measurable
+         with respect to $\{\mathcal{F}_t\}$ and bounded uniformly in $(t,\omega) \in [0,T] \times \Omega$.
     \end{itemize}
     }   
 \end{frame}
+
+\begin{frame}{Remarks on the Modell}
+
+    {\footnotesize \footnotesize
+    \begin{itemize}
+        \item The model is very general: processes can be dependent, time-varying, and even non-Markovian
+        \vspace{1em}
+        \item The model does not cover stochastic volatility or jump models. 
+        Therefore, dominance arguments do not apply for stochastic volatility or jump models.
+        \vspace{1em}
+        \item In general, the option price is not pinned to a single number. Instead, there exists an interval $[h_{low},h_{up}]$.
+        If the option price is within the interval then there will be no dominance, outside the interval there will be dominance opportunity.
+        \vspace{1em}
+        \item Ideal market assumption: Infinite divisibility of assets, no transaction costs or taxes, no borrowing/short-selling constraints 
+        and same interest rate for borrowing and lending
+    \end{itemize}
+    }   
+\end{frame}
+
+\begin{frame}{Introducing auxiliary processes}
+
+    {\footnotesize \footnotesize
+    \par Relative risk (Sharpe ratio): 
+    \begin{align*}
+            \theta(t) = \sigma^{-1}(t)\left(b(t) - r(t)\mathbf{1}\right),\;\; \mathbf{1} = (1,1,......,1)^T
+    \end{align*}
+    \par Exponential martingale (RN derivative): 
+    \begin{align*}
+        Z(t) = \exp\left(-\int_{0}^{t}\theta^{\top}(s)\,dW(s) - \frac{1}{2}\int_{0}^{t}\|\theta(s)\|^{2}ds\right)
+    \end{align*}
+    \par Discount factor:
+    \begin{align*}
+        \gamma(t) = \exp\left(-\int_{0}^{t}r(s)\,ds\right)
+    \end{align*}
+    \par Brownian motion with drift:
+    \begin{align*}
+         W_0(t) = W(t) + \int_{0}^{t}\theta(s)\,ds,\;\; 0\leq t\leq T
+    \end{align*}
+    \par $\sigma(t)$ invertible, inverses bounded. Ensures bounded $\theta(t)$ and $Z(t)$ is a true martingale.
+    These tools set up the risk-neutral framework for pricing options.
+
+    }   
+\end{frame}
+\begin{frame}{Investor Setup}
+
+    {\footnotesize \footnotesize
+    \par  Investor type: ``small investor'' $\rightarrow$ cannot affect market prices.
+    \par Trading Strategy defined as:
+    \begin{align*}
+         \phi(t) = (\phi_1(t), \ldots, \phi_d(t)) 
+    \end{align*}
+    \par Where $\phi_0(t)$ is number of bonds held,
+     $\phi_i(t)$ is number of shares of stock $i$ held. 
+     If  $\phi_0 < 0$ or $\phi_i < 0$ interpret as short position(loan). All decisions are adapted to $\mathcal{F}_t$.
+    \par Cumulative consumption process defined as:
+    \begin{align*}
+         C(t) = \int_0^t c(s)  ds, \quad c(s) \geq 0
+    \end{align*}
+    \par $C(t)$ is non-decreasing (consumption can only increase).  $C(0) = 0,  C(T) < \infty$ almost surely. 
+    Models the total amount consumed by the investor up to time $t$
+    \vspace{1em}
+    \par To ensure consistency, we need to specify what trading strategies are allowed in the market. Two rules impose in the market, 
+    self-financing condition and exclusion of doubling strategies.
+    }   
+\end{frame}
+
+\begin{frame}{Self-Financing Condition}
+
+    {\footnotesize \footnotesize
+    \par Self-Financing Condition:
+    \begin{align*}
+        \sum_{i=0}^d \phi_i(t)S_i(t) = \sum_{i=0}^d \phi_i(0)S_i(0) + \sum_{i=0}^d \int_0^t \phi_i(u) dS_i(u) - C(t), \quad 0 \leq t \leq T
+    \end{align*}
+    \par Changes in wealth = trading gains – consumption, no outside cash flows.
+    \vspace{1em}
+    \par A portfolio process is defined as $\pi(\cdot) = (\pi_1(\cdot), \ldots, \pi_d(\cdot))$, where $\pi_i(t) = \phi_i(t) S_i(t)$ means that 
+    total amount of money invested in the $i$th risky asset. The total wealth $X(t)$ is equal to:
+    \begin{align*}
+        X(t) = \sum_{i=0}^d \phi_i(t) S_i(t) = \sum_{i=1}^d \pi_i(t) + \phi_0(t) S_0(t)
+    \end{align*}
+    \par Both the wealth process $X(\cdot)$ and the portfolio $\pi(\cdot)$ can clearly take both positive and negative values.
+    }   
+\end{frame}
+
+\begin{frame}{Self-Financing Condition}
+
+    {\footnotesize \footnotesize
+    \par For a given initial capital \( x \) and a portfolio process \( \pi(\cdot) \), the self-financing condition is translated to:
+    \begin{align*}
+        X(t) = X(0) + \sum_{i=0}^{d} \int_{0}^{t} \phi_i(u) dS_i(u) - C(t)
+    \end{align*}
+    \par In terms of the differential form, we have:
+    \begin{align*}
+        dX(t) &= \sum_{i=0}^{d} \phi_i(t) dS_i(t) - dC(t) \\
+    \end{align*}
+    \vspace{-2em}
+    \par Express in terms of portfolio $\pi$ and plug in dynamics of assets:
+    \begin{align*}
+        dX(t) &= \frac{X(t) - \sum_{i=1}^{d} \pi_i(t)}{S_0(t)} dS_0(t) + \sum_{i=1}^{d} \frac{\pi_i(t)}{S_i(t)} dS_i(t) - dC(t) \\
+        &= X(t) r(t) dt + \sum_{i=1}^{d} \pi_i(t) \left[ (b_i(t) - r(t)) dt + \sum_{j=1}^{d} \sigma_{ij}(t) dW_j(t) \right] - dC(t)
+    \end{align*}
+    }   
+\end{frame} 
+
+\begin{frame}{Self-Financing Condition}
+
+    {\footnotesize \footnotesize
+    \par By vector notation, Brownian motion with drift and Sharpe ratio, we can rewrite as:
+    \begin{align*}
+        dX(t) = X(t)r(t)dt + \pi^\top(t)\sigma(t)dW_0(t) - dC(t), \quad X(0) = x
+    \end{align*}
+    \par Since $d\gamma(t) \cdot dX(t) = 0$, by Itô formula:
+    \begin{align*}
+        d(\gamma(t)X(t)) &= \gamma(t)dX(t) - r(t)\gamma(t)X(t)dt \\
+        &= \gamma(t)\pi^\top(t)\sigma(t)dW_0(t) - \gamma(t)dC(t)
+    \end{align*}
+    \par Therefore, we have the wealth equation:
+    \begin{align*}
+        \gamma(t)X(t) = x - \int_0^t \gamma(s)dC(s) + \int_0^t \gamma(s)\pi^\top(s)\sigma(s)dW_0(s)
+    \end{align*}
+    \par For a triple $(x, \pi, C)$, if there exists a unique strong solution $X(\cdot)$, it's called the wealth process.
+    For the stochastic integral to be well-defined:
+    \begin{align*}
+        \int_{0}^{T} \|\pi(t)\|^{2}  dt < \infty
+    \end{align*}
+    }   
+\end{frame} 
+
+\begin{frame}{Risk-Neutral Probability via Girsanov Theorem}
+
+    {\footnotesize \footnotesize
+    \par Definition of Risk-Neutral Measure:
+    \begin{align*}
+         \mathbb{P}^{0}(A) := \mathbb{E}[Z(T)1_{A}], \quad A \in \mathcal{F}_{T}
+    \end{align*}
+    \par $Z(T)$ is the exponential martingale. By Girsanov's Theorem, $ W_{0}(t) = W(t) + \int_{0}^{t} \theta(s) ds$ 
+    is a standard Brownian motion under $\mathbb{P}^{0}$.
+    \par Thus rewirte the wealth process:
+    \begin{align*}
+         N_{0}(t) &= \gamma(t)X(t) + \int_{0}^{t} \gamma(s)dC(s) \\
+    &= x + \int_{0}^{t} \gamma(s)\pi^{\top}(s)\sigma(s) dW_{0}(s)
+    \end{align*}
+    \par A continuous $\mathbb{P}^{0}$-local martingale.
+    }   
+\end{frame} 
+
+\begin{frame}{Risk-Neutral Probability via Girsanov Theorem}
+
+    {\footnotesize \footnotesize
+    \par Stock dynamics under risk-neutral measure:
+    \begin{align*}
+        dS_i(t) = S_i(t) \left[ b_i(t)dt - \sum_{j=1}^d \sigma_{ij}(t)\theta_j(t)dt + \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t) \right]
+    \end{align*}
+    \par Since $b(t) - \sigma(t)\theta(t) = r(t)\mathbf{1}$:
+    \begin{align*}
+        dS_i(t) = S_i(t) \left[r(t)dt + \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t) \right], \quad i = 1, \ldots, d
+    \end{align*}
+    Since $dr(t) \cdot dS_i(t) = 0$, apply Itô:
+    \begin{align*}
+        d(\gamma(t)S_i(t)) &= S_i(t)dr(t) + \gamma(t)dS_i(t) \\
+        &= \gamma(t)S_i(t) \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t)
+    \end{align*}
+    \par Hence, the discounted stock processes $\gamma(\cdot)S_i(\cdot)$ are local martingales.
+     This also confirms our intuition that every asset $S_i(t)$ should have a growth rate $r(t)$ in the risk neutral world.
+    }   
+\end{frame} 
+
+\begin{frame}{Doubling Strategies and Admissibility}
+
+    {\footnotesize \footnotesize
+    \par Doubling Strategy: Double investment after each loss, leads to arbitrarily large wealth at $T$. 
+    Requires wealth process $X(t)$ unbounded from below. Need to exclude, because creates arbitrage opportunities and 
+    violates no-arbitrage principle.
+    \vspace{1em}
+    \par A uniform boundedness condition is needed to prevent the doubling strategy. Wealth must satisfy:
+    \begin{align*}
+        X^{x,\pi,C}(t) \geq -\Lambda, \quad 0 \leq t \leq T
+    \end{align*}
+    \par  With $\mathbb{E}^0[\Lambda^p] < \infty$ for some $p > 1$.
+    \vspace{1em}
+    \par In summary, the admissibility on $(\pi,C)$ essentially requires the portfolio to
+    be self-financing and not to be a doubling strategy.
+    }
+\end{frame} 
+
+\begin{frame}{Some Properties}
+
+    {\footnotesize \footnotesize
+    \par (i) Supermartingale Property:
+    \vspace{1em}
+    \par If $(\pi,C)$ is admissible, $N_0(t)$ is bound below.  $N_0(t)$ is a $\mathbb{P}^0$-supermartingale. Consequently:
+    \begin{align*}
+          \mathbb{E}^0 \left[ \gamma(T)X(T) + \int_0^T \gamma(t)dC(t) \right] \leq x
+    \end{align*}
+    \par  Expected discounted terminal wealth and consumption less than or equal to initial wealth to ensures no arbitrage.
+    \vspace{1em}
+    \par (ii) Scaling Property:
+    \vspace{1em}
+    \par Wealth dynamics are linear in $(x, \pi, C)$. For any $a \neq 0$:
+    \begin{align*}
+         X^{ax, a\pi, aC}(t) = a \cdot X^{x, \pi, C}(t)
+    \end{align*}
+    \par In particular,  $a > 0$ outcome is scaled wealt and $a = -1$ is mirror strategy with wealth is $-X^{x, \pi, C}(t)$. 
+    The intuition is that the model is homogeneous of degree 1 in wealth.
+    }
+\end{frame} 
+
+\begin{frame}{Dominant Opportunities and Dominance-Free Interval}
+
+    {\footnotesize \footnotesize
+    \par Consider European Contingent Claim (ECC), payoff at maturity is $\psi(T) \geq 0$. For example the Call option payoff $(S_1(T) - K)^+$.
+    To ensure that option price is finite, we assume that  $\mathbb{E}[(\psi(T))^{1+\epsilon}] < \infty, \;\forall \epsilon > 0$.
+    \vspace{1em}
+    \par Price at time 0 is $\psi(0)$. Question: what is the fair value of $\psi(0)$?
+     Price too low $\rightarrow$ buyer arbitrage, price too high $\rightarrow$ seller arbitrage. 
+    Therefore, the correct price must lie in an interval that rules out dominance.
+    \vspace{1em}
+    \par The main purpose of this section is to find out what $\psi(0)$ should be in the market $\mathcal{M}$ with the ECC,  
+    denoted by $(M, \psi)$ for short, with $\psi$ standing for the pair $(\psi(0), \psi(T))$.
+    \vspace{1em}
+     \par A dominance opportunity exists in market $(\mathcal{M}, \psi)$ if  we
+     start with some initial wealth $x \geq 0$ (or $x \leq 0$ depending on position). We take an admissible strategy $(\pi, C)$ and 
+     add a position in the ECC (long if $a = -1$, short if $a = +1$).
+    } 
+\end{frame} 
+\begin{frame}{A Definition of Dominate Opportunity}
+
+    {\footnotesize \footnotesize
+    \par Condition:
+    \begin{align*}
+         x + a \cdot \psi(0) < 0
+    \end{align*}
+    \par yet at maturity:
+    \begin{align*}
+        \mathbb{P}\{X^{x,\pi,C}(T) + a \cdot \psi(T) \geq 0\} = 1
+    \end{align*}
+    \par You start with negative initial wealth, but end up with a guaranteed nonnegative payoff. 
+    This is a riskless profit strictly better than bond returns. 
+    \vspace{1em}
+    \par Moreover, 
+    the scaling property will result the unlimited arbitrage.
+     Therefore, dominance opportunities must be excluded in rational, well-behaved markets.
+     \vspace{1em}
+    \par Definition: The admissible price $\psi(0)$ must lie in an dominance-free interval $[a, b]$, such that:
+    \begin{itemize}
+        \item If $\psi(0) > b$: dominance opportunity exists (price too high)
+        \item If $\psi(0) < a$: dominance opportunity exists (price too low)
+        \item If $a \leq \psi(0) \leq b$: no dominance opportunities exist
+    \end{itemize}
+    }
+\end{frame} 
+
+
+\begin{frame}{Lower and Upper Hedging Classes}
+
+    {\footnotesize \footnotesize
+    \par Upper Hedging Class $\mathcal{U}$:
+    \begin{align*}
+         \mathcal{U} := \{x \geq 0 : \exists (\hat{\pi}, \hat{C}) \in \mathcal{A}, \, X^{x,\hat{\pi},\hat{C}}(0)
+          = x, \, X^{x,\hat{\pi},\hat{C}}(T) \geq \psi(T) \ a.s.\}
+    \end{align*}
+    \par Starting with capital $x$,
+     you can construct an admissible strategy whose terminal wealth is always at least as large as the claim payoff $\psi(T)$
+     So, the minimum of $\mathcal{U}$ gives the upper bound for the fair price. $\mathcal{U}$ may be empty (think about quadratic payoff).
+     \vspace{1em}
+     \par Lower Hedging Class $\mathcal{L}$:
+     \begin{align*}
+         \mathcal{L} := \{x \geq 0 : \exists (\check{\pi}, \check{C}) \in \mathcal{A}, \, X^{x,\check{\pi},\check{C}}(0) 
+         = -x, \, X^{x,\check{\pi},\check{C}}(T) \geq -\psi(T) \ a.s.\}
+     \end{align*}
+     \par  With initial wealth $-x$ (i.e. receiving $x$ up front),
+      you can construct a strategy whose terminal wealth is always greater than or equal to $-\psi(T)$. 
+      So, the maximum of $\mathcal{L}$ gives the lower bound for the fair price.
+      \vspace{1em}
+      \par Observe that both sets are intervals (connected):
+     \begin{itemize}
+        \item If $x_1 \in \mathcal{L}$ and $0 \leq y_1 \leq x_1$, then $y_1 \in \mathcal{L}$
+        \item If $x_2 \in \mathcal{U}$ and $y_2 \geq x_2$, then $y_2 \in \mathcal{U}$
+    \end{itemize}
+    \par Thus it would be interesting to look at the endpoints of the intervals.
+    }
+\end{frame} 
+
+\begin{frame}{Upper and Lower Hedging Prices}
+
+    {\footnotesize \footnotesize
+    \par \textbf{Upper bound: $h_{\text{up}} := \inf \mathcal{U}.$}  Because
+     it's the cheapest initial capital needed to guarantee covering the claim $\psi(T)$. $\inf \mathcal{U}$ is 
+     the minimal fair one for the seller.
+      \vspace{1em}
+     \par \textbf{Lower bound:} $h_{\text{low}} := \sup \mathcal{L}.$   Because it's the maximum initial 
+     amount from which a buyer can still hedge against the debt of paying $\psi(T)$. 
+     So $\sup \mathcal{L}$ is the highest ``safe'' price for the buyer.
+     \vspace{1em}
+     \par The intuition suggests that the lower dominate price cannot be bigger than the upper hedging price.
+     \vspace{1em}
+      \par Let $u_0 := \mathbb{E}^0[\gamma(T)\psi(T)]$. Show that $u_0 < \infty$. In fact, we can show a strong result that
+
+        \[
+        \mathbb{E}^0[\{\gamma(T)\psi(T)\}^a] < \infty, \quad 1 < a < 1 + \epsilon.
+        \]
+    }
+\end{frame} 
+
+\begin{frame}{Upper and Lower Hedging Prices}
+
+    {\footnotesize \footnotesize
+    \par Proof:
+    \par Note that  $u_0 = \mathbb{E}^0[\gamma(T)\psi(T)] = \mathbb{E}[\gamma(T)\psi(T)Z(T)].$ Let $c < \infty$ be a fixed constant such that
+    $\|\theta(t)\| \leq c, \;\gamma(T) \leq c.$ Also let $p = 1 + \epsilon$, $1/p + 1/q = 1$. We have:
+    \begin{align*}
+        & \mathbb{E} \left[ e^{ -q \int_0^T \theta^\top(s)dW(s) - \frac{1}{2} q \int_0^T \|\theta(s)\|^2 ds }  \right] \\
+        &= \mathbb{E} \left[e^{ -q \int_0^T \theta^\top(s)dW(s) - \frac{1}{2} q^2 \int_0^T \|\theta(s)\|^2 ds } \cdot e ^{ \frac{1}{2}(q^2 - q) \int_0^T \|\theta(s)\|^2 ds } \right] \\
+        &\leq \mathbb{E} \left[ e^ { -q \int_0^T \theta^\top(s)dW(s) - \frac{1}{2} q^2 \int_0^T \|\theta(s)\|^2 ds } \right] e^{ \frac{1}{2}(q^2 - q)c^2T } (\text{Typo: c}) \\
+        &\leq e^{q(q-1)c^2T/2}
+    \end{align*}
+    \par where the last inequality holds because inside of $\mathbb{E}(\cdot)$ is a martingale. Therefore, by the Hölder inequality:
+    }
+\end{frame} 
+
+\begin{frame}{Upper and Lower Hedging Prices}
+
+    {\footnotesize \footnotesize
+    \par \begin{align*}
+        u_0 &\leq c\mathbb{E}(\psi(T)Z(T)) \\
+        &\leq c(\mathbb{E}(\psi(T))^p)^{1/p} \cdot (\mathbb{E}(Z(T))^q)^{1/q} \\
+        &= c(\mathbb{E}(\psi(T))^p)^{1/p} \cdot \left( \mathbb{E}\left[ e^{ -q \int_0^T \theta^\top(s)dW(s) -
+         \frac{1}{2} q \int_0^T \|\theta(s)\|^2 ds } \right] \right)^{1/q} \\
+        &\leq c(\mathbb{E}(\psi(T))^p)^{1/p} \cdot e^{(q-1)c^2 T/2} < \infty
+        \end{align*}
+    \par For $\mathbb{E}^0[\{\gamma(T)\psi(T)\}^a]$. Follow the same steps, change the measure and choose Hölder exponents, 
+    $ p = \frac{1 + \varepsilon}{a} > 1, \quad q = \frac{p}{p - 1}$. Then:
+    \begin{align*}
+        \mathbb{E}[\psi^a Z] &\leq \left( \mathbb{E}[\psi^{ap}] \right)^{1/p} \left( \mathbb{E}[Z^q] \right)^{1/q}=
+         \left( \mathbb{E}[\psi^{1 + \varepsilon}] \right)^{1/p} \cdot \left( \mathbb{E}[Z^q] \right)^{1/q}
+    \end{align*}
+    \par  The first factor is finite by assumption; the second is bounded exactly as in previous part. Thus:
+    \begin{align*}
+        \mathbb{E}^0[\{\gamma(T)\psi(T)\}^a] \leq c^a \left( \mathbb{E}[\psi(T)^{1 + \varepsilon}] \right)^{1/p} \exp \left\{ \frac{1}{2}(q - 1)c^2T \right\} < \infty
+        ,\;\;\forall 1 < a < 1 + \varepsilon
+    \end{align*}
+    }
+\end{frame} 
+
+
+\begin{frame}{An Inequality for the Upper and Lower Prices}
+
+    {\footnotesize \footnotesize
+    \par At any time $t \in [0, T]$, we have $ 0 \leq h_{\text{low}} \leq u_0 \leq h_{\text{up}}\;\; a.s.,$ where $u_0 = \mathbb{E}^0[\gamma(T)\psi(T)]$.
+    \vspace{1em}
+    \par \textbf{For upper bound}: If $\mathcal{U}$ is empty, $h_{\text{up}} = +\infty$ and inequality is trivial. If $\mathcal{U} \neq \emptyset$, then by definition of $\mathcal{U}$, for every $x \in \mathcal{U}$,
+     there exists some admissible portfolio $(\hat{\pi}, \hat{C})$ with:
+     \begin{align*}
+        X^{\hat{\pi}, \hat{C}}(0) = x, \quad X^{\hat{\pi}, \hat{C}}(T) \geq \psi(T)
+     \end{align*}
+     \par Apply the supermartingale property to the discounted wealth process:
+     \begin{align*}
+        x \geq \mathbb{E}^0 \left[ \gamma(T) X^{\hat{\pi}, \hat{C}}(T) + \int_0^T \gamma(s) d\hat{C}(s) \right]
+     \end{align*}
+     \par Since $X^{\hat{\pi}, \hat{C}}(T) \geq \psi(T)$, we get $ x \geq \mathbb{E}^0 [\gamma(T) \psi(T)]$. 
+     This mean that any initial capital in $\mathcal{U}$ must be at least $u_0$, $ u_0 \leq h_{\text{up}}$.
+    
+    }
+\end{frame} 
+
+\begin{frame}{An Inequality for the Upper and Lower Prices}
+
+    {\footnotesize \footnotesize
+    \par \textbf{For lower bound}: Similarly, we can show that $0 \leq h_{\text{low}} \leq u_0$. Indeed, since the set $\mathcal{L}$ contains $x = 0$,
+     it is nonempty. For any $x \geq 0$ in this set, again by the supermartingale property, almost surely.
+     \begin{align*}
+        -x &\geq \mathbb{E}^0 \left[ \gamma(T) X^{\check{\pi}, \check{C}}(T) + \int_0^T \gamma(s) d\hat{C}(s) \right] \\
+        &\geq \mathbb{E}^0 \left[ \gamma(T) (-\psi(T)) + \int_0^T \exp \left( - \int_0^s r(u) du \right) d\hat{C}(s) \right] \\
+        &\geq \mathbb{E}^0 \left[ \gamma(T) (-\psi(T)) \right]
+        \end{align*}
+        \vspace{1em}
+    \par By the definition of $\mathcal{L}$. Hence, $x \leq \mathbb{E}^0 \left[ \gamma(T) \psi(T) \right]$ and $0 \leq h_{\text{low}} \leq u_0$, almost surely.
+    
+
+    }
+\end{frame} 
+
+
+\begin{frame}{Dominance Outside the Interval}
+
+    {\footnotesize \footnotesize
+    \par  Claim: for any ECC price $\psi(0) > h_{\text{up}}$, 
+    there exists a dominant opportunity in $(M, \psi)$; similarly for any ECC price $\psi(0) < h_{\text{low}}$.
+    \vspace{1em}
+    \par Suppose that $\psi(0) > h_{\text{up}}$. Then for any $x_1 \in (h_{\text{up}}, \psi(0))$ we know that $x_1 \in \mathcal{U}$, since $h_{\text{up}}$ is 
+    the left endpoint of a connected interval $\mathcal{U}$. By the definition of $\mathcal{U}$, there exists 
+    a $(\hat{\pi}, \hat{C}) \in \mathcal{A}$ such that:
+    \begin{align*}
+        X^{\hat{\pi}, \hat{C}}(0) - \psi(0) = x_1 - \psi(0) < 0
+    \end{align*}
+    \par because $x_1 < \psi(0)$, and
+    \begin{align*}
+        X^{\hat{\pi}, \hat{C}}(T) - \psi(T) \geq \psi(T) - \psi(T) = 0
+    \end{align*}
+    \par Hence the definition of the dominance is satisfied with $a = -1$. 
+    }
+\end{frame} 
+
+\begin{frame}{Dominance Outside the Interval}
+
+    {\footnotesize \footnotesize
+    \par  Suppose $\psi(0) < h_{\text{low}}$. Then for any $x_1 \in (\psi(0),h_{\text{low}})$ we 
+    know that $x_1 \in \mathcal{L}$, since $h_{\text{low}}$ is 
+    the right endpoint of a connected interval $\mathcal{L}$. By definition of $\sup \mathcal{L}$, 
+     there exists an admissible strategy $(\check{\pi}, \check{C})$ such that: 
+     \begin{align*}
+         X^{\hat{\pi}, \hat{C}}(0) = -x_1, \quad X^{\hat{\pi}, \hat{C}}(T) \geq -\psi(T)
+     \end{align*}
+     \par Consider: 
+     \begin{align*}
+         X^{\hat{\pi}, \hat{C}}(0) + \psi(0) = -x_1 + \psi(0) < 0
+     \end{align*}
+     \par because $x_1 > \psi(0)$, and
+     \begin{align*}
+        X^{\hat{\pi}, \hat{C}}(T) + \psi(T) \geq -\psi(T) + \psi(T) = 0
+    \end{align*}
+    \par Hence the definition of the dominance is satisfied with $a = 1$. 
+    % caron
+    }
+\end{frame} 
+
+\begin{frame}{No dominance within the Interval}
+
+    {\footnotesize \footnotesize
+    \par Show that for any $\psi(0) \in [h_{\text{low}}, h_{\text{up}}]$ there is no dominant opportunity in $(\mathcal{M}, \psi)$.
+    \par Proof:
+    \par Suppose there is a dominant opportunity with $\psi(0) \in [h_{\text{low}}, h_{\text{up}}]$.
+    \par \textbf{Case 1}: The dominant opportunity satisfies the definition with $a = -1$. In this case, there exist 
+    an initial wealth $x \in [0, \infty)$ and a pair $(\pi_1, C_1) \in \mathcal{A}$, such that:
+    \begin{align*}
+        x - \psi(0) = X^{\pi_1, C_1}(0) - \psi(0) < 0
+    \end{align*}
+    \par whence $x < \psi(0)$, and
+    \begin{align*}
+        X^{\pi_1, C_1}(T) - \psi(T) \geq 0, \text{ a.s.}
+    \end{align*}
+    \par From the definition of $\mathcal{U}$ we know that $x \in \mathcal{U}$, 
+    where $x \geq h_{\text{up}}$, by the definition of $h_{\text{up}}$. 
+    Therefore, $h_{\text{up}} \leq x < \psi(0)$; a contradiction, since by assumption $h_{\text{up}} \geq \psi(0)$.
+    }
+
+\end{frame} 
+
+\begin{frame}{No dominance within the Interval}
+
+    {\footnotesize \footnotesize
+    \par \textbf{Case 2}: 
+    }
+
+\end{frame} 
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
