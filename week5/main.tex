@@ -56,6 +56,7 @@
     dS_0(t) = r(t)S_0(t)  dt, \quad S_0(0) = 1 \\
     dS_i(t) = S_i(t)\left(b_i(t)\,dt + \sum_{j=1}^d \sigma_{ij}(t)\,dW_j(t)\right),\;\;\text{for $i$ $\in 1,2....,d$}
     \end{gather*}
+     \pause 
     \begin{itemize}
         \item \( r(t) \): interest rate
         \item  \( b(t) = (b_1, \ldots, b_d) \): appreciation rates
@@ -75,7 +76,7 @@
         \item The model does not cover stochastic volatility or jump models. 
         Therefore, dominance arguments do not apply for stochastic volatility or jump models.
         \vspace{1em}
-        \item In general, the option price is not pinned to a single number. Instead, there exists an interval $[h_{low},h_{up}]$.
+        \item  \pause In general, the option price is not pinned to a single number. Instead, there exists an interval $[h_{low},h_{up}]$.
         If the option price is within the interval then there will be no dominance, outside the interval there will be dominance opportunity.
         \vspace{1em}
         \item Ideal market assumption: Infinite divisibility of assets, no transaction costs or taxes, no borrowing/short-selling constraints 
@@ -95,7 +96,7 @@
     \begin{align*}
         Z(t) = \exp\left(-\int_{0}^{t}\theta^{\top}(s)\,dW(s) - \frac{1}{2}\int_{0}^{t}\|\theta(s)\|^{2}ds\right)
     \end{align*}
-    \par Discount factor:
+    \par  \pause Discount factor:
     \begin{align*}
         \gamma(t) = \exp\left(-\int_{0}^{t}r(s)\,ds\right)
     \end{align*}
@@ -103,7 +104,7 @@
     \begin{align*}
          W_0(t) = W(t) + \int_{0}^{t}\theta(s)\,ds,\;\; 0\leq t\leq T
     \end{align*}
-    \par $\sigma(t)$ invertible, inverses bounded. Ensures bounded $\theta(t)$ and $Z(t)$ is a true martingale.
+    \par  \pause $\sigma(t)$ invertible, inverses bounded. Ensures bounded $\theta(t)$ and $Z(t)$ is a true martingale.
     These tools set up the risk-neutral framework for pricing options.
 
     }   
@@ -119,14 +120,14 @@
     \par Where $\phi_0(t)$ is number of bonds held,
      $\phi_i(t)$ is number of shares of stock $i$ held. 
      If  $\phi_0 < 0$ or $\phi_i < 0$ interpret as short position(loan). All decisions are adapted to $\mathcal{F}_t$.
-    \par Cumulative consumption process defined as:
+    \par  \pause Cumulative consumption process defined as:
     \begin{align*}
          C(t) = \int_0^t c(s)  ds, \quad c(s) \geq 0
     \end{align*}
     \par $C(t)$ is non-decreasing (consumption can only increase).  $C(0) = 0,  C(T) < \infty$ almost surely. 
     Models the total amount consumed by the investor up to time $t$
     \vspace{1em}
-    \par To ensure consistency, we need to specify what trading strategies are allowed in the market. Two rules impose in the market, 
+    \par  \pause To ensure consistency, we need to specify what trading strategies are allowed in the market. Two rules impose in the market, 
     self-financing condition and exclusion of doubling strategies.
     }   
 \end{frame}
@@ -140,7 +141,7 @@
     \end{align*}
     \par Changes in wealth = trading gains – consumption, no outside cash flows.
     \vspace{1em}
-    \par A portfolio process is defined as $\pi(\cdot) = (\pi_1(\cdot), \ldots, \pi_d(\cdot))$, where $\pi_i(t) = \phi_i(t) S_i(t)$ means that 
+    \par  \pause A portfolio process is defined as $\pi(\cdot) = (\pi_1(\cdot), \ldots, \pi_d(\cdot))$, where $\pi_i(t) = \phi_i(t) S_i(t)$ means that 
     total amount of money invested in the $i$th risky asset. The total wealth $X(t)$ is equal to:
     \begin{align*}
         X(t) = \sum_{i=0}^d \phi_i(t) S_i(t) = \sum_{i=1}^d \pi_i(t) + \phi_0(t) S_0(t)
@@ -181,7 +182,7 @@
         d(\gamma(t)X(t)) &= \gamma(t)dX(t) - r(t)\gamma(t)X(t)dt \\
         &= \gamma(t)\pi^\top(t)\sigma(t)dW_0(t) - \gamma(t)dC(t)
     \end{align*}
-    \par Therefore, we have the wealth equation:
+    \par  \pause Therefore, we have the wealth equation:
     \begin{align*}
         \gamma(t)X(t) = x - \int_0^t \gamma(s)dC(s) + \int_0^t \gamma(s)\pi^\top(s)\sigma(s)dW_0(s)
     \end{align*}
@@ -202,7 +203,7 @@
     \end{align*}
     \par $Z(T)$ is the exponential martingale. By Girsanov's Theorem, $ W_{0}(t) = W(t) + \int_{0}^{t} \theta(s) ds$ 
     is a standard Brownian motion under $\mathbb{P}^{0}$.
-    \par Thus rewirte the wealth process:
+    \par  \pause Thus rewirte the wealth process:
     \begin{align*}
          N_{0}(t) &= \gamma(t)X(t) + \int_{0}^{t} \gamma(s)dC(s) \\
     &= x + \int_{0}^{t} \gamma(s)\pi^{\top}(s)\sigma(s) dW_{0}(s)
@@ -222,12 +223,12 @@
     \begin{align*}
         dS_i(t) = S_i(t) \left[r(t)dt + \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t) \right], \quad i = 1, \ldots, d
     \end{align*}
-    Since $dr(t) \cdot dS_i(t) = 0$, apply Itô:
+    \par  \pause Since $d\gamma(t) \cdot dS_i(t) = 0$, apply Itô:
     \begin{align*}
         d(\gamma(t)S_i(t)) &= S_i(t)dr(t) + \gamma(t)dS_i(t) \\
         &= \gamma(t)S_i(t) \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t)
     \end{align*}
-    \par Hence, the discounted stock processes $\gamma(\cdot)S_i(\cdot)$ are local martingales.
+    \par  \pause  Hence, the discounted stock processes $\gamma(\cdot)S_i(\cdot)$ are local martingales.
      This also confirms our intuition that every asset $S_i(t)$ should have a growth rate $r(t)$ in the risk neutral world.
     }   
 \end{frame} 
@@ -239,13 +240,13 @@
     Requires wealth process $X(t)$ unbounded from below. Need to exclude, because creates arbitrage opportunities and 
     violates no-arbitrage principle.
     \vspace{1em}
-    \par A uniform boundedness condition is needed to prevent the doubling strategy. Wealth must satisfy:
+    \par  \pause A uniform boundedness condition is needed to prevent the doubling strategy. Wealth must satisfy:
     \begin{align*}
         X^{x,\pi,C}(t) \geq -\Lambda, \quad 0 \leq t \leq T
     \end{align*}
     \par  With $\mathbb{E}^0[\Lambda^p] < \infty$ for some $p > 1$.
     \vspace{1em}
-    \par In summary, the admissibility on $(\pi,C)$ essentially requires the portfolio to
+    \par  \pause In summary, the admissibility on $(\pi,C)$ essentially requires the portfolio to
     be self-financing and not to be a doubling strategy.
     }
 \end{frame} 
@@ -261,7 +262,7 @@
     \end{align*}
     \par  Expected discounted terminal wealth and consumption less than or equal to initial wealth to ensures no arbitrage.
     \vspace{1em}
-    \par (ii) Scaling Property:
+    \par  \pause (ii) Scaling Property:
     \vspace{1em}
     \par Wealth dynamics are linear in $(x, \pi, C)$. For any $a \neq 0$:
     \begin{align*}
@@ -278,14 +279,14 @@
     \par Consider European Contingent Claim (ECC), payoff at maturity is $\psi(T) \geq 0$. For example the Call option payoff $(S_1(T) - K)^+$.
     To ensure that option price is finite, we assume that  $\mathbb{E}[(\psi(T))^{1+\epsilon}] < \infty, \;\forall \epsilon > 0$.
     \vspace{1em}
-    \par Price at time 0 is $\psi(0)$. Question: what is the fair value of $\psi(0)$?
+    \par  \pause Price at time 0 is $\psi(0)$. Question: what is the fair value of $\psi(0)$?
      Price too low $\rightarrow$ buyer arbitrage, price too high $\rightarrow$ seller arbitrage. 
     Therefore, the correct price must lie in an interval that rules out dominance.
     \vspace{1em}
-    \par The main purpose of this section is to find out what $\psi(0)$ should be in the market $\mathcal{M}$ with the ECC,  
+    \par  \pause The main purpose of this section is to find out what $\psi(0)$ should be in the market $\mathcal{M}$ with the ECC,  
     denoted by $(M, \psi)$ for short, with $\psi$ standing for the pair $(\psi(0), \psi(T))$.
     \vspace{1em}
-     \par A dominance opportunity exists in market $(\mathcal{M}, \psi)$ if  we
+     \par  \pause A dominance opportunity exists in market $(\mathcal{M}, \psi)$ if  we
      start with some initial wealth $x \geq 0$ (or $x \leq 0$ depending on position). We take an admissible strategy $(\pi, C)$ and 
      add a position in the ECC (long if $a = -1$, short if $a = +1$).
     } 
@@ -304,7 +305,7 @@
     \par You start with negative initial wealth, but end up with a guaranteed nonnegative payoff. 
     This is a riskless profit strictly better than bond returns. 
     \vspace{1em}
-    \par Moreover, 
+    \par  \pause Moreover, 
     the scaling property will result the unlimited arbitrage.
      Therefore, dominance opportunities must be excluded in rational, well-behaved markets.
      \vspace{1em}
@@ -330,7 +331,7 @@
      you can construct an admissible strategy whose terminal wealth is always at least as large as the claim payoff $\psi(T)$
      So, the minimum of $\mathcal{U}$ gives the upper bound for the fair price. $\mathcal{U}$ may be empty (think about quadratic payoff).
      \vspace{1em}
-     \par Lower Hedging Class $\mathcal{L}$:
+     \par  \pause Lower Hedging Class $\mathcal{L}$:
      \begin{align*}
          \mathcal{L} := \{x \geq 0 : \exists (\check{\pi}, \check{C}) \in \mathcal{A}, \, X^{x,\check{\pi},\check{C}}(0) 
          = -x, \, X^{x,\check{\pi},\check{C}}(T) \geq -\psi(T) \ a.s.\}
@@ -339,7 +340,7 @@
       you can construct a strategy whose terminal wealth is always greater than or equal to $-\psi(T)$. 
       So, the maximum of $\mathcal{L}$ gives the lower bound for the fair price.
       \vspace{1em}
-      \par Observe that both sets are intervals (connected):
+      \par  \pause Observe that both sets are intervals (connected):
      \begin{itemize}
         \item If $x_1 \in \mathcal{L}$ and $0 \leq y_1 \leq x_1$, then $y_1 \in \mathcal{L}$
         \item If $x_2 \in \mathcal{U}$ and $y_2 \geq x_2$, then $y_2 \in \mathcal{U}$
@@ -359,7 +360,7 @@
      amount from which a buyer can still hedge against the debt of paying $\psi(T)$. 
      So $\sup \mathcal{L}$ is the highest ``safe'' price for the buyer.
      \vspace{1em}
-     \par The intuition suggests that the lower dominate price cannot be bigger than the upper hedging price.
+     \par  \pause The intuition suggests that the lower dominate price cannot be bigger than the upper hedging price.
      \vspace{1em}
       \par Let $u_0 := \mathbb{E}^0[\gamma(T)\psi(T)]$. Show that $u_0 < \infty$. In fact, we can show a strong result that
 
@@ -375,6 +376,7 @@
     \par Proof:
     \par Note that  $u_0 = \mathbb{E}^0[\gamma(T)\psi(T)] = \mathbb{E}[\gamma(T)\psi(T)Z(T)].$ Let $c < \infty$ be a fixed constant such that
     $\|\theta(t)\| \leq c, \;\gamma(T) \leq c.$ Also let $p = 1 + \epsilon$, $1/p + 1/q = 1$. We have:
+     \pause 
     \begin{align*}
         & \mathbb{E} \left[ e^{ -q \int_0^T \theta^\top(s)dW(s) - \frac{1}{2} q \int_0^T \|\theta(s)\|^2 ds }  \right] \\
         &= \mathbb{E} \left[e^{ -q \int_0^T \theta^\top(s)dW(s) - \frac{1}{2} q^2 \int_0^T \|\theta(s)\|^2 ds } \cdot e ^{ \frac{1}{2}(q^2 - q) \int_0^T \|\theta(s)\|^2 ds } \right] \\
@@ -395,7 +397,7 @@
          \frac{1}{2} q \int_0^T \|\theta(s)\|^2 ds } \right] \right)^{1/q} \\
         &\leq c(\mathbb{E}(\psi(T))^p)^{1/p} \cdot e^{(q-1)c^2 T/2} < \infty
         \end{align*}
-    \par For $\mathbb{E}^0[\{\gamma(T)\psi(T)\}^a]$. Follow the same steps, change the measure and choose Hölder exponents, 
+    \par  \pause For $\mathbb{E}^0[\{\gamma(T)\psi(T)\}^a]$. Follow the same steps, change the measure and choose Hölder exponents, 
     $ p = \frac{1 + \varepsilon}{a} > 1, \quad q = \frac{p}{p - 1}$. Then:
     \begin{align*}
         \mathbb{E}[\psi^a Z] &\leq \left( \mathbb{E}[\psi^{ap}] \right)^{1/p} \left( \mathbb{E}[Z^q] \right)^{1/q}=
@@ -420,7 +422,7 @@
      \begin{align*}
         X^{\hat{\pi}, \hat{C}}(0) = x, \quad X^{\hat{\pi}, \hat{C}}(T) \geq \psi(T)
      \end{align*}
-     \par Apply the supermartingale property to the discounted wealth process:
+     \par  \pause Apply the supermartingale property to the discounted wealth process:
      \begin{align*}
         x \geq \mathbb{E}^0 \left[ \gamma(T) X^{\hat{\pi}, \hat{C}}(T) + \int_0^T \gamma(s) d\hat{C}(s) \right]
      \end{align*}
@@ -435,6 +437,7 @@
     {\footnotesize \footnotesize
     \par \textbf{For lower bound}: Similarly, we can show that $0 \leq h_{\text{low}} \leq u_0$. Indeed, since the set $\mathcal{L}$ contains $x = 0$,
      it is nonempty. For any $x \geq 0$ in this set, again by the supermartingale property, almost surely.
+      \pause 
      \begin{align*}
         -x &\geq \mathbb{E}^0 \left[ \gamma(T) X^{\check{\pi}, \check{C}}(T) + \int_0^T \gamma(s) d\hat{C}(s) \right] \\
         &\geq \mathbb{E}^0 \left[ \gamma(T) (-\psi(T)) + \int_0^T \exp \left( - \int_0^s r(u) du \right) d\hat{C}(s) \right] \\
@@ -457,6 +460,7 @@
     \par Suppose that $\psi(0) > h_{\text{up}}$. Then for any $x_1 \in (h_{\text{up}}, \psi(0))$ we know that $x_1 \in \mathcal{U}$, since $h_{\text{up}}$ is 
     the left endpoint of a connected interval $\mathcal{U}$. By the definition of $\mathcal{U}$, there exists 
     a $(\hat{\pi}, \hat{C}) \in \mathcal{A}$ such that:
+     \pause 
     \begin{align*}
         X^{\hat{\pi}, \hat{C}}(0) - \psi(0) = x_1 - \psi(0) < 0
     \end{align*}
@@ -478,7 +482,7 @@
      \begin{align*}
          X^{\hat{\pi}, \hat{C}}(0) = -x_1, \quad X^{\hat{\pi}, \hat{C}}(T) \geq -\psi(T)
      \end{align*}
-     \par Consider: 
+     \par  \pause Consider: 
      \begin{align*}
          X^{\hat{\pi}, \hat{C}}(0) + \psi(0) = -x_1 + \psi(0) < 0
      \end{align*}
@@ -497,7 +501,7 @@
     \par Show that for any $\psi(0) \in [h_{\text{low}}, h_{\text{up}}]$ there is no dominant opportunity in $(\mathcal{M}, \psi)$.
     \par Proof:
     \par Suppose there is a dominant opportunity with $\psi(0) \in [h_{\text{low}}, h_{\text{up}}]$.
-    \par \textbf{Case 1}: The dominant opportunity satisfies the definition with $a = -1$. In this case, there exist 
+    \par  \pause \textbf{Case 1}: The dominant opportunity satisfies the definition with $a = -1$. In this case, there exist 
     an initial wealth $x \in [0, \infty)$ and a pair $(\pi_1, C_1) \in \mathcal{A}$, such that:
     \begin{align*}
         x - \psi(0) = X^{\pi_1, C_1}(0) - \psi(0) < 0
@@ -510,7 +514,7 @@
     where $x \geq h_{\text{up}}$, by the definition of $h_{\text{up}}$. 
     Therefore, $h_{\text{up}} \leq x < \psi(0)$; a contradiction, since by assumption $h_{\text{up}} \geq \psi(0)$.
     \vspace{1em}
-     \par \textbf{Case 2}: The dominant opportunity satisfies the definition with $a = 1$. In this case, there exist 
+     \par  \pause \textbf{Case 2}: The dominant opportunity satisfies the definition with $a = 1$. In this case, there exist 
     an initial wealth $x \in (\infty,0]$ and a pair $(\pi_2, C_2) \in \mathcal{A}$, such that:
 
     \begin{align*}
@@ -527,15 +531,15 @@
     \begin{align*}
         X^{\pi_2, C_2}(T) + \psi(T) \geq 0, \text{ a.s.}
     \end{align*}
-    \par Define $y := -x$, then we have $ X^{\pi_2, C_2}(0) = -y, \; X^{\pi_2, C_2}(T) + \psi(T) \geq 0, \text{ a.s.}$. 
+    \par \pause  Define $y := -x$, then we have $ X^{\pi_2, C_2}(0) = -y, \; X^{\pi_2, C_2}(T) + \psi(T) \geq 0, \text{ a.s.}$. 
     From the definition of $\mathcal{L}$ we know that $y \in \mathcal{L}$, 
     where $y \leq h_{\text{low}}$, by the definition of $h_{\text{low}}$. Therefore, $\psi(T) < y \leq h_{\text{low}}$
     ; a contradiction, since by assumption $h_{\text{low}} \leq \psi(0)$.
     \vspace{1em}
-    \par The interval $[h_{\text{low}}, h_{\text{up}}]$ is the  range of possible fair prices  for ECC. 
+    \par  \pause The interval $[h_{\text{low}}, h_{\text{up}}]$ is the  range of possible fair prices  for ECC. 
     Inside this interval, no dominance opportunities exist. Therefore, this interval is called the dominance-free interval.
     \vspace{1em}
-    \par \textbf{Remark}: $\text{No arbitrage} \Rightarrow \text{No dominance} \Rightarrow \text{Law of one price}$.
+    \par \pause  \textbf{Remark}: $\text{No arbitrage} \Rightarrow \text{No dominance} \Rightarrow \text{Law of one price}$.
     But the reverse is not always true. In particular, 
     there are examples showing that at the two endpoints $h_{\text{low}}$ and $h_{\text{up}}$ 
     there may be arbitrage opportunities but no dominant opportunities.
@@ -555,19 +559,19 @@
         h_{\text{low}} = h_{\text{up}} = u_0\\
           \psi(0) = u_0 = \mathbb{E}^0[\gamma(T)\psi(T)]
     \end{gather*}
-    \par Furthermore, we can show that, corresponding to the Black-Scholes price $u_0$, there is a ``hedging portfolio'' process $\pi(\cdot)$ (hence also a corresponding trading process $\phi(\cdot)$) and a consumption process $C(\cdot) \equiv 0$, such that
+    \par  \pause Furthermore, we can show that, corresponding to the Black-Scholes price $u_0$, there is a ``hedging portfolio'' process $\pi(\cdot)$ (hence also a corresponding trading process $\phi(\cdot)$) and a consumption process $C(\cdot) \equiv 0$, such that
 
-\[
-X^{u_0,\pi,0}(T) = \psi(T) \tag{*}
-\]
+    \[
+    X^{u_0,\pi,0}(T) = \psi(T) \tag{*}
+    \]
 
-and with the opposite portfolio $-\pi(\cdot)$ (hence the opposite trading strategy $-\phi(\cdot)$), we have
+    \par  \pause and with the opposite portfolio $-\pi(\cdot)$ (hence the opposite trading strategy $-\phi(\cdot)$), we have
 
-\[
-X^{-u_0,-\pi,0}(T) = -\psi(T) \tag{**}
-\]
+    \[
+    X^{-u_0,-\pi,0}(T) = -\psi(T) \tag{**}
+    \]
 
-Hence the price for the ECC has to be $u_0$, if no dominance is allowed in $\mathcal{M}$. This price is called the \emph{dominance-free price}, also known as \emph{Black-Scholes price}.
+    \par  \pause Hence the price for the ECC has to be $u_0$, if no dominance is allowed in $\mathcal{M}$. This price is called the \emph{dominance-free price}, also known as \emph{Black-Scholes price}.
 
 
     }
@@ -579,17 +583,17 @@ Hence the price for the ECC has to be $u_0$, if no dominance is allowed in $\mat
     {\footnotesize \footnotesize
     \par To prove $(*)$ and $(**)$, we need the martingale representation theorem.
     \vspace{1em}
-    \par Suppose $W_t$ is a $d$-dimensional Brownian motion. Let $\mathcal{F}_t$ be the history (filtration)
+    \par  \pause Suppose $W_t$ is a $d$-dimensional Brownian motion. Let $\mathcal{F}_t$ be the history (filtration)
      generated by $W_t$. If $M$ is a $d$-dimensional continuous martingale with $M_0 = 0$, then there exists
       a vector of (progressively measurable) processes:
       \begin{align*}
         \theta_s = (\theta^{(1)}_s, \ldots, \theta^{(d)}_s)
       \end{align*}
-      \par such that with probability one:
+      \par  \pause such that with probability one:
       \begin{align*}
         M_t = \sum_{j=1}^d \int_0^t \theta^{(j)}_s dW^{(j)}_s
       \end{align*}
-      \par Any square-integrable martingale can be written as a stochastic integral of Brownian motion. In general, the martingale representation
+      \par  \pause Any square-integrable martingale can be written as a stochastic integral of Brownian motion. In general, the martingale representation
 theorem is only an existence results.
     }
 
@@ -612,7 +616,7 @@ theorem is only an existence results.
     \end{itemize}
 
     \par Therefore, in the martingale representation theorem $\theta_s = 3(T - s + W_s^2)$.
-    \par Proof:
+    \par  \pause Proof:
     \par (i)
     {\footnotesize \tiny
     \begin{align*}
@@ -639,11 +643,11 @@ theorem is only an existence results.
     &= \left( -3W_t + 3W_t \right) dt + \left( 3(T - t) + 3W_t^2 \right) dW_t \\
     &= 3 \left( T - t + W_t^2 \right) dW_t
     \end{align*}
-    \par Integrate from $0$ to $t$ and $X_0 = \mathbb{E}[W_T^3] = 0$, thus:
+    \par \pause  Integrate from $0$ to $t$ and $X_0 = \mathbb{E}[W_T^3] = 0$, thus:
     \begin{align*}
         X_t = \int_0^t 3 \left( T - s + W_s^2 \right) dW_s
     \end{align*}
-    \par If you can make the discounted payoff a martingale under some measure, then by the MRT 
+    \par  \pause If you can make the discounted payoff a martingale under some measure, then by the MRT 
     there exists a process $\theta_s$ so that the trading strategy replicates the payoff exactly with probability 1.
     MRT requires continuous martingale. If the market has jumps, MRT generally fails, 
     so you can't in general replicate an option payoff exactly.
@@ -665,7 +669,7 @@ theorem is only an existence results.
         \item $\tilde{N}(ds, dx) = N(ds, dx) - \nu(dx) ds$ is the compensated Poisson measure
         \item $\phi_s(x)$ tells you how sensitive $M_t$ is to jumps of size $x$
     \end{itemize}
-    \par In a jump-diffusion market, you generally cannot replicate payoffs perfectly using only continuous trading. 
+    \par  \pause In a jump-diffusion market, you generally cannot replicate payoffs perfectly using only continuous trading. 
     You would need extra instruments tied to the jump risk (like insurance contracts, catastrophe bonds, or options directly on jumps).
     }
 
@@ -680,7 +684,7 @@ theorem is only an existence results.
     \begin{align*}
         \zeta(s) := \frac{1}{\gamma(s)}\mathbb{E}^0[Q(T) | \mathcal{F}_s] \geq 0
     \end{align*}
-    \par Then almost surely at time 0 and at time $T$ we have
+    \par  \pause Then almost surely at time 0 and at time $T$ we have:
     \begin{align*}
         \zeta(0) = u_0, \quad \zeta(T) = \frac{1}{\gamma(T)}\mathbb{E}^0[\gamma(T)\psi(T) | \mathcal{F}_T] = \psi(T)
     \end{align*}
@@ -703,12 +707,12 @@ theorem is only an existence results.
         \gamma(s) \zeta(s) = E^0[Q(T) | \mathcal{F}_s] = u_0 + \int_0^s \eta^*(u) dW_0(u), \quad s \in [0,T]\; (\text{Typo?}W(u))
     \end{align*}
      \vspace{1em}
-    \par Note that the standard martingale representation theorem does not
+    \par  \pause Note that the standard martingale representation theorem does not
      apply here, as we want \(\eta(\cdot)\) to be adapted to \(\mathcal{F}_t\), 
      the P-argumented filtration generated by \(\{W(t)\}\) not by \(\{W_0(t)\}\). 
      The filtration generated by \(\{W_0(t)\}\) is different from \(\mathcal{F}_t\) due to the null sets of \(\{W_0(t)\}\).
      \vspace{1em}
-    \par \textbf{Proof}: Let $M^0(t) = \gamma(t) \zeta(t) = E^0[Q(T) | \mathcal{F}_t]$, where \(\mathcal{F}_t\) is 
+    \par  \pause \textbf{Proof}: Let $M^0(t) = \gamma(t) \zeta(t) = E^0[Q(T) | \mathcal{F}_t]$, where \(\mathcal{F}_t\) is 
     the filtration generated by the process \(\{W(t)\}\). 
     Then \(M^0(t)\) is a martingale with respect to \(\mathcal{F}_t\) under the new probability \(P^0\), because for \(t \geq s\)
     \begin{align*}
@@ -729,7 +733,7 @@ theorem is only an existence results.
     \begin{align*}
         E^0 [Y | \mathcal{F}_s] = \frac{1}{Z(s)} E[Y \cdot Z(t) | \mathcal{F}_s]
     \end{align*}
-    \par Since \( M^0(t) \in \mathcal{F}_t \), we have by Bayes formula for \( t \geq s \)  
+    \par  \pause Since \( M^0(t) \in \mathcal{F}_t \), we have by Bayes formula for \( t \geq s \)  
     \begin{align*}
         E[M(t) | \mathcal{F}_s] = E[Z(t)M^0(t) | \mathcal{F}_s] = Z(s)E^0[M^0(t) | \mathcal{F}_s] = Z(s)M^0(s) = M(s)
     \end{align*}
@@ -755,7 +759,7 @@ theorem is only an existence results.
     \begin{align*}
         d \left( \frac{1}{Z(t)} \right) =  \frac{1}{Z(t)} \left[ \theta^*(t) dW(t) + \| \theta(t) \|^2 dt \right]
     \end{align*}
-     \par Therefore:
+     \par  \pause Therefore:
     \begin{align*}
         d(M^0(t)) = \frac{1}{Z(t)} \left\{ \xi^*(t) dW(t) + M(t) \theta^*(t) dW(t) + M(t) \| \theta(t) \|^2 dt + \xi^*(t) \theta(t) dt \right\}
     \end{align*}
@@ -777,7 +781,7 @@ theorem is only an existence results.
    \begin{align*}
     d(M^0(t)) = \frac{1}{Z(t)} \left\{ \xi^*(t) + M(t)\theta^*(t) \right\} dW_0(t)
    \end{align*}
-   \par Thus, the martingale representation for \(M^0(t)\) holds with respect to \(W_0(t)\), i.e.
+   \par  \pause Thus, the martingale representation for \(M^0(t)\) holds with respect to \(W_0(t)\)
    \begin{align*}
     d(M^0(t)) = \eta^*(t)dW_0(t)
    \end{align*}
@@ -798,7 +802,7 @@ theorem is only an existence results.
     \par First we shall show that \( u_0 \in U \). By theorem, Define a process \(\hat{\pi}\) by $\hat{\pi}^*(u) := \frac{1}{\gamma(u)} \eta^*(u)(\sigma(u))^{-1}$. 
     Then $\eta^*(u) = \gamma(u) \hat{\pi}^*(u) \sigma(u)$, and from theorem $\gamma(s) \zeta(s) = u_0 + \int_0^s \gamma(u) \hat{\pi}^*(u) \sigma(u) dW_0(u)$
     \vspace{1em}
-    \par Recall that the wealth equation is given by:
+    \par  \pause Recall that the wealth equation is given by:
     \begin{align*}
         \gamma(t) X(t) = x - \int_0^t \gamma(s) dC(s) + \int_0^t \gamma(s) \pi^*(s) \sigma(s) dW_0(s)
     \end{align*}
@@ -808,7 +812,7 @@ theorem is only an existence results.
     \begin{align*}
         X^{u_0, \hat{\pi}, \hat{C}}(s) = \zeta(s), \quad \int_0^T ||\hat{\pi}(t)||^2 dt < \infty
     \end{align*}
-    \par Since almost surely \(\zeta(s) \geq 0\), we have \(\left( \hat{\pi}, \hat{C} \right) \in A(u_0)\), 
+    \par  \pause Since almost surely \(\zeta(s) \geq 0\), we have \(\left( \hat{\pi}, \hat{C} \right) \in A(u_0)\), 
     hanks to the assumption of the ideal market that there is no constraints on \(\hat{\pi}\). Therefore, we get \( u_0 \in U \).
     }
 
@@ -820,13 +824,13 @@ theorem is only an existence results.
     \par To show \( u_0 \in L \), notice that with $\tilde{\pi} = -\hat{\pi}$. we have $X^{\tilde{\pi},0}(\cdot) = -X^{\hat{\pi},0}(\cdot)$
     To check the admissibility, it only remains to prove that \( X^{\tilde{\pi},0}(\cdot) \) is bounded 
     away from below, thanks again to the ideal market assumption that there is no constraints on \(\pi\). 
-    \par To achieve this, note that:
+    \par  \pause To achieve this, note that:
     \begin{align*}
         \inf_{0 \leq s \leq T} X^{\tilde{\pi},0}(s) &= -\sup_{0 \leq s \leq T} (X^{\hat{\pi},0}(s)) = -\sup_{0 \leq s \leq T} (\zeta(s)) \\
     &= -\sup_{0 \leq s \leq T} \left\{ \frac{1}{\gamma(s)} E^0[Q(T) | \mathcal{F}_s] \right\} \\
     &\geq -\text{const.} \sup_{0 \leq s \leq T} E^0[Q(T) | \mathcal{F}_s]
     \end{align*}
-    \par where the inequality follows via the boundedness of \(\gamma(t)\). Let $M(t) = E^0[Q(T) | \mathcal{F}_t].$ Then \( M(t) \) is
+    \par  \pause where the inequality follows via the boundedness of \(\gamma(t)\). Let $M(t) = E^0[Q(T) | \mathcal{F}_t].$ Then \( M(t) \) is
      a martingale with respect to \( P^0 \). By the Doob maximal inequality for martingale, we get, for some \( p > 1 \).
     }
 
@@ -841,7 +845,7 @@ E^0 \left[ \left( \sup_{0 \leq s \leq T} M(s) \right)^p \right] \\
 &= \left( \frac{p}{p-1} \right)^p E^0[(Q(T))^p] < \infty
 \end{align*}
 
-where the last inequality has already been proven in Problem 1. Thus, \(\inf_{0 \leq s \leq T} X^{\tilde{\pi},0}(s)\) is 
+\par  \pause where the last inequality has already been proven in Problem 1. Thus, \(\inf_{0 \leq s \leq T} X^{\tilde{\pi},0}(s)\) is 
 bounded below by a random variable \(-\Lambda\), such that \( E^0(\Lambda^p) < \infty \), for some \( p > 1 \).
     }
 
@@ -860,7 +864,7 @@ bounded below by a random variable \(-\Lambda\), such that \( E^0(\Lambda^p) < \
      \begin{align*}
         dS(t) = S(t)[rdt + \sigma dW_0(t)]
      \end{align*}
-     \par Therefore, \( S(T) \) is equal, in distribution,
+     \par  \pause Therefore, \( S(T) \) is equal, in distribution,
       to \( S(0) \exp \left\{ \left( r - \frac{\sigma^2}{2} \right) T + Z\sigma\sqrt{T} \right\} \), 
      where \( Z \) is a standard normal random variable.
      \begin{align*}
@@ -884,7 +888,7 @@ bounded below by a random variable \(-\Lambda\), such that \( E^0(\Lambda^p) < \
         \mu_{\pm} := \frac{1}{\sigma\sqrt{T}} [\log(S(0)/K) + (r \pm (\sigma^2/2))T]
     \end{align*}
     \par and we set \( \Phi(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{z} e^{-u^2/2} du \) .
-    \par Indeed, since \( S(0)e^{(r-\sigma^2/2)T+\sigma\sqrt{T}z} \geq K \) is equivalent to \( z \geq -\mu_- \), we get
+    \par  \pause Indeed, since \( S(0)e^{(r-\sigma^2/2)T+\sigma\sqrt{T}z} \geq K \) is equivalent to \( z \geq -\mu_- \), we get
     \begin{align*}
     u_0 &= e^{-rT} \int_{-\mu_-}^{\infty} \left( S(0)e^{(r-\sigma^2/2)T+\sigma\sqrt{T}z} - K \right) \varphi(z) dz \\
     &= S(0) \frac{1}{\sqrt{2\pi}} \int_{-\mu_-}^{\infty} e^{-\sigma^2T/2+\sigma\sqrt{T}z} e^{-z^2/2} dz - Ke^{-rT} \Phi(\mu_-) \\
@@ -906,7 +910,7 @@ bounded below by a random variable \(-\Lambda\), such that \( E^0(\Lambda^p) < \
     &= S(0) \Phi \left( \mu_- + \sigma\sqrt{T} \right) - Ke^{-rT} \Phi(\mu_-)
     \end{align*}
 
-    \par from which the conclusion follows, because
+    \par  \pause from which the conclusion follows, because
 
 \[\mu_+ = \mu_- + \sigma\sqrt{T}\]
     }
