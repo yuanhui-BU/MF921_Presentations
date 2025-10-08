@@ -24,7 +24,7 @@
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 4}
+\subtitle{Week 6}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,32 +35,281 @@
 % \tableofcontents
 % \end{frame}
 
-\section{Background}
-\begin{frame}{Background}
 
-    {\footnotesize \footnotesize
-    \par Recall The Double Exponential Jump Diffusion Model:
-    \begin{align*}
-        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
-    \end{align*}
-    \par\begin{itemize}
-    \item \( W(t) \): Brownian motion under the real-world measure.
-    \item \( N(t) \): Poisson process with rate \(\lambda\).
-    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
-    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
-    \end{itemize}   
-    \begin{align*}
-        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
-    \end{align*}
-    \par with parameters:
-    \begin{itemize}
-        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
-        \item \(\eta_1 > 1\): rate for upward jumps.
-        \item \(\eta_2 > 0\): rate for downward jumps.
-    \end{itemize}
+\begin{frame}{Chapter 22}
+
+    {
+    \begin{center}
+        Chapter 22 American Options (II)
+    \end{center}
     }
     
 \end{frame}
+
+\begin{frame}{Brownian Market Setup}
+
+    {\footnotesize \footnotesize
+    \par Given a complete probablity space \( (\Omega, \mathcal{F}, \mathbb{P}) \).
+    \( W(t) = (W_1(t), \ldots, W_d(t))^\top \), independent \( d \)-dimensional Brownian motion. The filtraion 
+    $\mathcal{F}_t^W = \sigma(W(s) : 0 \leq s \leq t)$ which is complete and right-continuous.
+    \vspace{1em} 
+    \par A financial market $\mathcal{M}$ with 1 bond and $d$ stocks under a finite horizon $[0,T]$:
+    \begin{gather*}
+    dS_0(t) = r(t)S_0(t)  dt, \quad S_0(0) = 1 \\
+    dS_i(t) = S_i(t)\left(b_i(t)\,dt + \sum_{j=1}^d \sigma_{ij}(t)\,dW_j(t)\right),\;\;\text{for $i$ $\in 1,2....,d$}
+    \end{gather*}
+     \pause 
+    \begin{itemize}
+        \item \( r(t) \): interest rate
+        \item  \( b(t) = (b_1, \ldots, b_d) \): appreciation rates
+        \item \( \sigma(t) = (\sigma_{ij}(t)) \): volatility matrix
+        \item \( r(t) \), \(b(t) \) and \( \sigma(t)\) all progressively measurable
+         with respect to $\{\mathcal{F}_t\}$ and bounded uniformly in $(t,\omega) \in [0,T] \times \Omega$.
+    \end{itemize}
+    }   
+\end{frame}
+
+\begin{frame}{Introducing auxiliary processes}
+
+    {\footnotesize \footnotesize
+    \par Relative risk (Sharpe ratio): 
+    \begin{align*}
+            \theta(t) = \sigma^{-1}(t)\left(b(t) - r(t)\mathbf{1}\right),\;\; \mathbf{1} = (1,1,......,1)^T
+    \end{align*}
+    \par Exponential martingale (RN derivative): 
+    \begin{align*}
+        Z(t) = \exp\left(-\int_{0}^{t}\theta^{\top}(s)\,dW(s) - \frac{1}{2}\int_{0}^{t}\|\theta(s)\|^{2}ds\right)
+    \end{align*}
+    \par  \pause Discount factor:
+    \begin{align*}
+        \gamma(t) = \exp\left(-\int_{0}^{t}r(s)\,ds\right)
+    \end{align*}
+    \par Brownian motion with drift:
+    \begin{align*}
+         W_0(t) = W(t) + \int_{0}^{t}\theta(s)\,ds,\;\; 0\leq t\leq T
+    \end{align*}
+    \par  \pause $\sigma(t)$ invertible, inverses bounded. Ensures bounded $\theta(t)$ and $Z(t)$ is a true martingale.
+    These tools set up the risk-neutral framework for pricing options.
+    }   
+\end{frame}
+
+\begin{frame}{Self-Financing Condition}
+
+    {\footnotesize \footnotesize
+    \par A portfolio process is defined as $\pi(\cdot) = (\pi_1(\cdot), \ldots, \pi_d(\cdot))$, where $\pi_i(t) = \phi_i(t) S_i(t)$ means that 
+    total amount of money invested in the $i$th risky asset. The self-financing condition leads to the wealth equation:
+    \begin{align*}
+        \gamma(t)X(t) = x - \int_0^t \gamma(s)dC(s) + \int_0^t \gamma(s)\pi^\top(s)\sigma(s)dW_0(s)
+    \end{align*}
+    \par where $C(t)$ is the cumulative consumption process, for the stochastic integral to be well-defined:
+    \begin{align*}
+        \int_{0}^{T} \|\pi(t)\|^{2}  dt < \infty
+    \end{align*}
+    }   
+\end{frame}
+ 
+ 
+
+\begin{frame}{Risk-Neutral Probability via Girsanov Theorem}
+
+    {\footnotesize \footnotesize
+    \par Definition of Risk-Neutral Measure:
+    \begin{align*}
+         \mathbb{P}^{0}(A) := \mathbb{E}[Z(T)1_{A}], \quad A \in \mathcal{F}_{T}
+    \end{align*}
+    \par $Z(T)$ is the exponential martingale. By Girsanov's Theorem, $ W_{0}(t) = W(t) + \int_{0}^{t} \theta(s) ds$ 
+    is a standard Brownian motion under $\mathbb{P}^{0}$.
+    \par  \pause Thus rewirte the wealth process:
+    \begin{align*}
+         N_{0}(t) &= \gamma(t)X(t) + \int_{0}^{t} \gamma(s)dC(s) \\
+    &= x + \int_{0}^{t} \gamma(s)\pi^{\top}(s)\sigma(s) dW_{0}(s)
+    \end{align*}
+    \par A continuous $\mathbb{P}^{0}$-local martingale.
+    }   
+\end{frame} 
+
+\begin{frame}{Risk-Neutral Probability via Girsanov Theorem}
+
+    {\footnotesize \footnotesize
+    \par Stock dynamics under risk-neutral measure:
+    \begin{align*}
+        dS_i(t) = S_i(t) \left[ b_i(t)dt - \sum_{j=1}^d \sigma_{ij}(t)\theta_j(t)dt + \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t) \right]
+    \end{align*}
+    \par Since $b(t) - \sigma(t)\theta(t) = r(t)\mathbf{1}$:
+    \begin{align*}
+        dS_i(t) = S_i(t) \left[r(t)dt + \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t) \right], \quad i = 1, \ldots, d
+    \end{align*}
+    \par  \pause Since $d\gamma(t) \cdot dS_i(t) = 0$, apply Itô:
+    \begin{align*}
+        d(\gamma(t)S_i(t)) &= S_i(t)dr(t) + \gamma(t)dS_i(t) \\
+        &= \gamma(t)S_i(t) \sum_{j=1}^d \sigma_{ij}(t)dW_0^{(j)}(t)
+    \end{align*}
+    \par  \pause  Hence, the discounted stock processes $\gamma(\cdot)S_i(\cdot)$ are local martingales.
+     This also confirms our intuition that every asset $S_i(t)$ should have a growth rate $r(t)$ in the risk neutral world.
+    }   
+\end{frame} 
+
+\begin{frame}{Doubling Strategies and Admissibility}
+
+    {\footnotesize \footnotesize
+    \par Doubling Strategy: Double investment after each loss, leads to arbitrarily large wealth at $T$. 
+    Requires wealth process $X(t)$ unbounded from below. Need to exclude, because creates arbitrage opportunities and 
+    violates no-arbitrage principle.
+    \vspace{1em}
+    \par A uniform boundedness condition is needed to prevent the doubling strategy. Wealth must satisfy:
+    \begin{align*}
+        X^{x,\pi,C}(t) \geq -\Lambda, \quad 0 \leq t \leq T
+    \end{align*}
+    \par  With $\mathbb{E}^0[\Lambda^p] < \infty$ for some $p > 1$.
+    \vspace{1em}
+    \par   \pause Supermartingale Property:
+    \vspace{1em}
+    \par If $(\pi,C)$ is admissible, $N_0(t)$ is bound below.  $N_0(t)$ is a $\mathbb{P}^0$-supermartingale. Consequently:
+    \begin{align*}
+          \mathbb{E}^0 \left[ \gamma(T)X(T) + \int_0^T \gamma(t)dC(t) \right] \leq x
+    \end{align*}
+    \par  Expected discounted terminal wealth and consumption less than or equal to initial wealth to ensures no arbitrage.
+    }
+\end{frame} 
+
+\begin{frame}{Dominance-Free Interval for American Options}
+
+    {\footnotesize \footnotesize
+   \par At \( t = 0 \), two agents agree: \textbf{Seller} promises to pay the buyer \(\psi(\tau, \omega) \geq 0\)
+     at a stopping time \(\tau \in \mathcal{S}\) (chosen by the buyer). 
+     \textbf{Buyer} pays upfront amount \(x \geq 0\) to seller.
+     \vspace{1em}
+    \par \(\psi(t, \omega)\): F-adapted, continuous process representing possible payoff. Integrability condition:
+    \[
+    \mathbb{E} \left[ \sup_{0 \leq t \leq T} \left( \gamma_0(t) \psi(t) \right)^{1 + \varepsilon} \right] < \infty, \quad \varepsilon > 0
+    \]
+    ensures finite expected discounted payoff. Such a process \(\psi(\cdot)\) defines an American Contingent Claim (ACC).
+    \vspace{1em}
+    \par Question: \textit{What should the buyer pay at \(t = 0\) for this option?}  
+    i.e. find the arbitrage-free price allowing both sides to hedge. We will look at the situation of each agent
+    separately
+    \vspace{1em}
+    \par Seller receives \(x\) at \(t = 0\) and seeks a self-financing portfolio \((\hat{\pi}, \hat{C})\) such that he can always meet the buyer's demand:
+
+\[
+X^{x,\hat{\pi},\hat{C}}(\tau) \geq \psi(\tau), \quad \forall \tau \in \mathcal{S}, \text{ a.s.}
+\]
+    }
+\end{frame} 
+
+\begin{frame}{Dominance-Free Interval for American Options}
+
+    {\footnotesize \footnotesize
+    The smallest initial capital \(x\) that makes this possible is
+
+    \[
+    h_{up} := \inf \left\{ x \geq 0 : \exists (\hat{\pi}, \hat{C}) \in \mathcal{A}_0(x) \text{ s.t. }
+     X^{x,\hat{\pi},\hat{C}}(\tau) \geq \psi(\tau), \, \forall \tau \in \mathcal{S} \right\}
+    \]
+
+    Buyer pays \(x\) at \(t = 0 \Rightarrow\) and searches for a stopping time \(\hat{\tau}\) 
+    and portfolio \((\hat{\pi}, \hat{C})\) such that the payment that he receives allows him to recover
+    the debt he incurred at $t=0$ by purchasing the ACC:
+
+    \[
+    X^{-x,\hat{\pi},\hat{C}}(\hat{\tau}) + \psi(\hat{\tau}) \geq 0, \quad \text{a.s.}
+    \]
+
+    The largest \(x\) that allows this is
+
+    \[
+    h_{low} := \sup \left\{ x \geq 0 : \exists (\hat{\pi}, \hat{C}) \in \mathcal{A}_0(-x) \text{ s.t. } 
+    X^{-x,\hat{\pi},\hat{C}}(\hat{\tau}) + \psi(\hat{\tau}) \geq 0 \right\}
+    \]
+    \par Note: Seller needs to hedge against any stopping time \(\tau \in \mathcal{S}\), 
+    whereas the buyer need only hedge for some stopping time \(\tilde{\tau} \in \mathcal{S}\). We need to justify
+    defined "upper" and "lower" hedging price.
+    }
+\end{frame} 
+\begin{frame}{Dominance-Free Interval for American Options}
+
+    {\footnotesize \footnotesize
+    Consider the decreasing function
+\[
+u(t) =: \sup_{\tau \in S_{t,T}} E^0[\gamma_0(\tau)\psi(\tau)], \quad 0 \leq t \leq T
+\]
+We must have
+
+\[
+0 \leq \psi(0) \leq h_{\text{low}} \leq u(0) \leq h_{\text{up}} \leq \infty
+\]
+If $h_{up}$ is empty set, then $h_{\text{up}} = \infty$ and $h_{\text{up}} \geq u(0)$ holds trivially; if not,
+let x be an arbitrary element of this set. Under the risk-neutral measure \( P^0 \), 
+from the supermartingale property of discounted wealth and seller hedging condition.
+\[
+x \geq E^0 \left[ \gamma_0(\tau)X^{x,\tilde{\pi},\tilde{C}}(\tau) + \int_{(0,\tau]} 
+\gamma_0(t)d\tilde{C}(t) \right] \geq E^0[\gamma_0(\tau)\psi(\tau)]; \quad \forall \tau \in S
+\]
+Taking the supremum over all stopping times gives $x \geq \sup_{\tau \in \mathcal{S}} E^0 [\gamma_0(\tau) \psi(\tau)] = u(0).$
+Thus, any admissible initial capital \( x \) that allows perfect hedging must satisfy \( x \geq u(0) \). 
+Therefore $h_{\text{up}} \geq u(0).$
+    }
+\end{frame} 
+
+\begin{frame}{Dominance-Free Interval for American Options}
+
+    {\footnotesize \footnotesize
+     On the other hand, the number \( \psi(0) \) clearly belongs to the set of $h_{low}$ ( 
+     take \( x = \psi(0) \geq 0, \, \tilde{\pi} = 0, 
+     \, \tilde{\pi}(\cdot) \equiv 0, \, \tilde{C}(\cdot) \equiv 0 \)). 
+     \vspace{1em}
+     Applying again the discounted wealth supermartingale property and buyer hedging condition, we get:
+     \begin{align*}
+        -x \geq E^0 \left[ \gamma_0(\tilde{\tau})X^{-x,\tilde{\pi},\tilde{C}}(\tilde{\tau}) + \int_{(0,\tilde{\tau}]} 
+        \gamma_0(t)d\tilde{C}(t) \right] \geq -E^0[\gamma_0(\tilde{\tau})\psi(\tilde{\tau})] \geq -u(0)
+     \end{align*}
+     $x \leq  u(0)$, therefore $h_{low} \leq u(0)$.
+    
+     The integrability condition, and the boundedness of the process \( \theta(\cdot) \) implies that  
+
+\[
+\text{E}^0 \left[ \sup_{0 \leq t \leq T} (\gamma_0(t)\psi(t)) \right] = \text{E} \left[ Z_0(T) \cdot \sup_{0 \leq t \leq T} (\gamma_0(t)\psi(t)) \right]
+\]
+\[
+\leq (\text{E}(Z_0(T))^q)^{1/q} \cdot \left( \text{E} \sup_{0 \leq t \leq T} (\gamma_0(t)\psi(t))^p \right)^{1/p} < \infty
+\]
+
+with \( p = 1 + \epsilon > 1, \, \frac{1}{p} + \frac{1}{q} = 1 \). In particular, $u(0) < \infty$. 
+It can be shown that \( [h_{\text{low}}, h_{\text{up}}] \) forms a dominance-free interval.
+    }
+\end{frame} 
+
+
+\begin{frame}{The Unique Price for American Options in an Ideal Market}
+
+    {\footnotesize \footnotesize
+     \textbf{Theorem}  In an ideal market
+
+    \[
+    h_{\text{up}} = h_{\text{low}} = u(0) =: \sup_{\tau \in S} E^0[\gamma_0(\tau)\psi(\tau)] < \infty
+    \]
+
+    Furthermore, there exists a pair \((\hat{\pi}, \hat{C}) \in A_0(u(0))\) such that, with
+
+    \[
+    \hat{X}_0(t) := \frac{1}{\gamma_0(t)} \text{ess}\sup_{\tau \in S_{t,T}} 
+    E^0[\gamma_0(\tau)\psi(\tau)|F(t)], \quad 0 \leq t \leq T
+    \]
+
+    \[
+    \check{\sigma} =: \inf\{t \in [0, T)/\hat{X}_0(t) = \psi(t)\} \land T
+    \]
+
+    and \(\hat{\pi}(\cdot) \equiv -\hat{\pi}(\cdot)\), we have almost surely:
+
+    \begin{align*}
+    X^{u(0), \hat{\pi}, \hat{C}}(t) &= \hat{X}_0(t) \geq \psi(t), \quad \forall \, 0 \leq t \leq T \\
+    X^{u(0), \hat{\pi}, \hat{C}}(t) &= -X^{-u(0), \hat{\pi}, 0}(t) > \psi(t), \quad \forall \, 0 \leq t < tilde{\tau}\\
+    \hat{C}(\tilde{\tau}) = 0, \quad &X^{u(0), \hat{\pi}, \hat{C}}(\tilde{\tau}) = -X^{-u(0), \hat{\pi}, 0}(\tilde{\tau}) = \psi(\tilde{\tau})
+    \end{align*}
+    }
+\end{frame} 
+
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
