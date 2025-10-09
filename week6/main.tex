@@ -11,7 +11,7 @@
 \usepackage{ragged2e} % for generating dummy text
 \usepackage[backend=biber,style=authoryear]{biblatex}
 % \addbibresource{references.bib}
-
+\DeclareMathOperator*{\esssup}{ess\,sup}
 \usetheme{Madrid}
 \usecolortheme{default}
 \usefonttheme{professionalfonts} % keeps proper math fonts
@@ -185,7 +185,7 @@
     \]
     ensures finite expected discounted payoff. Such a process \(\psi(\cdot)\) defines an American Contingent Claim (ACC).
     \vspace{1em}
-    \par Question: \textit{What should the buyer pay at \(t = 0\) for this option?}  
+    \par \pause  Question: \textit{What should the buyer pay at \(t = 0\) for this option?}  
     i.e. find the arbitrage-free price allowing both sides to hedge. We will look at the situation of each agent
     separately
     \vspace{1em}
@@ -215,7 +215,7 @@ X^{x,\hat{\pi},\hat{C}}(\tau) \geq \psi(\tau), \quad \forall \tau \in \mathcal{S
     X^{-x,\hat{\pi},\hat{C}}(\hat{\tau}) + \psi(\hat{\tau}) \geq 0, \quad \text{a.s.}
     \]
 
-    The largest \(x\) that allows this is
+     \pause The largest \(x\) that allows this is
 
     \[
     h_{low} := \sup \left\{ x \geq 0 : \exists (\hat{\pi}, \hat{C}) \in \mathcal{A}_0(-x) \text{ s.t. } 
@@ -238,14 +238,14 @@ We must have
 \[
 0 \leq \psi(0) \leq h_{\text{low}} \leq u(0) \leq h_{\text{up}} \leq \infty
 \]
-If $h_{up}$ is empty set, then $h_{\text{up}} = \infty$ and $h_{\text{up}} \geq u(0)$ holds trivially; if not,
+ \pause If $h_{up}$ is empty set, then $h_{\text{up}} = \infty$ and $h_{\text{up}} \geq u(0)$ holds trivially; if not,
 let x be an arbitrary element of this set. Under the risk-neutral measure \( P^0 \), 
 from the supermartingale property of discounted wealth and seller hedging condition.
 \[
 x \geq E^0 \left[ \gamma_0(\tau)X^{x,\tilde{\pi},\tilde{C}}(\tau) + \int_{(0,\tau]} 
 \gamma_0(t)d\tilde{C}(t) \right] \geq E^0[\gamma_0(\tau)\psi(\tau)]; \quad \forall \tau \in S
 \]
-Taking the supremum over all stopping times gives $x \geq \sup_{\tau \in \mathcal{S}} E^0 [\gamma_0(\tau) \psi(\tau)] = u(0).$
+ \pause Taking the supremum over all stopping times gives $x \geq \sup_{\tau \in \mathcal{S}} E^0 [\gamma_0(\tau) \psi(\tau)] = u(0).$
 Thus, any admissible initial capital \( x \) that allows perfect hedging must satisfy \( x \geq u(0) \). 
 Therefore $h_{\text{up}} \geq u(0).$
     }
@@ -265,7 +265,7 @@ Therefore $h_{\text{up}} \geq u(0).$
      \end{align*}
      $x \leq  u(0)$, therefore $h_{low} \leq u(0)$.
     
-     The integrability condition, and the boundedness of the process \( \theta(\cdot) \) implies that  
+      \pause The integrability condition, and the boundedness of the process \( \theta(\cdot) \) implies that  
 
 \[
 \text{E}^0 \left[ \sup_{0 \leq t \leq T} (\gamma_0(t)\psi(t)) \right] = \text{E} \left[ Z_0(T) \cdot \sup_{0 \leq t \leq T} (\gamma_0(t)\psi(t)) \right]
@@ -292,23 +292,593 @@ It can be shown that \( [h_{\text{low}}, h_{\text{up}}] \) forms a dominance-fre
     Furthermore, there exists a pair \((\hat{\pi}, \hat{C}) \in A_0(u(0))\) such that, with
 
     \[
-    \hat{X}_0(t) := \frac{1}{\gamma_0(t)} \text{ess}\sup_{\tau \in S_{t,T}} 
-    E^0[\gamma_0(\tau)\psi(\tau)|F(t)], \quad 0 \leq t \leq T
+    \hat{X}_0(t) := \frac{1}{\gamma_0(t)} \esssup_{\tau \in S_{t,T}} 
+    E^0[\gamma_0(\tau)\psi(\tau)|\mathcal{F}_t], \quad 0 \leq t \leq T
     \]
 
     \[
     \check{\sigma} =: \inf\{t \in [0, T)/\hat{X}_0(t) = \psi(t)\} \land T
     \]
 
-    and \(\hat{\pi}(\cdot) \equiv -\hat{\pi}(\cdot)\), we have almost surely:
+     \pause and \(\check{\pi}(\cdot) \equiv -\hat{\pi}(\cdot)\), we have almost surely:
 
     \begin{align*}
     X^{u(0), \hat{\pi}, \hat{C}}(t) &= \hat{X}_0(t) \geq \psi(t), \quad \forall \, 0 \leq t \leq T \\
-    X^{u(0), \hat{\pi}, \hat{C}}(t) &= -X^{-u(0), \hat{\pi}, 0}(t) > \psi(t), \quad \forall \, 0 \leq t < tilde{\tau}\\
-    \hat{C}(\tilde{\tau}) = 0, \quad &X^{u(0), \hat{\pi}, \hat{C}}(\tilde{\tau}) = -X^{-u(0), \hat{\pi}, 0}(\tilde{\tau}) = \psi(\tilde{\tau})
+    X^{u(0), \hat{\pi}, \hat{C}}(t) &= -X^{-u(0), \check{\pi}, 0}(t) > \psi(t), \quad \forall \, 0 \leq t < \check{\tau}\\
+    \hat{C}(\check{\tau}) = 0, \quad &X^{u(0), \hat{\pi}, \hat{C}}(\check{\tau}) = -X^{-u(0), \check{\pi}, 0}(\check{\tau}) 
+    = \psi(\check{\tau})
     \end{align*}
+    
+    The portfolio \(\hat{\pi}(\cdot)\) (respectively, \(\check{\pi}(\cdot)\)) is the optimal hedging portfolio 
+    for the seller (respectively, the buyer). 
+    The stopping time of \(\check{\tau}\) is the optimal exercise time for the buyer.
     }
 \end{frame} 
+
+
+\begin{frame}{Results from Optimal Stopping}
+
+    {\footnotesize \footnotesize
+     The Snell envelope of the discounted payoff process of \(\gamma_0(\cdot) \psi(\cdot)\):
+    \[
+    Z(t) := \esssup_{\tau \in S_{t,T}} E^0 [\gamma_0(\tau) \psi(\tau) | \mathcal{F}_t], \quad 0 \leq t \leq T
+    \]
+    At time \(t\), given the current information \(\mathcal{F}_t\), \(Z(t)\) is the maximum expected discounted payoff
+    achievable if you can choose the future stopping time \(\tau \geq t\). This is a conditional version of the optimal stopping value:
+    \[
+    u(t) = E^0[Z(t)] = \sup_{\tau \in S_{t,T}} E^0[\gamma_0(\tau)\psi(\tau)] 
+    \]
+
+    $Z(\cdot)$ is $\mathcal{F}_t$-adapted and right-continuous with left limits (RCLL) with the following properties:
+     \pause \begin{itemize}
+        \item \( Z(\cdot) \) is a \(P^0\)-supermartingale, dominates \(\gamma_0(\cdot) \psi(\cdot)\).
+        If you wait longer (go from \( t \) to \( s > t \)), your best expected
+        discounted payoff can only decrease, because there are fewer opportunities 
+        to stop.
+        And among all supermartingales that dominate the discounted payoff process,  
+    \( Z(\cdot) \) is the smallest one.
+        
+        
+    \end{itemize}
+    }
+\end{frame} 
+\begin{frame}{Results from Optimal Stopping}
+
+    {\footnotesize \footnotesize
+    \begin{itemize}
+        \item For every \( t \in [0, T] \) and with
+        \[
+        \check{\tau}_t := \inf\{u \in [t, T) : Z(u) = \gamma_0(u) \psi(u)\} \land T
+        \]
+        the process \( Z(\cdot \land \check{\tau}_t) \) is a \(P^0\)-martingale on \([t, T]\), and we have
+        \[
+        E^0Z(t) = u(t) := \sup_{\tau \in S_{t,T}} E^0[\gamma_0(\tau) \psi(\tau)] = 
+        E^0 [\gamma_0(\check{\tau}_t) \psi(\check{\tau}_t)]
+        \]
+        
+         \item \pause  The \(P^0\)-supermartingale \( Z(\cdot) \) has a unique Doob-Meyer decomposition
+        \[
+        Z(t) = u(0) + M(t) - A(t), \quad 0 \leq t \leq T
+        \]
+        Here \( M(\cdot) \) is a uniformly integrable \(P^0\)-martingale, and \( A(\cdot) \) a continuous,
+         increasing F-adapted process with \( A(0) = M(0) = 0 \), 
+         \( E^0 A(T) < \infty \).
+        
+        \item The process \( A(\cdot) \) satisfies, a.s.
+        \[
+        \int_{0}^{T} (Z(t) - \gamma_0(t) \psi(t)) dA(t) = 0, \quad A(\tilde{\tau}_t) 
+        = A(t) \text{ for } 0 \leq t \leq T
+        \]
+        In other words, \( A(\cdot) \) is flat off the set \(\{0 \leq t \leq T / Z(t) = \gamma_0(t) \psi(t)\}\).
+    \end{itemize}
+    }
+    
+\end{frame}
+
+\begin{frame}{Proof of Theorem 1}
+
+    {\footnotesize \footnotesize
+    From above we know that the Snell envelope \( Z(t) \) satisfies:
+    \[
+    Z(t) = u(0) + M(t) - A(t)
+    \]
+    By the martingale representation theorem (under Brownian filtration), every square-integrable \( P^0\)-martingale can be written as a stochastic integral:
+    \begin{align*}
+        M(t) &= E^0[M(T)|\mathcal{F}_t] = E^0[\gamma_0(T)\psi(T) + A(T)|\mathcal{F}_t] - u(0)\\
+    &= \int_0^t \psi^*(s) \, dW_0(s), \quad 0 \leq t \leq T
+    \end{align*}
+
+    \pause  for some \( \mathcal{F}(t) \)-progressively measurable process 
+    \( \psi : [0,T] \times \Omega \to \mathbb{R}^d \) with
+
+    \[
+    \int_0^T \|\psi(t)\|^2 dt < \infty
+    \]
+    almost surely. Note that, just like the case of European option, a Bayes formula has to be used to justify
+     the existence of \(\psi(t)\), because \(\mathcal{F}(t) \) is a filtration generated by \(W(t)\) not \(W_0(t)\).
+
+
+    }
+
+    
+\end{frame}
+
+\begin{frame}{Proof of Theorem 1}
+
+    {\footnotesize \footnotesize
+    The nonnegative process \(\hat{X}_0(\cdot) = Z(t)/\gamma_0(t)\)  is seen to satisfy almost surely
+
+    \[
+    \gamma_0(t)\hat{X}_0(t) = Z(t) = u(0) + \int_0^t \psi^*(s)dW_0(s) - A(t), \quad 0 \leq t \leq T
+    \]
+    
+    Thus, we can define a portfolio/consumption process pair \((\hat{\pi}, \hat{C})\):
+
+    \[
+    \hat{\pi}(t) =: \frac{1}{\gamma_0(t)} (\sigma^*(t))^{-1} \psi(t),\;\;\;\hat{C}(t) =: \int_0^t \frac{1}{\gamma_0(s)} dA(s), \quad 0 \leq t \leq T
+    \]
+
+
+     \pause We have \(\int_0^T \|\hat{\pi}(t)\|^2 dt < \infty\) a.s., and can rewrite above equation as
+
+    \[
+    \gamma_0(t)\hat{X}(t) = u(0) + \int_0^t \gamma_0(s) \hat{\pi}^*(s) \sigma(s) dW_0(s) 
+    - \int_0^t \gamma_0(s) d\hat{C}(s), \quad 0 \leq t \leq T
+    \]
+
+    This is exactly the discounted wealth equation for a self-financing portfolio with consumption 
+    $\hat{C}$. Thus, \(\hat{X}_0(\cdot) \equiv X^{u(0), \hat{\pi}, \hat{C}}(\cdot)\). Clearly
+     \(\check{\tau} = \check{\tau}_0\) and \(\hat{C}(\check{\tau}) = 0\) a.s. and 
+     the other claims also follow. The theorem is proved.
+    }
+
+    
+\end{frame}
+
+
+\begin{frame}{The early exercise premium}
+
+    {\footnotesize \footnotesize
+     The early exercise premium
+
+    \[
+    e(t) =: \frac{1}{\gamma_0(t)} \left[ \sup_{\tau \in S_{t,T}} E^0[\gamma_0(\tau)\psi(\tau)|\mathcal{F}_t] - 
+    E^0[\gamma_0(T)\psi(T)|\mathcal{F}_t] \right], \quad 0 \leq t \leq T
+    \]
+
+    is the difference between the prices, at time \(t\), of the American Contingent Claim \(\psi(\cdot)\)
+    and the European Contingent Claim \(\psi(T)\). 
+    
+     \pause It is easily seen that
+
+    \[
+    e(t) = \frac{1}{\gamma_0(t)} E^0[A(T) - A(t)|\mathcal{F}_t] = \frac{1}{\gamma_0(t)} E^0 \left[ \int_t^T 
+    \gamma_0(s)d\hat{C}(s)|\mathcal{F}_t\right]
+    \]
+
+    in other words, the consumption process \(\hat{C}(\cdot)\) can be interpreted as a ``cash-flow'', 
+    whose expected discounted value \(E^0 \int_0^T \gamma_0(t)d\hat{C}(t)\)
+    yields the early exercise premium \(e(0)\) at \(t = 0\).
+    }
+
+    
+\end{frame}
+       
+\begin{frame}{American Call-Option}
+
+    {\footnotesize \footnotesize
+    Consider an American Call-Option on Non-dividend payting stock
+    \[
+    \psi(t) = (S_i(t) - K)^+, \quad 0 \leq t \leq T
+    \]
+    With \(r(\cdot) \geq 0\) and \(0 \leq K < \infty\). In this case
+
+    \[
+    \gamma_0(t)S_i(t) \text{ is a } P^0\text{-martingale}, \quad K\gamma_0(t) \text{ is decreasing}
+    \]
+    So that \(\gamma_0(\cdot)(S_i(\cdot) - K)\) is a \(P^0\)-submartingale. 
+    
+     \pause By Jensen's inequality, \(\gamma_0(\cdot)\psi(\cdot) = 
+    \gamma_0(\cdot)(S_i(\cdot)-K)^+\) is again a \(P^0\)-submartingale, 
+    and the optimal stopping problem admits a trivial solution:
+    \[
+    \check{\tau} = T, \quad \text{and} \quad e(\cdot) \equiv 0
+    \]
+
+    The American call-option (on a stock without dividends) is, under these conditions, equivalent to the European call-option, and thus
+
+    \[
+    u(0) = E^0[\gamma_0(T)(S_i(T)-K)^+]
+    \]
+
+    }
+
+    
+\end{frame}   
+
+\begin{frame}{American Put Option}
+
+    {\footnotesize \footnotesize
+    We consider an American put option with payoff
+
+    \[
+    \psi(t) = (K - S(t))^+, \quad 0 \leq t \leq T
+    \]
+
+    on a single stock \(S(t)\) following (under \(P^0\)):
+
+    \[
+    dS(t) = S(t)[r \, dt + \sigma \, dW^0(t)], \quad r > 0, \quad \sigma > 0, \quad K > 0
+    \]
+
+     \pause The discounted value process is
+
+    \[
+    \hat{X}_0(t) = \esssup_{\tau \geq t} E^0 
+    \left[ e^{-r(\tau-t)} (K - S(\tau))^+ \mid \mathcal{F}_t \right] =: V(t, S(t))
+    \]
+
+    Then
+
+    \[
+    V(x, t) := \sup_{\tau \geq t} E^0 \left[ e^{-r(\tau-t)} (K - S(\tau))^+ \mid S(t) = x \right]
+    \]
+
+    is the price function of the American put at time \(t\).
+
+    }
+
+    
+\end{frame}   
+
+\begin{frame}{American Put Option}
+
+    {\footnotesize \footnotesize
+    It can be shown that this function \( V : (0, \infty) \times (0, \infty) \rightarrow [0, K] \) 
+    is strictly positive; continuous; decreasing in the variable \( t \); decreasing, 
+    convex and continuously differentiable in the variable \( x \); and the 
+    function \( x \mapsto x + V(t, x) \) is increasing for every \( t > 0 \). 
+    On the other hand, the continuation region is given as  
+    \[
+    \mathcal{C} = (b(t), \infty), \quad 0 < b(t) < K
+    \]  
+    
+     \pause In other words, the optimal exercise time is  
+    \[
+    \check{\tau} = \inf\{t \in [0, T) : S(t) \leq b(t)\} \land T
+    \]  
+
+    for the buyer. The optimal hedging portfolio in terms of percentage shares is  
+    \[
+    \hat{p}(t) = S(t) \cdot \frac{\partial V}{\partial x} (S(t), t)/V(S(t), t), \quad 0 \leq t \leq T
+    \]  
+
+    for the seller, the cash-flow process is  
+    \[
+    \hat{C}(t) = rK \int_{0}^{t} 1_{\{S(u) \leq b(u)\}} du, \quad 0 \leq t \leq T
+    \]
+    }
+
+    
+\end{frame} 
+
+\begin{frame}{American Put Option}
+
+    {\footnotesize \footnotesize
+    The resulting moving boundary function \( b : (0, \infty) \to (0, K) \) turns out to be continuous and increasing, with \( b(T - ) = K \). As \( T \to \infty \), the function \( V \) goes to the value of the infinite time optimal stopping solution with the exercise boundary being \( \bar{b} \),
+
+    \[
+    \lim_{T \to \infty} V(x, t) = (K - \bar{b}) \left( \frac{\bar{b}}{x} \right)^\gamma; \quad x > \bar{b},
+    \]
+
+    \[
+    \lim_{T \to \infty} V(x, t) = K - x; \quad 0 < x < \bar{b},
+    \]
+
+    and
+
+    \[
+    \bar{b} = \frac{K \gamma}{1 + \gamma}, \quad \gamma = \frac{1}{\sigma} \left[ \left( \frac{r}{\sigma} - \frac{\sigma}{2} \right) + \sqrt{\left( \frac{r}{\sigma} - \frac{\sigma}{2} \right)^2 + 2r} \right].
+    \]
+    }
+\end{frame} 
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+     Start again from the definition:
+
+    \[
+    V(x,t) := \sup_{\tau \geq t} E^0 \left[ e^{-r(\tau - t)} \varphi(S(\tau)) \mid S(t) = x \right],
+    \]
+
+    where \( S(t) = \) stock price, \(\varphi(\cdot) = \) payoff function (e.g. \((K - S)^+\) for 
+    a put), \(\tau = \) stopping time (the exercise time). So \( V(x,t) \) is the value function
+    represent the highest discounted expected payoff you can achieve by optimally choosing when to stop.
+    \vspace{1em}
+    
+     \pause In the region where you don't exercise (continuation region \(x > b(t)\)), 
+    the option behaves like a European one — no payoff is taken yet. Under the risk-neutral measure,
+    
+    \[
+    dS(t) = rS(t) \, dt + \sigma S(t) \, dW^0(t)
+    \]
+    so the generator (infinitesimal operator) of \(S(t)\) is 
+    \[
+    \mathcal{A} V = \frac{\partial V}{\partial t} + rx \frac{\partial V}{\partial x} + 
+    \frac{1}{2} \sigma^2 x^2 \frac{\partial^2 V}{\partial x^2}
+    \]
+
+    Since the discounted value \(e^{-rt} V(S(t), t)\) must be 
+    a martingale while waiting (no early exercise), its drift must be zero:
+
+    \[
+    \mathcal{A} V - rV = 0, \quad x > b(t), \, t \in [0, T]
+    \]
+    }
+\end{frame} 
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+      This is the Black-Scholes-type PDE for the continuation region. At \( t = T \), 
+      the American and European options coincide $V(x, T) = \varphi(x), \; x > 0.$ 
+      For very large stock prices (deep out-of-the-money put or call), $\lim_{x \to \infty} V(x, t) = 0.$
+      For \( x = 0 \), the option is worth its full strike payoff. $V(0, t) = \varphi(0), \;t \in [0, T]$.
+      \vspace{1em}
+      
+       \pause The key difference between American and European options. At the exercise boundary \( x = b(t) \):
+      \begin{itemize}
+        \item Value matching (continuity):\[
+        V(b(t), t) = \varphi(b(t))
+        \]
+        This ensures that the value is continuous — no jump when you switch from continuation to exercise.
+        \item  \pause Smooth pasting (first derivative continuity): \[
+        \frac{\partial V}{\partial x}(b(t), t) = \varphi'(b(t))
+        \]
+        This ensures the optimality of the stopping rule — if the slope were different, 
+        a small move in \( x \) would make it better to stop slightly earlier or later.
+      \end{itemize}
+    }
+\end{frame}
+
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+      So the finite-horizon American option satisfies:
+
+        \[
+        \begin{cases}
+        \mathcal{A} V - rV = 0, & x > b(t), \quad 0 \leq t \leq T\\
+        V(b(t), t) = \varphi(b(t)), & (\text{value matching}) \\
+        V_x(b(t), t) = \varphi'(b(t)), & (\text{smooth pasting}) \\
+        V(x, T) = \varphi(x), & x > 0 \\
+        V(0, t) = \varphi(0), & V(\infty, t) = 0
+        \end{cases}
+        \]
+        \vspace{1em}
+    \par  \pause The challenge: \( b(t) \) is not known in advance, 
+    and the PDE domain itself depends on it. That's why this is called a 
+    free-boundary problem — both \( V \) and \( b(t) \) are unknowns.
+    \vspace{1em}
+
+    To solve it numerically, you must iterate between solving the PDE for a given boundary guess
+     and adjusting the boundary until the smooth pasting condition holds.
+
+    \vspace{1em}
+     \pause One way to solve the free boundary problem is to approximate the moving boundary \( b(\cdot) \) by piecewise exponential function. This is used, 
+    for example, in Kou, Petrall, and Wang (2005) to price American options in a more general jump-diffusion model.
+
+    }
+\end{frame}
+
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+    Second, the free boundary problem can be written as a partial differential complementarity problem (without the free boundary) as
+    \begin{gather*}
+        \mathcal{A} V - rV  \leq  0, \quad x > 0, \quad t \in [0,T) \\
+    (\mathcal{A} V - rV) \{ V(x,t) - \varphi(x) \}  =  0, \quad x > 0, \quad t \in [0,T) \\
+    V(x,t)  \geq \varphi(x), \quad x > 0, \quad t \in [0,T)
+    \end{gather*}
+    
+    along with the terminal and boundary conditions
+
+    \begin{gather*}
+        V(x,T)  =  \varphi(x), \quad x > 0, \\
+    \lim_{x \to \infty} V(x,t)  =  0, \quad V(0,t) = \varphi(0), \quad t \in [0,T)
+    \end{gather*}
+
+     \pause This is called the complementarity problem because the two inequalities cannot be strict 
+    inequalities simultaneously. The partial differential complementarity problem can be solved 
+    numerically by converting it to a matrix linear 
+    complementarity problem by using the finite difference method.
+        }
+\end{frame}
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+    The unknown exercise boundary \( b(t) \) is implicit: wherever \( V = \varphi \), you are in the exercise region;  
+    wherever \( \mathcal{A} V - rV = 0 \), you are in the continuation region. You solve for a single function \( V \); the  
+    boundary is recovered as the contact set \(\{(x, t) : V = \varphi\}\).
+    \vspace{1em}
+
+      \pause Third, the partial differential complementarity problem can be rewritten as a variational inequality problem:
+
+    \[
+    \min(-\mathcal{A} V + rV, V(x,t) - \varphi(x)) = 0, \quad x > 0, \quad t \in [0,T) \tag{*}
+    \]
+
+    along with the terminal and boundary conditions
+
+    \[
+    V(x,T) = \varphi(x), \quad x > 0,
+    \]
+
+    \[
+    \lim_{x \to \infty} V(x,t) = 0, \quad V(0,t) = \varphi(0), \quad t \in [0,T).
+    \]
+
+    \pause  Indeed, there are only two possibility by the partial differential complementarity 
+    problem: either \(-\mathcal{A} V + rV > 0\) or \(-\mathcal{A} V + rV = 0\). In the first case we must 
+    have \(V(x,t) = \varphi(x)\), and in the second case \(V(x,t) \geq \varphi(x)\). Thus, 
+    in both cases we have $(*)$. Hence the partial differential complementarity problem 
+    implies the variational inequality problem. 
+        }
+\end{frame}
+
+\begin{frame}{Numerical Methods for American Options}
+
+    {\footnotesize \footnotesize
+    Conversely, $(*)$ implies that \(V(x,t) \geq \varphi(x)\) 
+    and \(-\mathcal{A} V + rV \geq 0\). Furthermore, if \(-\mathcal{A}V + rV > 0\) then \(V(x,t) - \varphi(x) = 0\) by $(*)$. 
+    Therefore, the variational inequality problem also implies the partial differential complementarity problem.
+    \vspace{1em}
+
+       General way to solve the variational inequality or the complementarity problem is to write
+
+    \[
+    \max(\mathcal{A} V - rV, \varphi(x) - V(x,t)) = 0, \quad x > 0, \quad t \in [0,T), \tag{**}
+    \]
+
+     \pause so that we can use the penalty method:
+
+    \[
+    \mathcal{A} V - rV + \lambda \left\{ \varphi(x) - V \right\}^+ = 0, \quad \lambda \to \infty,
+    \]
+    along with the terminal and boundary conditions.
+     To see this, note that \(\varphi(x) - V \leq 0\); otherwise, 
+     for all large \(\lambda\) the last term in the penalty method goes to infinity.
+      Secondly, if \(\varphi(x) < V\) then the last term is always zero, and we must have \(\mathcal{A} V - rV = 0\). 
+    Thirdly, we must have \(\mathcal{A} V - rV \leq 0\). In summary, we recover all the conditions in $(**)$.
+        }
+\end{frame}
+
+\begin{frame}{The Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+    An efficient way to solve the partial differential complementarity problem is
+    to transform it ot a linear complementarity problem via the finite difference
+    method.
+    \vspace{1em}
+
+    Consider the following (matrix) linear complementarity problem: 
+    Find a vector \( x \in \mathbb{R}^{1 \times n} \)
+
+    \[
+    Ax \geq b, \, x \geq c, \, (x - c)^T (Ax - b) = 0,
+    \]
+
+    for given \( A \in \mathbb{R}^{n \times n}, \, c, b \in \mathbb{R}^{1 \times n} \), where, 
+    for two column vectors \( x \) and \( y, \, x \geq y \) means \( x_i \geq y_i \) for each \( i \).
+    The linear complementarity problem has a unique solution for all
+     column vectors \( b \) and \( c \) if and only if \( A \in \mathbb{R}^{n \times n} \) is a P-matrix.
+    \vspace{1em}
+    
+     \pause Note that if \( A \) is symmetric, then \( A \) is a P-matrix if and only if \( A \) is positive definite.
+     Many matrices that arise in finite-difference and finite-element methods are diagonally dominant.
+    }
+    
+\end{frame}
+
+
+\begin{frame}{The Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+      More precisely, the matrix \( A \) is diagonally dominant if
+
+    \[
+    |a_{ii}| \geq \sum_{j \neq i} |a_{ij}|, \, \forall i,
+    \]
+
+    where \( a_{ij} \) denotes the entry of \( A \) in the \( i \)th row and \( j \)th column. 
+    If the above inequality is strict, it is called strictly diagonally dominant. A well-known result is that a 
+    symmetric strictly diagonally dominant matrix with real positive diagonal entries is positive definite.
+
+    \vspace{1em}
+
+     \pause The linear complementarity problem can be solved by using many methods, 
+    including pivoting methods (e.g., Lemke's algorithm), quadratic programming, 
+    successive over relaxation (SOR), projected SOR, etc. There are also several 
+    Matlab and Python codes available online.
+
+    }
+    
+\end{frame}
+
+
+\begin{frame}{The Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+     The linear complementarity problem is a particular case of the nonlinear complementarity problem, which is to find a vector \( z \in \mathbb{R}^{1 \times n} \)
+
+\[
+f(x) \geq b, \, z \geq c, \, (z - c)^T(f(x) - b) = 0,
+\]
+
+where \( f \) is a given function \( \mathbb{R}^n \longmapsto \mathbb{R}^n, \, c, b \in \mathbb{R}^{1 \times n} \). 
+One way to solve the nonlinear complementarity problem is to use the linear approximation of \( f(x) \) to get
+an iterative algorithm by solving a sequence of the complementarity problem.
+
+\vspace{1em}
+ \pause The nonlinear complementarity problem is also related to a variational inequality problem: 
+Given a non-empty set \( K \in \mathbb{R}^n \), a function $g: \mathbb{R}^n \longmapsto \mathbb{R}^n, \, b \in \mathbb{R}^{1 \times n},$
+\(  \, \text{find a } 
+z^* \in K \text{ such that} \)
+
+\[
+\min_{y \in K}(y - z^*)^T g(z^*) \geq 0.
+\]
+
+It can be shown that with
+
+\[
+K = \mathbb{R}_+^{1 \times n}, \, z^* = z - c, \, g(x) = f(x) - b,
+\]
+
+the nonlinear complementarity problem and the variational inequality problem have the same solution.
+
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    The partial differential complementarity problem for \(\psi(x,t)\) without the free boundary,
+
+    \[
+    \frac{\partial \psi}{\partial t} + \frac{\sigma^2 x^2}{2} \frac{\partial^2 \psi}{\partial x^2} + rx \frac{\partial \psi}{\partial x} - r\psi \leq 0
+    \]
+
+    \[
+    \left( \frac{\partial \psi}{\partial t} + \frac{\sigma^2 x^2}{2} \frac{\partial^2 \psi}{\partial x^2} + rx \frac{\partial \psi}{\partial x} - r\psi \right) \{ \psi(t,x) - g(x) \} = 0
+    \]
+
+    \[
+    \psi(x,t) \geq g(x)
+    \]
+
+    \[
+    \psi(x,T) = g(x)
+    \]
+
+    \[
+    \lim_{x \to \infty} \psi(x,t) = 0, \quad \psi(0,t) = g(0),
+    \]
+
+   Where $g(x)$ is the payoff function. The first three equations are exactly the variational inequality 
+   conditions in differential form.
+    For a general payoff \(g(x)\) can be solved by converting it to a 
+    linear complementarity problem.
+
+        }
+    
+\end{frame}
 
 % \begin{frame}
 
