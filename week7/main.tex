@@ -301,8 +301,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     &\quad + (1 - \theta) \left( \frac{u_{n+1,m} - 2u_{n,m} + u_{n-1,m}}{(\delta x)^2} \right) + o((\delta x)^2),
     \end{align*}
     }
-    where $0 < \theta < 1$.  Note that this is a general way to do the finite difference method;
-     the cases $\theta = 0, 1/2, 1$ yield the explicit, the Crank-Nicolson, and the implicit schemes, respectively.
+    where $0 < \theta < 1$.  
         }
     
     
@@ -311,14 +310,491 @@ the nonlinear complementarity problem and the variational inequality problem hav
 \begin{frame}{Finite Difference Methods}
 
     {\footnotesize \footnotesize
+
+    Note that this is a general way to do the finite difference method;
+     the cases $\theta = 0, 1/2, 1$ yield the explicit, the Crank-Nicolson, and the implicit schemes, respectively.
+    \vspace{1em}
+
     The explicit scheme does not involve solving linear equations and is known
     to be numerically stable and convergent whenever
     \[
-\alpha := \delta \tau / (\delta x)^2 \leq 1/2.
-\]
+    \alpha := \delta \tau / (\delta x)^2 \leq 1/2.
+    \]
+
+    The implicit and the Crank-Nicolson schemes are always numerically stable and convergent 
+    but more numerically intensive than the explicit method. They require solving a system of 
+    linear equations on each time step. Usually, the Crank-Nicolson scheme is the most accurate 
+    scheme for small time steps, while the implicit scheme works best for large time steps. In general, 
+    if $\theta < 1/2$, then the scheme is stable if $\delta \tau / (\delta x)^2 < (1 - \theta)/2$.
     }
     
     
+\end{frame}
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    With these approximations, we have
+    {\footnotesize \tiny
+\begin{align*}
+\frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \approx & \frac{u_{n,m+1} - u_{n,m}}{\delta \tau} - \theta \left( \frac{u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}}{(\delta x)^2} \right) \\
+& - (1 - \theta) \left( \frac{u_{n+1,m} - 2u_{n,m} + u_{n-1,m}}{(\delta x)^2} \right).
+\end{align*}
+    }
+
+Thus, the requirement that $\frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \geq 0$ becomes for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
+\[
+u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) \geq b_{n,m}, 
+\]
+where
+\[
+b_{n,m} := u_{n,m} + \alpha (1 - \theta) (u_{n+1,m} - 2u_{n,m} + u_{n-1,m}),
+ \quad \alpha = \delta\tau/(\delta x)^2.
+\]
+     Note that if we move forward in time, at the $(m + 1)$-th step we
+     know $b_{n,m}$ explicitly, via $u_{n,m}$, $u_{n+1,m}$, and $u_{n-1,m}$.
+
+    }
+    
+    
+\end{frame}
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+     The requirement $u(\tau, x) - f(\tau, x) \geq 0$ becomes, for $-N^- \leq n \leq N^+$, $0 \leq m \leq M$,
+\[
+u_{n,m} \geq f_{n,m}. 
+\]
+
+To simplify the operation, we shall translate the complementarity condition to $(m + 1)$-th time point as, for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
+\[
+\{u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) - b_{n,m}\} \{u_{n,m+1} - f_{n,m+1}\} = 0.
+\]
+
+The initial condition is easy because $u(0, x) = f(0, x)$, yielding
+    \[
+    u_{n, 0} = f_{n, 0}. 
+    \]
+
+    We have to first pay attention to the boundary conditions at $-N^{-}$ and $N^{+}$. 
+    Based on the definition of option payoffs, as an approximation we can let
+    \[
+    u_{-N^{-},m} = f(-N^{-},m), \quad u_{N^{+},m} = f(N^{+},m), \quad 0 \leq m \leq M. 
+    \]
+     The intuition is that when stock price $S(t) \to \infty$ or $S(t) \to 0$, 
+    corresponding to $x \to \infty$ and $x \to -\infty$, 
+    the option price at time $t$ should be very close to the option payoff at time $t$.
+    }
+    
+    
+\end{frame}
+
+\begin{frame}{The Boundary Conditions and the Initial Condition}
+
+    {\footnotesize \footnotesize
+    The discretized complementarity PDE for the transformed variable $u(x,\tau)$ only works for interior points
+    $n$ where both neighbors $u_{n+1}$ and $u_{n-1}$ exist. 
+    At the boundaries, one neighbor lies outside the computational grid.
+    \vspace{1em}
+
+    For the term $u_{n,m+1}$ when $n = N^{+} - 1$, we have
+    \begin{align*}
+    &u_{N^{+}-1,m+1} - u_{N^{+}-1,m} - \alpha \theta (u_{N^{+},m+1} - 2u_{N^{+}-1,m+1} + u_{N^{+}-2,m+1}) \\
+    &\geq \alpha(1 - \theta) (u_{N^{+},m} - 2u_{N^{+}-1,m} + u_{N^{+}-2,m}), 
+    \end{align*}
+    for $0 \leq m \leq M - 1$, or
+    \[
+    u_{N^{+}-1,m+1} - \alpha \theta (-2u_{N^{+}-1,m+1} + u_{N^{+}-2,m+1}) \geq b_{N^{+}-1,m} + 
+    \alpha \theta u_{N^{+},m+1},
+    \]
+
+    where
+    \[
+    b_{N^{+}-1,m} := u_{N^{+}-1,m} + \alpha (1 - \theta) (u_{N^{+},m} - 2u_{N^{+}-1,m} + u_{N^{+}-2,m}),
+    \]
+    \[
+    u_{-N^{-},m+1} = f(-N^{-},m+1), \quad 0 \leq m \leq M - 1.
+    \]
+    }
+    
+    
+\end{frame}
+
+\begin{frame}{The Boundary Conditions and the Initial Condition}
+
+    {\footnotesize \footnotesize
+    Similarly for the term $u_{n,m+1}$ when $n = -N^{-} + 1$, we have
+    \begin{align*}
+    &u_{-N^{-}+1,m+1} - u_{-N^{-}+1,m} - \alpha \theta (u_{-N^{-}+2,m+1} - 2u_{-N^{-}+1,m+1} + u_{-N^{-},m+1}) \\
+    &\geq \alpha (1 - \theta) (u_{-N^{-}+2,m} - 2u_{-N^{-}+1,m} + u_{-N^{-}+1,m}),
+    \end{align*}
+    for $0 \leq m \leq M - 1$, or
+    \[
+    u_{-N^{-}+1,m+1} - \alpha \theta (u_{-N^{-}+2,m+1} - 2u_{-N^{-}+1,m+1}) 
+    \geq b_{-N^{-}+1,m} + \alpha \theta u_{-N^{-},m+1}, 
+    \]
+    where
+    \[
+    b_{-N^{-}+1,m} := u_{-N^{-}+1,m} + \alpha (1 - \theta) (u_{-N^{-}+2,m} - 2u_{-N^{-}+1,m} + u_{-N^{-}+1,m}).
+    \]
+
+    In summary we can define
+    \[
+    b_{n,m} := u_{n,m} + \alpha (1 - \theta) (u_{n+1,m} - 2u_{n,m} + u_{n-1,m}),
+    \quad -N^{-} + 1 \leq n \leq N^{+} - 1. 
+    \]
+
+    The linear complementarity condition at the two boundaries can be written down readily.
+
+    }
+    
+    
+\end{frame}
+
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+    Introduce the column vectors
+    \begin{gather*}
+        u^{(m)} := (u_{-N^-+1,m}, \ldots, u_{N^+-1,m})^T, \\
+        f^{(m)} := (f_{-N^-+1,m}, \ldots, f_{N^+-1,m})^T,\\
+        b^{(m)} := (b_{-N^-+1,m}, \ldots, b_{N^+-1,m})^T,\\
+    \end{gather*}
+    \vspace{-3em}
+    \par So each vector represents one time slice of all the interior spatial nodes. At the boundaries,
+    we define a correction vector to represent how the known boundary 
+    values affect the equations for the first and last interior points.
+    \begin{align*}
+    \xi^{(m)} &:= (\alpha \theta u_{-N^-,m+1}, 0, 0, \ldots, 0, 0, \alpha \theta u_{N^+,m+1})^T,
+    \end{align*}
+    and a $(N^+ + N^- - 2) \times (N^+ + N^- - 2)$ square, tridiagonal, symmetric matrix
+    \[
+    C = 
+    \begin{pmatrix}
+    1 + 2\alpha\theta & -\alpha\theta & 0 & \cdots & 0 \\
+    -\alpha\theta & 1 + 2\alpha\theta & -\alpha\theta & \cdots & 0 \\
+    0 & -\alpha\theta & \ddots & \ddots & \vdots \\
+    \vdots & & \ddots & 1 + 2\alpha\theta & -\alpha\theta \\
+    0 & 0 & \cdots & -\alpha\theta & 1 + 2\alpha\theta
+    \end{pmatrix}.
+    \]
+
+    }
+    
+    
+\end{frame}
+
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+    Then the inequalities:
+    \begin{gather*}
+        u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) \geq b_{n,m}\\
+        u_{N^{+}-1,m+1} - \alpha \theta (-2u_{N^{+}-1,m+1} + u_{N^{+}-2,m+1}) 
+        \geq b_{N^{+}-1,m} + \alpha \theta u_{N^{+},m+1}\\
+        u_{-N^{-}+1,m+1} - \alpha \theta (u_{-N^{-}+2,m+1} -
+         2u_{-N^{-}+1,m+1}) \geq b_{-N^{-}+1,m} + \alpha \theta u_{-N^{-},m+1},
+    \end{gather*}
+    become to:
+    \begin{align*}
+        Cu^{(m+1)} \geq b^{(m)} + \xi^{(m)}.
+    \end{align*}
+    \par The inequality $u_{n,m} \geq f_{n,m}$ can be written as $u^{(m+1)} \geq f^{(m+1)}$. 
+    The linear complementarity condition becomes
+    \begin{align*}
+        \left(u^{(m+1)} - f^{(m+1)}\right)^T \left(Cu^{(m+1)} - b^{(m)} - \xi^{(m)}\right) = 0.
+    \end{align*}
+    }
+    
+    
+\end{frame}
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+     In summary, the algorithm goes from $m = 0$ to $m = M - 1$, as follows. 
+
+    \textbf{Initialization:} At maturity ($m = 0$):
+    \[
+    u^{(0)} = f^{(0)} = \text{payoff}.
+    \]
+
+    \textbf{Backward time-stepping (for $m = 0, 1, \ldots, M - 1$):}
+    \begin{enumerate}
+    \item \textbf{Compute known quantities:}
+    \[
+    b^{(m)} = u^{(m)} + \alpha(1 - \theta)(\text{Laplacian of } u^{(m)}),
+    \]
+    %(u_{n+1,m} - 2u_{n,m} + u_{n-1,m})
+    and boundary correction $\xi^{(m)}$.
+
+    \item \textbf{Set up right-hand side:}
+    \[
+    q = b^{(m)} + \xi^{(m)}.
+    \]
+
+    \item \textbf{Solve LCP:}
+    \[
+    \begin{cases}
+    C u^{(m+1)} \geq q, \\
+    u^{(m+1)} \geq f^{(m+1)}, \\
+    (u^{(m+1)} - f^{(m+1)})^{T}(C u^{(m+1)} - q) = 0.
+    \end{cases}
+    \]
+    \par  Use Projected Successive Over-Relaxation (or another solver) to find $u^{(m+1)}$.
+
+    \item \textbf{Repeat until $m = M - 1$.}
+    \end{enumerate}
+    
+
+    }
+    
+    
+\end{frame}
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+    Note that since
+    \[
+    |1 + 2\alpha\theta| = 1 + 2\alpha\theta > |-\alpha\theta| + |-\alpha\theta|,
+    \]
+    the symmetric matrix $C$ is a strictly diagonally dominant matrix with real positive diagonal entries. 
+    Thus, the symmetric matrix $C$ is positive definite, and the linear complementarity problem 
+    given by three inequalities has a unique solution.
+    \vspace{1em}
+    \par Projected Successive Over-Relaxation (PSOR)
+    \par We could solve that exactly by inversion, but for 
+    large systems (like in PDE grids), we often use iterative methods.
+    \par We rearrange each equation for its main variable $u_i$:
+\[
+C_{ii}u_i = q_i - \sum_{j\neq i} C_{ij}u_j.
+\]
+
+Then we update $u_i$:
+\[
+u_i = \frac{1}{C_{ii}} \left( q_i - \sum_{j\neq i} C_{ij}u_j \right).
+\]
+
+That's the Gauss-Seidel update rule.
+
+    }
+    
+    
+\end{frame}
+ 
+
+
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+     For our tridiagonal $C$, each row has only three nonzero entries:
+    \[
+    -\alpha \theta u_{i-1} + (1 + 2\alpha \theta)u_i - \alpha \theta u_{i+1} = q_i.
+    \]
+
+    Rearrange for $u_i$:
+    \[
+    u_i = \frac{1}{1 + 2\alpha \theta} \left( q_i + \alpha \theta u_{i-1} + \alpha \theta u_{i+1} \right).
+    \]
+    
+    We also need $u_i \geq f_i$, we simply project each update:
+    \[
+    u_i^{(k+1)} = \max \left( f_i, \frac{1}{C_{ii}} \left[ q_i - \sum_{j<i} C_{ij} u_j^{(k+1)} 
+    - \sum_{j>i} C_{ij} u_j^{(k)} \right] \right).
+    \]
+    \vspace{1em}
+    \par After repeat the algorithm until $m = M-1$, we hold a vector $u^{(M)}$ :
+    \begin{align*}
+        u^{(M)} = [u_{-N^- + 1, M}, \ldots, u_{N^+ - 1, M}]^T.
+    \end{align*}
+    That vector contains the transformed values of 
+    the option at time $t = 0$ (the valuation date) for different $x = \ln S$ grid points.
+    }
+\end{frame}
+
+
+\begin{frame}{Standard-Form of the Linear Complementarity Problem}
+
+    {\footnotesize \footnotesize
+     So each component corresponds to:
+    \[
+    u_{n, M} \approx u(x_n, \tau_{\max}) = e^{\frac{1}{2}(c-1)x_n + \frac{1}{4}(c+1)^2 \tau_{\max}} \psi(S_n, 0),
+    \]
+    where $S_n = e^{x_n}$.
+
+        To return to the original (Black-Scholes) variables, recall the transformation:
+    \[
+    u(x, \tau) = e^{\frac{1}{2}(c-1)x + \frac{1}{4}(c+1)^2 \tau} \psi(S, t), \quad c = \frac{2r}{\sigma^2}.
+    \]
+
+    At $t = 0$, $\tau = T\sigma^2 / 2$.
+
+    So the original option price surface is:
+    \[
+    \psi(S, 0) = e^{-\frac{1}{2}(c-1)\ln S - \frac{1}{4}(c+1)^2 \tau_{\max}} u(\ln S, \tau_{\max}).
+    \]
+
+    That gives the American option price at time 0 for each stock price $S$ on the grid.
+    Usually we're interested in the price for one current stock price $S_0$. If $S_0$ 
+    lies between two grid nodes $S_i, S_{i+1}$, we interpolate linearly to find $\psi(S_0, 0)$.
+    We can also track at each time step where $u_{n,m} = f_{n,m}$ (the points where equality binds) to
+     reconstruct the exercise boundary $S^*(t)$.
+    }
+\end{frame}
+
+
+\begin{frame}{Chapter 10}
+
+    {
+    \begin{center}
+        Chapter 10 Arbitrage
+    \end{center}
+ 
+    }
+    
+\end{frame}
+\begin{frame}{Motivation to Study Arbitrage}
+
+    {\footnotesize \footnotesize
+    \textbf{Can there be arbitrage even without options?}
+    \vspace{1em}
+    \par If your model of stock price dynamics itself creates a riskless profit (without any options), 
+    then the model is internally inconsistent.  If the relationship between the interest rate \( r \)
+    and the possible stock movements (up and down) is inconsistent, arbitrage automatically arises.
+    \vspace{1em}
+    \par A valid model (arbitrage-free) must satisfy:
+\[
+d < R < u,
+\]
+
+where:
+\begin{itemize}
+\item \( u = \text{up-factor} = S_u / S_0 \),
+\item \( d = \text{down-factor} = S_d / S_0 \),
+\item \( R = 1 + r \).
+\end{itemize}
+
+Only in that range can there exist a risk-neutral probability \( p^* = \frac{R-d}{u-d} \) with \( 0 < p^* < 1 \).
+Arbitrage-free condition ensures no riskless trading profit 
+can be made by combining borrowing/lending and buying/selling the stock.
+If your model violates this, then the entire pricing framework collapses.
+
+    }
+\end{frame}
+
+\begin{frame}{Basic Setting of a One-Period Security Market}
+
+    {\footnotesize \footnotesize
+     We construct the simplest possible financial market to study arbitrage formally.
+     \begin{itemize}
+        \item The model is discrete in time, \( t = 0 \) and \( t = 1 \), and finite in states (K scenarios), 
+        \( \Omega = \{\omega_1, \ldots, \omega_K\} \), \( P(\omega) > 0 \).
+        \item \( N + 1 \) securities: \( B(t) \) is bank account (risk-free), \( B(0) = 1 \), \( B(1) = 1 + r \) and 
+        \( S_1(t), S_2(t), \ldots, S_N(t) \) are risky stocks.
+        \item Trading Strategy: \( \varphi = (\varphi_0, \varphi_1, \ldots, \varphi_N) \) are portfolio weights 
+        and \( V(0) \) is initial wealth. The resulting wealth process is given by
+        \begin{align*}
+            V(t) := \varphi_0 B(t) + \sum_{n=1}^N \varphi_n S_n(t) .
+        \end{align*}
+     \end{itemize}
+      \par The self-financing condition is defined as:
+        \begin{align*}
+            V(1) - V(0) = \phi_0 \Delta B + \sum_{n=1}^N \phi_n \Delta S_n,
+        \end{align*}
+        where $\Delta B := B(1) - B(0)=r, \quad \Delta S_n := S_n(1) - S_n(0).$
+
+    }
+\end{frame}
+
+\begin{frame}{Basic Setting of a One-Period Security Market}
+
+    {\footnotesize \footnotesize
+    Define discounted variables:
+    \begin{align*}
+        S_n^*(t) := S_n(t)/B(t), \quad V^*(t) := V(t)/B(t) = \phi_0 + \sum_{n=1}^N \phi_n S_n^*(t) \quad t = 0, 1,
+    \end{align*}
+    then we can rewrite the self-financing condition as
+    \begin{align*}
+        V^*(1) - V^*(0) = \sum_{n=1}^N \phi_n \Delta S_n^*, \quad V^*(t) = V(t)/B(t).
+    \end{align*}
+    Define the capital gain process
+    \begin{align*}
+        G^* = \sum_{n=1}^N \phi_n \Delta S_n^*, \quad  V^*(1) = V(0) + G^*.
+    \end{align*}
+
+    \par The simple return of \( n \)th risky asset is defined as $R_n := (S_n(1) - S_n(0))\ S_n(0).$
+    }
+\end{frame}
+
+\begin{frame}{Dominant Trading Strategies}
+
+    {\footnotesize \footnotesize
+    
+    A trading strategy \(\phi\) is said to dominate another strategy \(\tilde{\phi}\) if their corresponding wealth \(V\) and \(\tilde{V}\) satisfy:
+    %
+    \[
+    V(0) = \tilde{V}(0),\quad V(1) > \tilde{V}(1),
+    \]
+    %
+    with probability one (i.e.\ \(V(1, \omega) > \tilde{V}(1, \omega)\) for any \(\omega \in \Omega\)).
+    \vspace{1em}
+    \par \textbf{Lemma 1.} The following statements are equivalent.
+    \begin{itemize}
+        \item There is a dominant strategy.
+        \item There exists a trading strategy such that \(V(0) = 0\) and \(V(1) > 0\) with probability one.
+        \item There exists a trading strategy such that \(V(0) < 0\) and \(V(1) \geq 0\) with probability one.
+    \end{itemize}
+    \par \textbf{Proof}:
+    \par (a) \(\Rightarrow\) (b): Suppose there are two trading strategies \(\hat{\phi}\) and \(\tilde{\phi}\) such that \(\hat{\phi}\) dominates \(\tilde{\phi}\). Then consider another trading strategy \(\phi = \hat{\phi} - \tilde{\phi}\). We have, via the definition of wealth processes,
+    %
+    \[
+    V(0) = \hat{V}(0) - \tilde{V}(0) = 0,\quad V(1) = \hat{V}(1) - \tilde{V}(1) > 0,
+    \]
+    %
+    with probability one, from which (b) follows.
+    }
+\end{frame}
+
+
+\begin{frame}{Dominant Trading Strategies}
+
+    {\footnotesize \footnotesize
+    \par  (b) \(\Rightarrow\) (c): Now start from (b): \( V(0) = 0 \), \( V(1) > 0 \) in all states.
+    Since \( V^*(1) = G^* > 0 \) for all states, the smallest possible gain $\varepsilon = \min_{\omega \in \Omega} G^*(\omega) > 0$
+    exists. Construct a new strategy:
+    \vspace{-1em}
+    \begin{align*}
+        \tilde{\phi}_n = \phi_n, \quad \tilde{\phi}_0 = \phi_0 - \varepsilon.
+    \end{align*}
+    That reduces the initial wealth by \(\varepsilon\):
+    \begin{align*}
+        \tilde{V}(0) = -\varepsilon < 0, \quad \tilde{V}^*(1, \omega) = -\varepsilon + G^*(\omega) \geq 0.
+    \end{align*}
+    \par So you borrow money at the beginning (\(V(0) < 0\)), but never lose at the end (\(V(1) \geq 0\)). That's (c).
+    \par (c) $\Rightarrow$ (a): Now suppose we have (c): \( V(0) < 0 \) and \( V(1) \geq 0 \). 
+    Construct a new strategy \(\tilde{\phi}\):
+    \vspace{-1em}
+    \begin{align*}
+        \tilde{\phi}_n = \phi_n, \quad \tilde{\phi}_0 = -\sum_{n=1}^{N} \phi_n S_n(0) = \phi_0 - V(0).
+    \end{align*}
+    \vspace{-1em}
+    \par Then the new portfolio has:
+%
+\[
+\tilde{V}(0) = 0, \quad \tilde{V}^*(1) = -V(0) + V^*(1) \geq -V(0) > 0.
+\]
+\par So \(\tilde{\phi}\) strictly dominates the ``do nothing'' strategy (holding nothing), satisfying (a).
+    }
+\end{frame}
+
+\begin{frame}{Law of one price}
+
+    {\footnotesize \footnotesize
+    
+
+
+
+    }
 \end{frame}
 % \begin{frame}
 
