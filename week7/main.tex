@@ -24,7 +24,7 @@
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 4}
+\subtitle{Week 7}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,30 +35,289 @@
 % \tableofcontents
 % \end{frame}
 
-\section{Background}
-\begin{frame}{Background}
+\begin{frame}{Chapter 22}
+
+    {
+    \begin{center}
+        Chapter 22 American Options (II)
+    \end{center}
+    \begin{center}
+        Numerical Methods for American Options
+    \end{center}
+    }
+    
+\end{frame}
+
+\begin{frame}{Recall}
 
     {\footnotesize \footnotesize
-    \par Recall The Double Exponential Jump Diffusion Model:
-    \begin{align*}
-        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
-    \end{align*}
-    \par\begin{itemize}
-    \item \( W(t) \): Brownian motion under the real-world measure.
-    \item \( N(t) \): Poisson process with rate \(\lambda\).
-    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
-    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
-    \end{itemize}   
-    \begin{align*}
-        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
-    \end{align*}
-    \par with parameters:
-    \begin{itemize}
-        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
-        \item \(\eta_1 > 1\): rate for upward jumps.
-        \item \(\eta_2 > 0\): rate for downward jumps.
-    \end{itemize}
+    Consider the valuation of a finite-horizon American option with payoff $\varphi(S(\tau))$:
+    \[
+    V(x,t) := \sup_{\tau \geq t} E^0 \left[ e^{-r(\tau - t)} \varphi(S(\tau)) \mid S(t) = x \right],
+    \]
+     where \( S(t) = \) stock price, \(\varphi(\cdot) = \) payoff function (e.g. \((K - S)^+\) for 
+    a put), \(\tau = \) stopping time (the exercise time). So \( V(x,t) \) is the value function
+    represent the highest discounted expected payoff you can achieve by optimally choosing when to stop.
+    \vspace{1em}
+
+    First, the optimal reward and moving boundary functions together solve the
+    following free-boundary (to be determined) problem:
+        \[
+        \begin{cases}
+        \mathcal{A} V - rV = 0, & x > b(t), \quad 0 \leq t \leq T\\
+        V(b(t), t) = \varphi(b(t)), & (\text{value matching}) \\
+        V_x(b(t), t) = \varphi'(b(t)), & (\text{smooth pasting}) \\
+        V(x, T) = \varphi(x), & x > 0 \\
+        V(0, t) = \varphi(0), & V(\infty, t) = 0
+        \end{cases}
+        \]
     }
+    
+\end{frame}
+
+\begin{frame}{Recall}
+
+    {\footnotesize \footnotesize
+    Second, the free boundary problem can be written as a partial differential complementarity problem (without the free boundary) as
+    \begin{gather*}
+        \mathcal{A} V - rV  \leq  0, \quad x > 0, \quad t \in [0,T) \\
+    (\mathcal{A} V - rV) \{ V(x,t) - \varphi(x) \}  =  0, \quad x > 0, \quad t \in [0,T) \\
+    V(x,t)  \geq \varphi(x), \quad x > 0, \quad t \in [0,T)
+    \end{gather*}
+    
+    along with the terminal and boundary conditions
+
+    \begin{gather*}
+        V(x,T)  =  \varphi(x), \quad x > 0, \\
+    \lim_{x \to \infty} V(x,t)  =  0, \quad V(0,t) = \varphi(0), \quad t \in [0,T)
+    \end{gather*}
+
+    This is called the complementarity problem because the two inequalities cannot be strict 
+    inequalities simultaneously. The partial differential complementarity problem can be solved 
+    numerically by converting it to a matrix linear 
+    complementarity problem by using the finite difference method.
+        }
+\end{frame}
+
+\begin{frame}{Recall}
+
+    {\footnotesize \footnotesize
+    Third, the partial differential complementarity problem can be rewritten as a variational inequality problem:
+
+    \[
+    \min(-\mathcal{A} V + rV, V(x,t) - \varphi(x)) = 0, \quad x > 0, \quad t \in [0,T) \tag{*}
+    \]
+
+    along with the terminal and boundary conditions
+
+    \[
+    V(x,T) = \varphi(x), \quad x > 0,
+    \]
+
+    \[
+    \lim_{x \to \infty} V(x,t) = 0, \quad V(0,t) = \varphi(0), \quad t \in [0,T).
+    \]
+
+    Indeed, there are only two possibility by the partial differential complementarity 
+    problem: either \(-\mathcal{A} V + rV > 0\) or \(-\mathcal{A} V + rV = 0\). In the first case we must 
+    have \(V(x,t) = \varphi(x)\), and in the second case \(V(x,t) \geq \varphi(x)\). Thus, 
+    in both cases we have $(*)$. Hence the partial differential complementarity problem 
+    implies the variational inequality problem.  Conversely, $(*)$ implies that \(V(x,t) \geq \varphi(x)\) 
+    and \(-\mathcal{A} V + rV \geq 0\). Furthermore, if \(-\mathcal{A}V + rV > 0\) then \(V(x,t) - \varphi(x) = 0\) by $(*)$. 
+    Therefore, the variational inequality problem also implies the partial differential complementarity problem.
+        }
+\end{frame}
+
+\begin{frame}{Recall}
+
+    {\footnotesize \footnotesize
+    An efficient way to solve the partial differential complementarity problem is
+    to transform it ot a linear complementarity problem via the finite difference
+    method.
+    \vspace{1em}
+
+    Consider the following (matrix) linear complementarity problem: 
+    Find a vector \( x \in \mathbb{R}^{1 \times n} \)
+
+    \[
+    Ax \geq b, \, x \geq c, \, (x - c)^T (Ax - b) = 0,
+    \]
+
+    for given \( A \in \mathbb{R}^{n \times n}, \, c, b \in \mathbb{R}^{1 \times n} \), where, 
+    for two column vectors \( x \) and \( y, \, x \geq y \) means \( x_i \geq y_i \) for each \( i \).
+    The linear complementarity problem has a unique solution for all
+     column vectors \( b \) and \( c \) if and only if \( A \in \mathbb{R}^{n \times n} \) is a P-matrix.
+    \vspace{1em}
+    
+    Note that if \( A \) is symmetric, then \( A \) is a P-matrix if and only if \( A \) is positive definite.
+     Many matrices that arise in finite-difference and finite-element methods are diagonally dominant.
+    }
+    
+\end{frame}
+\begin{frame}{Recall}
+
+    {\footnotesize \footnotesize
+      More precisely, the matrix \( A \) is diagonally dominant if
+
+    \[
+    |a_{ii}| \geq \sum_{j \neq i} |a_{ij}|, \, \forall i,
+    \]
+
+    where \( a_{ij} \) denotes the entry of \( A \) in the \( i \)th row and \( j \)th column. 
+    If the above inequality is strict, it is called strictly diagonally dominant. A well-known result is that a 
+    symmetric strictly diagonally dominant matrix with real positive diagonal entries is positive definite.
+
+    \vspace{1em}
+
+    The linear complementarity problem can be solved by using many methods, 
+    including pivoting methods (e.g., Lemke's algorithm), quadratic programming, 
+    successive over relaxation (SOR), projected SOR, etc. There are also several 
+    Matlab and Python codes available online.
+
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Recall}
+
+    {\footnotesize \footnotesize
+     The linear complementarity problem is a particular case of the nonlinear complementarity problem, which is to find a vector \( z \in \mathbb{R}^{1 \times n} \)
+
+\[
+f(x) \geq b, \, z \geq c, \, (z - c)^T(f(x) - b) = 0,
+\]
+
+where \( f \) is a given function \( \mathbb{R}^n \longmapsto \mathbb{R}^n, \, c, b \in \mathbb{R}^{1 \times n} \). 
+One way to solve the nonlinear complementarity problem is to use the linear approximation of \( f(x) \) to get
+an iterative algorithm by solving a sequence of the complementarity problem.
+
+\vspace{1em}
+The nonlinear complementarity problem is also related to a variational inequality problem: 
+Given a non-empty set \( K \in \mathbb{R}^n \), a function $g: \mathbb{R}^n \longmapsto \mathbb{R}^n, \, b \in \mathbb{R}^{1 \times n},$
+\(  \, \text{find a } 
+z^* \in K \text{ such that} \)
+
+\[
+\min_{y \in K}(y - z^*)^T g(z^*) \geq 0.
+\]
+
+It can be shown that with
+
+\[
+K = \mathbb{R}_+^{1 \times n}, \, z^* = z - c, \, g(x) = f(x) - b,
+\]
+
+the nonlinear complementarity problem and the variational inequality problem have the same solution.
+
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    The partial differential complementarity problem for \(\psi(x,t)\) without the free boundary,
+
+    \[
+    \frac{\partial \psi}{\partial t} + \frac{\sigma^2 x^2}{2} \frac{\partial^2 \psi}{\partial x^2} + rx \frac{\partial \psi}{\partial x} - r\psi \leq 0
+    \]
+
+    \[
+    \left( \frac{\partial \psi}{\partial t} + \frac{\sigma^2 x^2}{2} \frac{\partial^2 \psi}{\partial x^2} + rx \frac{\partial \psi}{\partial x} - r\psi \right) \{ \psi(t,x) - g(x) \} = 0
+    \]
+
+    \[
+    \psi(x,t) \geq g(x)
+    \]
+
+    \[
+    \psi(x,T) = g(x)
+    \]
+
+    \[
+    \lim_{x \to \infty} \psi(x,t) = 0, \quad \psi(0,t) = g(0),
+    \]
+
+   Where $g(x)$ is the payoff function. Although the algorithm also works for the case where $g(x)$ may be $g(x,t)$ depending on $t$,
+    for notational simplicity we shall focus on the case of time-independent $g(x)$. 
+    First, we can transform the problem based on the standard heat equation by changing variables. 
+
+        }
+    
+\end{frame}
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    \vspace{-2em}
+    \begin{gather*}
+        S = e^x, \quad \tau = (T - t) \frac{\sigma^2}{2}\\
+        u(x,\tau) = \exp\left\{ \frac{1}{2} (c - 1)x +
+         \frac{1}{4} (c + 1)^2 \tau \right\} \cdot \psi(S,t), \quad c = \frac{2r}{\sigma^2},
+    \end{gather*}
+    
+        the Black-Scholes partial differential complementarity problem becomes 
+        a standard heat partial differential complementarity problem, $x \in (-\infty, \infty)$:
+        \begin{gather*}
+            \frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \geq 0\\
+            \left( \frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \right) \{u(\tau, x) - f(x)\} = 0\\
+            u(x, \tau) \geq f(x, \tau), \quad u(x, 0) = f(x, 0) \\
+            \lim_{x \to \infty} u(x, \tau) = 0
+        \end{gather*}
+        where $f(x, \tau) = \exp \left\{ \frac{1}{2} (c-1)x + \frac{1}{4} (c+1)^2 \tau \right\} g(e^x)$.
+        
+        This is the heat equation complementarity problem, with constant coefficients. 
+        We are interested in finding $u(x, \tau)$, where
+        $x \in (-\infty, \infty)$ and $\tau \in [0, T\sigma^2/2]$.
+        }
+    
+\end{frame}
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    We have the transformed the complicated Black-Scholes complementarity PDE
+    into  heat-equation complementarity problem:
+    \[
+    u_\tau - u_{xx} \geq 0, \quad (u_\tau - u_{xx})(u - f) = 0, \quad u \geq f.
+    \]
+    We can't solve this analytically,
+    so we approximate the derivatives $(u_\tau, u_{xx})$ with finite differences on a discrete grid.
+    By discretizing time and space on a regular mesh with step sizes $\delta \tau$ and $\delta x$, 
+    and truncating $x$ 
+    in the region $[-N^- \delta x, N^+ \delta x]$ for suitably large integers $N^+$ and $N^-$, we let
+    \begin{align*}
+    u_{n,m} = u(n\delta x, m\delta \tau), \quad f_{n,m} = f(n\delta x, m\delta \tau), \quad
+    -N^- \leq n \leq N^+, \quad 0 \leq m \leq M,
+    \end{align*}
+    where $M\delta \tau = T\sigma^2/2$.
+    We use the finite difference approximation
+    {\footnotesize \tiny
+    \begin{align*}
+    \frac{\partial u}{\partial \tau} &= \frac{u_{n,m+1} - u_{n,m}}{\delta \tau} + o(\delta \tau), \\
+    \frac{\partial^2 u}{\partial x^2} &= \theta \left( \frac{u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}}{(\delta x)^2} \right) \\
+    &\quad + (1 - \theta) \left( \frac{u_{n+1,m} - 2u_{n,m} + u_{n-1,m}}{(\delta x)^2} \right) + o((\delta x)^2),
+    \end{align*}
+    }
+    where $0 < \theta < 1$.  Note that this is a general way to do the finite difference method;
+     the cases $\theta = 0, 1/2, 1$ yield the explicit, the Crank-Nicolson, and the implicit schemes, respectively.
+        }
+    
+    
+\end{frame}
+
+\begin{frame}{Finite Difference Methods}
+
+    {\footnotesize \footnotesize
+    The explicit scheme does not involve solving linear equations and is known
+    to be numerically stable and convergent whenever
+    \[
+\alpha := \delta \tau / (\delta x)^2 \leq 1/2.
+\]
+    }
+    
     
 \end{frame}
 % \begin{frame}
