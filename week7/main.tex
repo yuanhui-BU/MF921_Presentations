@@ -790,10 +790,201 @@ If your model violates this, then the entire pricing framework collapses.
 \begin{frame}{Law of one price}
 
     {\footnotesize \footnotesize
-    
+    The law says that there should not exist two trading strategies $\phi$ and $\phi'$ such that  
+    \[
+    V(0) > V'(0), \quad V(1, \omega) = V'(1, \omega), \quad \forall \omega \in \Omega.
+    \]
+    \par \textbf{Lemma}: No dominant strategies implies the law of one price. In other words, 
+    the law of one price is a weaker assumption than the assumption of no dominant strategies.
+    \par \textbf{Proof}
+    \par We shall prove this by contradiction. Suppose the law of one price is violated. Then there are two strategies $\phi$ and $\phi'$ such that  
+\[
+V(0) > V'(0), \quad V(1, \omega) = V'(1, \omega), \quad \forall \omega \in \Omega.
+\]  
+Now consider a new strategy $\tilde{\phi} = \phi' - \phi$. Then  
+\[
+\tilde{V}(0) = V'(0) - V(0) < 0, \quad \tilde{V}(1, \omega) = V'(1, \omega) - V(1, \omega) = 0 \geq 0.
+\]  
+Therefore, part (c) in the equivalence of dominant strategies is satisfied, and there exists dominant strategies. A contradiction.
+\par Note: Law of one price not imply no dominant strategies.
+    }
+\end{frame}
+
+\begin{frame}{Arbitrage}
+
+    {\footnotesize \footnotesize
+     An arbitrage opportunity arises when there exists a trading strategy such that:
+     \begin{align*}
+        V(0)=0,\quad V(1)\geq 0,\quad \mathbb{E}[V(1)]>0.
+     \end{align*}
+    If there exists a dominant strategy then there must be an arbitrage opportunity. 
+     However, the converse is not true.
+     \par \textbf{Proposition}: No arbitrage opportunities $\Rightarrow$ no 
+     dominant strategies $\Rightarrow$ law of one price.
+     \par \textbf{Lemma}: The following three statements are equivalent.
+     \begin{enumerate}
+        \item[(a)] $\phi$ is an arbitrage opportunity
+        \item[(b)] The discounted wealth $V^*$ associated with $\phi$ satisfies $V^*(0) = 0$, $V^*(1) \geq 0$, and $\mathbb{E}(V^*(1)) > 0$;
+        \item[(c)] The associated capital gain process $G^*$ satisfies $G^* \geq 0$ and $\mathbb{E}[G^*] > 0$.
+        \end{enumerate}
+    \par \textbf{Proof}:
+    First of all, (a) and (b) are equivalent simply because $B(1) > 0$.
+
+Next, consider statement (c). Suppose $\phi$ is an arbitrage opportunity. We have from (b)
+\[
+G^* = V^*(1) - V(0) = V^*(1) \geq 0,
+\]
+and
+\[
+\mathbb{E}[G^*] = \mathbb{E}[V^*(1)] > 0.
+\]
+    }
+\end{frame}
 
 
+\begin{frame}{Arbitrage}
 
+    {\footnotesize \footnotesize
+      Conversely, suppose $G^* \geq 0$ and $\mathbb{E}[G^*] > 0$ for some strategy $\phi$. Introduce a new strategy $\tilde{\phi} = (\tilde{\phi}_0, \phi_1, \ldots, \phi_N)$, where for the saving account $\tilde{\phi}_0 = -\sum_{n=1}^N \phi_n S_n^*(0)$. Then we see
+\[
+\tilde{V}^*(0) = \tilde{\phi}_0 + \sum_{n=1}^N \phi_n S_n^*(0) = 0,
+\]
+and
+\[
+\tilde{V}^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(0) + G^* = G^*.
+\]
+
+Thus,
+\[
+\tilde{V}^*(0) = 0, \quad \tilde{V}^*(1) \geq 0, \quad \mathbb{E}[\tilde{V}^*(1)] > 0,
+\]
+which is an arbitrage opportunity. Therefore, we finish the proof of the equivalence of (a), (b), (c).
+    }
+\end{frame}
+
+\begin{frame}{Linear Pricing Measure}
+
+    {\footnotesize \footnotesize
+      A linear pricing measure is a non-negative vector $(\pi(\omega_1), \ldots, \pi(\omega_K))$ 
+      such that for every trading strategy $\phi$, we must have
+    \[
+    V(0) = \sum_{j=1}^K \pi(\omega_j) V^*(1, \omega_j),
+    \]
+    where recall that $\Omega = (\omega_1, \ldots, \omega_K)$. 
+    Note that we only know that $\pi \geq 0$. But some of the $\pi(\omega_i)$ could be zero.
+    \par \textbf{Lemma}:
+    \par We must have $\sum_{j=1}^K \pi(\omega_j) = 1$. Thus, $\pi$ must be a probability measure, and for every trading strategy $\phi$
+\[
+V(0) = E_\pi [V^*(1)].
+\]
+
+In other words, if there exists a linear pricing measure, 
+then the measure must be a probability measure, and the price of any asset at time 0 can be written as the expectation of the discounted final 
+payoff of the asset, where the expectation is taken with respect to the measure $\pi$.
+    }
+\end{frame}
+\begin{frame}{Linear Pricing Measure}
+
+    {\footnotesize \footnotesize
+       \par \textbf{Proof}:
+       \par Consider a strategy $\phi$ with $\phi_1 = \phi_2 = \cdots = \phi_N = 0$. In other words, the strategy only invests in the saving account and not in any stocks. Then $V^*(1) \equiv V(0)$.
+\[
+V(0) = \sum_{j=1}^K \pi(\omega_j) V^*(1) = \sum_{j=1}^K \pi(\omega_j) V(0),
+\]
+from which $\sum_{j=1}^K \pi(\omega_j) = 1$, and the conclusion follows.
+\vspace{1em}
+
+\par \textbf{Theorem}: There are no dominant strategies 
+if and only if there exists a linear pricing (probability) measure.
+\vspace{1em}
+\par Proof later.
+    }
+\end{frame}
+
+
+\begin{frame}{Risk-Neutral Measure}
+
+    {\footnotesize \footnotesize
+        A probability measure $Q$ is called a risk-neutral measure if $Q$ satisfies two requirements:
+\begin{enumerate}
+\item[(i)] $Q(\omega_i) > 0$, for all $i = 1, \ldots, K$.
+\item[(ii)] $E_Q(S_n^*(1)) = S_n(0)$ for all $n = 1, \ldots, N$.
+\end{enumerate}
+
+Under a risk-neutral measure, every asset has the same return as that 
+of the saving account. Therefore, under this measure, 
+investor does not give any higher return for higher risk, thus risk-neutral.
+\vspace{1em}
+\par Note that in terms of the simple return, under the risk neutral probability $Q$, we must have
+\[
+E_Q[R_n] = r, \quad R_n = \frac{S_n(1) - S_n(0)}{S_n(0)}.
+\]
+because starting from the discounted-price condition (ii):  
+\[
+E_Q[S_n^*(1)] = S_n(0), \quad S_n^*(1) = \frac{S_n(1)}{B(1)}.
+\]
+
+Since $B(1) = 1 + r$,  
+\begin{align*}
+E_Q\left[\frac{S_n(1)}{1 + r}\right] = S_n(0) 
+\Rightarrow E_Q[S_n(1)] = S_n(0)(1 + r) 
+\Rightarrow E_Q\left[\frac{S_n(1) - S_n(0)}{S_n(0)}\right] = r.
+\end{align*}
+
+Thus $E_Q[R_n] = r$.
+
+    }
+\end{frame}
+
+\begin{frame}{Risk-Neutral Measure}
+
+    {\footnotesize \footnotesize
+    \par A risk neutral probability measure $Q$ is not the real probability 
+    measure $P$ observed in markets! 
+    However, it is a very important mathematical tool to derive pricing formulae. 
+    \vspace{1em}
+    \par \textbf{Theorem}: Absence of arbitrage opportunity is equivalent 
+    to the existence of a risk-neutral measure.
+    \par To prove Theorem 2, we shall show first that the existence of a risk neutral measure guarantees no arbitrage opportunity. Suppose there exist a risk-neutral measure $Q$. Then for any trading strategy $\phi$, we must have
+\begin{align*}
+E_Q[G^*] &= E_Q\left[\sum_{n=1}^N \phi_n \Delta S_n^*\right] = \sum_{n=1}^N \phi_n E_Q[\Delta S_n^*] 
+= \sum_{n=1}^N \phi_n E_Q[S_n^*(1) - S_n(0)] = 0,
+\end{align*}
+by part (ii) in the definition of risk-neutral measure. Now suppose there is an arbitrage opportunity. Then there is a trading strategy $\phi$ such that
+\[
+G^* \geq 0, \quad E[G^*] = \sum_{j=1}^K G^*(\omega_j) P(\omega_j) > 0,
+\]
+    }
+\end{frame}
+
+\begin{frame}{Risk-Neutral Measure}
+
+    {\footnotesize \footnotesize
+    by Part (c) in the equivalent statements of arbitrage. Thus, there must be a $G^*(\omega_k) > 0$ and $G^*(\omega_j) \geq 0$ for all $j = 1, \ldots, K$. Therefore,
+\[
+E_Q[G^*] = \sum_{j=1}^K G^*(\omega_j) Q(\omega_j) \geq G^*(\omega_k) Q(\omega_k) > 0,
+\]
+as $Q(\omega_k) > 0$. A contradiction to the fact that $E_Q[G^*] = 0$. The proof is terminated.
+
+The harder part is to show that no arbitrage 
+implies the existence of a risk neutral measure. The proof will give later.
+\vspace{1em}
+
+\par \textbf{Corollary:} In the binomial tree model there is no arbitrage 
+for trading stocks if and only if $u > R > d$.
+\vspace{1em}
+\par \textbf{Proof}: This is because there is a
+\[
+p^* = \frac{R - d}{u - d},
+\]
+and $p^* \in (0, 1)$ if and only if $u > R > d$.
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+     
     }
 \end{frame}
 % \begin{frame}
