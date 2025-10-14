@@ -17,7 +17,8 @@
 \usefonttheme{professionalfonts} % keeps proper math fonts
 
 \usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
-\usepackage{mathrsfs}                 % optional: \mathscr for fancy script
+\usepackage{mathrsfs}    
+\usepackage{multicol}             % optional: \mathscr for fancy script
 
 % \setbeamercovered{invisible} 
 \setbeamercovered{transparent}
@@ -984,9 +985,102 @@ and $p^* \in (0, 1)$ if and only if $u > R > d$.
 \begin{frame}{Linear Programming and Linear Pricing Measures}
 
     {\footnotesize \footnotesize
+     There are two optimization problems in linear programming:
+
+    \begin{multicols}{2}
+\noindent
+(1) Primal Problem
+\[
+\begin{aligned}
+&\max_{x_1,\ldots,x_n} c_1 x_1 + c_2 x_2 + \cdots + c_n x_n \\
+&\text{subject to: } \\
+&a_{11} x_1 + a_{12} x_2 + \cdots + a_{1n} x_n \leq b_1 \\
+&a_{21} x_1 + a_{22} x_2 + \cdots + a_{2n} x_n \leq b_2 \\
+&\vdots \\
+&a_{m1} x_1 + a_{m2} x_2 + \cdots + a_{mn} x_n \leq b_m \\
+&x_j \geq 0, \quad j = 1, \ldots, n
+\end{aligned}
+\]
+
+% \columnbreak
+
+\noindent
+(2) Dual Problem
+\[
+\begin{aligned}
+&\min_{y_1,\ldots,y_m} b_1 y_1 + b_2 y_2 + \cdots + b_m y_m \\
+&\text{subject to: } \\
+&a_{11} y_1 + a_{21} y_2 + \cdots + a_{m1} y_m \geq c_1 \\
+&a_{12} y_1 + a_{22} y_2 + \cdots + a_{m2} y_m \geq c_2 \\
+&\vdots \\
+&a_{1n} y_1 + a_{2n} y_2 + \cdots + a_{mn} y_m \geq c_n \\
+&y_i \geq 0, \quad i = 1, \ldots, m
+\end{aligned}
+\]
+\end{multicols}
+In matrix notation, we have (1) $\max\limits_X c^\top X$, subject to $AX \leq b$, $X \geq 0$ 
+and (2) $\min\limits_Y Y^\top b$, subject to $A^\top Y \geq c$, $Y \geq 0$. (1) and (2) 
+are called dual problems to each other. Note that every equality constraint can be translated into two 
+inequality constraints (e.g.\ $w = c$ means exactly $w \geq c$ and $-w \geq -c$)
+
+    }
+\end{frame}
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    Two key results in linear programming are:
+
+\par Result 1 (Feasibility): For any LP problem, one of the following must hold:
+\begin{enumerate}
+\item[(a)] The LP has a finite optimal solution.
+\item[(b)] The optimal solution is either $\infty$ or $-\infty$.
+\item[(c)] The feasible region is empty, and thus the LP has no optimal solution.
+\end{enumerate}
+\vspace{1em}
+\par Result 2 (Weak Duality): For the primal-dual pair define above, if we take any feasible $x$
+and any feasible $y$, we have the weak duaility $c^\top x\leq b^\top y$. Proof follows from the two inequalities:
+$ c^\top x\leq y^\top Ax \leq y^\top b = b^\top y$.
+\vspace{1em}
+\par Result 3 (Strong Duality):
+If a LP problem has a finite optimal solution, then so does its dual,
+ and the optimal values for both the primary and the dual problem must be equal.
+ The proof idea uses the geometry of convex sets (via the Farkas lemma or separating hyperplane theorem)
+
+
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    \par \textbf{Strong Duality Theorem (Linear Programming):}
+    If the primal LP
+    \[
+    \max_{x} c^{\top} x \quad \text{s.t. } Ax \leq b, \, x \geq 0
+    \]
+    has a finite optimal solution $x^*$, then the dual LP
+    \[
+    \min_{y} b^{\top} y \quad \text{s.t. } A^{\top} y \geq c, \, y \geq 0
+    \]
+    also has an optimal solution $y^*$, and $ c^{\top} x^* = b^{\top} y^*.$
+    \vspace{1em}
+    \par This dual relationship is exactly how arbitrage-free pricing is framed:
+    \begin{itemize}
+        \item  The primal problem corresponds to ``finding a trading strategy to make profit'' (maximize wealth)
+        \item  The dual problem corresponds to ``finding consistent state prices or probabilities'' (minimize cost)
+        \item  no arbitrage $\Leftrightarrow$ both sides match.
+    \end{itemize}
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
      
     }
 \end{frame}
+
+
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
