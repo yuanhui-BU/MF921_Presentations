@@ -895,7 +895,7 @@ V(0) = \sum_{j=1}^K \pi(\omega_j) V^*(1) = \sum_{j=1}^K \pi(\omega_j) V(0),
 from which $\sum_{j=1}^K \pi(\omega_j) = 1$, and the conclusion follows.
 \vspace{1em}
 
-\par \textbf{Theorem}: There are no dominant strategies 
+\par \textbf{Theorem 1}: There are no dominant strategies 
 if and only if there exists a linear pricing (probability) measure.
 \vspace{1em}
 \par Proof later.
@@ -944,7 +944,7 @@ Thus $E_Q[R_n] = r$.
     measure $P$ observed in markets! 
     However, it is a very important mathematical tool to derive pricing formulae. 
     \vspace{1em}
-    \par \textbf{Theorem}: Absence of arbitrage opportunity is equivalent 
+    \par \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
     to the existence of a risk-neutral measure.
     \par To prove Theorem 2, we shall show first that the existence of a risk neutral measure guarantees no arbitrage opportunity. Suppose there exist a risk-neutral measure $Q$. Then for any trading strategy $\phi$, we must have
 \begin{align*}
@@ -1037,9 +1037,9 @@ inequality constraints (e.g.\ $w = c$ means exactly $w \geq c$ and $-w \geq -c$)
 \item[(c)] The feasible region is empty, and thus the LP has no optimal solution.
 \end{enumerate}
 \vspace{1em}
-\par Result 2 (Weak Duality): For the primal-dual pair define above, if we take any feasible $x$
-and any feasible $y$, we have the weak duaility $c^\top x\leq b^\top y$. Proof follows from the two inequalities:
-$ c^\top x\leq y^\top Ax \leq y^\top b = b^\top y$.
+% \par Result 2 (Weak Duality): For the primal-dual pair define above, if we take any feasible $x$
+% and any feasible $y$, we have the weak duaility $c^\top x\leq b^\top y$. Proof follows from the two inequalities:
+% $ c^\top x\leq y^\top Ax \leq y^\top b = b^\top y$.
 \vspace{1em}
 \par Result 3 (Strong Duality):
 If a LP problem has a finite optimal solution, then so does its dual,
@@ -1076,7 +1076,120 @@ If a LP problem has a finite optimal solution, then so does its dual,
 \begin{frame}{Linear Programming and Linear Pricing Measures}
 
     {\footnotesize \footnotesize
-     
+    \par \textbf{Theorem 1}: There are no dominant strategies 
+    if and only if there exists a linear pricing (probability) measure.
+    \vspace{1em}
+    \par \textbf{Proof}:
+    Let $S = (1, S_1^*(0), \ldots, S_N^*(0))^T$ and let
+    \[
+    Z =
+    \begin{pmatrix}
+    1 & \cdots & 1 \\
+    S_1^*(1, \omega_1) & \cdots & S_1^*(1, \omega_K) \\
+    \vdots & \ddots & \vdots \\
+    S_N^*(1, \omega_1) & \cdots & S_N^*(1, \omega_K)
+    \end{pmatrix}
+    \]
+    be all the possible outcomes of asset prices at time 1. Denote $h$ to be any trading strategy $h = (\phi_0, \phi_1, \ldots, \phi_N)$. Then the wealth process is given by
+    \[
+    V(0) = hS, \quad V^*(1) = hZ.
+    \]
+    \par Using part (b) of Exercise 4, we 
+    see that the existence of a linear pricing measure implies no dominant strategy.
+
+
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    \par Conversely, if there is no dominant strategy, 
+    then the value of the linear programming problem $\min_h hS$, 
+    subject to $hZ \geq 0$, has to be non-negative. But, since one can 
+    always choose no trading at all, the value of the linear programming 
+    problem has to be zero. Consequently, its dual problem must also have a value 
+    zero. This, in conjunction with part (a) of Exercise 4, implies that 
+    there exists a non-negative vector $\pi$, $Z\pi = S$,
+     which is the linear pricing measure. The proof is terminated.
+     \vspace{1em}
+    \par \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
+    to the existence of a risk-neutral measure.
+    \vspace{1em}
+    \par \textbf{Farkas' Lemma}
+    \par Let $A$ be an $m \times n$ matrix and $b$ be an $m$-dimensional column vector. Then either
+
+    \[
+    Ax = b, \quad x \geq 0, \quad x = (x_1, \ldots, x_n)^\top
+    \]
+
+    has a solution, or
+
+    \[
+    yA \leq 0, \quad yb > 0, \quad y = (y_1, \ldots, y_m)
+    \]
+
+    has a solution, but not both.
+
+    }
+\end{frame}
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+     Now we start to prove that no arbitrage implies the existence of a risk neutral measure. Let $A$ be the $(K + 1) \times (2N + K)$ matrix:
+
+    \[
+    A = 
+    \begin{pmatrix}
+    0 & 0 & 0 & \cdots & 0 \\
+    \Delta S^*_1(\omega_1) & -\Delta S^*_1(\omega_1) & \Delta S^*_2(\omega_1) & \cdots & -\Delta S^*_N(\omega_1) \\
+    \Delta S^*_1(\omega_2) & -\Delta S^*_1(\omega_2) & \Delta S^*_2(\omega_2) & \cdots & -\Delta S^*_N(\omega_2) \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+    \Delta S^*_1(\omega_K) & -\Delta S^*_1(\omega_K) & \Delta S^*_2(\omega_K) & \cdots & -\Delta S^*_N(\omega_K)
+    \end{pmatrix} \circ B,
+    \]
+    where the notation $\circ$ means pasting two matrices together, and
+
+    \[
+    B = \begin{pmatrix}
+    1 & 1 & \cdots & 1 \\
+    -1 & 0 & \cdots & 0 \\
+    0 & -1 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & -1
+    \end{pmatrix}.
+    \]
+
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    
+    \par \textbf{Lemma}: Denote $b = (1, 0, \ldots, 0)^T$ be a $(K + 1)$ column vector. Then
+
+\[
+Ax = b, \, x \geq 0, \, x = (x_1, \ldots, x_{2N+K})
+\]
+
+has a solution if and only if there exists an arbitrage opportunity.
+\vspace{1em}
+\par \textbf{Proof}:
+The equation $Ax = b$ leads to a system of equations:
+
+\begin{enumerate}
+\item[(a)] The first equation of the system says
+\[
+x_{2N+1} + \cdots + x_{2N+K} = 1,
+\]
+which implies that $x_{2N+k} > 0$ for at least one value of $k$.
+
+\item[(b)] For $i \geq 2$ the $i$th equation is
+\[
+\Delta S_1^*(\omega_{i-1})(x_1 - x_2) + \cdots + \Delta S_N^*(\omega_{i-1})(x_{2N-1} - x_{2N}) = x_{2N+i-1}.
+\]
+\end{enumerate}
     }
 \end{frame}
 
