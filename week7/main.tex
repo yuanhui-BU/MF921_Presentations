@@ -61,7 +61,7 @@
     represent the highest discounted expected payoff you can achieve by optimally choosing when to stop.
     \vspace{1em}
 
-    First, the optimal reward and moving boundary functions together solve the
+     \pause First, the optimal reward and moving boundary functions together solve the
     following free-boundary (to be determined) problem:
         \[
         \begin{cases}
@@ -93,7 +93,7 @@
     \lim_{x \to \infty} V(x,t)  =  0, \quad V(0,t) = \varphi(0), \quad t \in [0,T)
     \end{gather*}
 
-    This is called the complementarity problem because the two inequalities cannot be strict 
+     \pause This is called the complementarity problem because the two inequalities cannot be strict 
     inequalities simultaneously. The partial differential complementarity problem can be solved 
     numerically by converting it to a matrix linear 
     complementarity problem by using the finite difference method.
@@ -119,13 +119,13 @@
     \lim_{x \to \infty} V(x,t) = 0, \quad V(0,t) = \varphi(0), \quad t \in [0,T).
     \]
 
-    Indeed, there are only two possibility by the partial differential complementarity 
+     \pause Indeed, there are only two possibility by the partial differential complementarity 
     problem: either \(-\mathcal{A} V + rV > 0\) or \(-\mathcal{A} V + rV = 0\). In the first case we must 
     have \(V(x,t) = \varphi(x)\), and in the second case \(V(x,t) \geq \varphi(x)\). Thus, 
     in both cases we have $(*)$. Hence the partial differential complementarity problem 
     implies the variational inequality problem.  Conversely, $(*)$ implies that \(V(x,t) \geq \varphi(x)\) 
     and \(-\mathcal{A} V + rV \geq 0\). Furthermore, if \(-\mathcal{A}V + rV > 0\) then \(V(x,t) - \varphi(x) = 0\) by $(*)$. 
-    Therefore, the variational inequality problem also implies the partial differential complementarity problem.
+    \par Therefore, the variational inequality problem also implies the partial differential complementarity problem.
         }
 \end{frame}
 
@@ -150,7 +150,7 @@
      column vectors \( b \) and \( c \) if and only if \( A \in \mathbb{R}^{n \times n} \) is a P-matrix.
     \vspace{1em}
     
-    Note that if \( A \) is symmetric, then \( A \) is a P-matrix if and only if \( A \) is positive definite.
+     \pause Note that if \( A \) is symmetric, then \( A \) is a P-matrix if and only if \( A \) is positive definite.
      Many matrices that arise in finite-difference and finite-element methods are diagonally dominant.
     }
     
@@ -170,7 +170,7 @@
 
     \vspace{1em}
 
-    The linear complementarity problem can be solved by using many methods, 
+     \pause The linear complementarity problem can be solved by using many methods, 
     including pivoting methods (e.g., Lemke's algorithm), quadratic programming, 
     successive over relaxation (SOR), projected SOR, etc. There are also several 
     Matlab and Python codes available online.
@@ -194,7 +194,7 @@ One way to solve the nonlinear complementarity problem is to use the linear appr
 an iterative algorithm by solving a sequence of the complementarity problem.
 
 \vspace{1em}
-The nonlinear complementarity problem is also related to a variational inequality problem: 
+ \pause The nonlinear complementarity problem is also related to a variational inequality problem: 
 Given a non-empty set \( K \in \mathbb{R}^n \), a function $g: \mathbb{R}^n \longmapsto \mathbb{R}^n, \, b \in \mathbb{R}^{1 \times n},$
 \(  \, \text{find a } 
 z^* \in K \text{ such that} \)
@@ -241,7 +241,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     \lim_{x \to \infty} \psi(x,t) = 0, \quad \psi(0,t) = g(0),
     \]
 
-   Where $g(x)$ is the payoff function. Although the algorithm also works for the case where $g(x)$ may be $g(x,t)$ depending on $t$,
+    \pause Where $g(x)$ is the payoff function. Although the algorithm also works for the case where $g(x)$ may be $g(x,t)$ depending on $t$,
     for notational simplicity we shall focus on the case of time-independent $g(x)$. 
     First, we can transform the problem based on the standard heat equation by changing variables. 
 
@@ -261,7 +261,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     
         the Black-Scholes partial differential complementarity problem becomes 
         a standard heat partial differential complementarity problem, $x \in (-\infty, \infty)$:
-        \begin{gather*}
+         \pause \begin{gather*}
             \frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \geq 0\\
             \left( \frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \right) \{u(\tau, x) - f(x)\} = 0\\
             u(x, \tau) \geq f(x, \tau), \quad u(x, 0) = f(x, 0) \\
@@ -284,7 +284,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     \[
     u_\tau - u_{xx} \geq 0, \quad (u_\tau - u_{xx})(u - f) = 0, \quad u \geq f.
     \]
-    We can't solve this analytically,
+    \pause  We can't solve this analytically,
     so we approximate the derivatives $(u_\tau, u_{xx})$ with finite differences on a discrete grid.
     By discretizing time and space on a regular mesh with step sizes $\delta \tau$ and $\delta x$, 
     and truncating $x$ 
@@ -294,7 +294,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     -N^- \leq n \leq N^+, \quad 0 \leq m \leq M,
     \end{align*}
     where $M\delta \tau = T\sigma^2/2$.
-    We use the finite difference approximation
+    \par  \pause We use the finite difference approximation
     {\footnotesize \tiny
     \begin{align*}
     \frac{\partial u}{\partial \tau} &= \frac{u_{n,m+1} - u_{n,m}}{\delta \tau} + o(\delta \tau), \\
@@ -322,7 +322,7 @@ the nonlinear complementarity problem and the variational inequality problem hav
     \alpha := \delta \tau / (\delta x)^2 \leq 1/2.
     \]
 
-    The implicit and the Crank-Nicolson schemes are always numerically stable and convergent 
+     \pause The implicit and the Crank-Nicolson schemes are always numerically stable and convergent 
     but more numerically intensive than the explicit method. They require solving a system of 
     linear equations on each time step. Usually, the Crank-Nicolson scheme is the most accurate 
     scheme for small time steps, while the implicit scheme works best for large time steps. In general, 
@@ -337,21 +337,21 @@ the nonlinear complementarity problem and the variational inequality problem hav
     {\footnotesize \footnotesize
     With these approximations, we have
     {\footnotesize \tiny
-\begin{align*}
-\frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \approx & \frac{u_{n,m+1} - u_{n,m}}{\delta \tau} - \theta \left( \frac{u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}}{(\delta x)^2} \right) \\
-& - (1 - \theta) \left( \frac{u_{n+1,m} - 2u_{n,m} + u_{n-1,m}}{(\delta x)^2} \right).
-\end{align*}
-    }
+    \begin{align*}
+    \frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \approx & \frac{u_{n,m+1} - u_{n,m}}{\delta \tau} - \theta \left( \frac{u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}}{(\delta x)^2} \right) \\
+    & - (1 - \theta) \left( \frac{u_{n+1,m} - 2u_{n,m} + u_{n-1,m}}{(\delta x)^2} \right).
+    \end{align*}
+        }
 
-Thus, the requirement that $\frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \geq 0$ becomes for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
-\[
-u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) \geq b_{n,m}, 
-\]
-where
-\[
-b_{n,m} := u_{n,m} + \alpha (1 - \theta) (u_{n+1,m} - 2u_{n,m} + u_{n-1,m}),
- \quad \alpha = \delta\tau/(\delta x)^2.
-\]
+     \pause Thus, the requirement that $\frac{\partial u}{\partial \tau} - \frac{\partial^2 u}{\partial x^2} \geq 0$ becomes for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
+    \[
+    u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) \geq b_{n,m}, 
+    \]
+    where
+    \[
+    b_{n,m} := u_{n,m} + \alpha (1 - \theta) (u_{n+1,m} - 2u_{n,m} + u_{n-1,m}),
+    \quad \alpha = \delta\tau/(\delta x)^2.
+    \]
      Note that if we move forward in time, at the $(m + 1)$-th step we
      know $b_{n,m}$ explicitly, via $u_{n,m}$, $u_{n+1,m}$, and $u_{n-1,m}$.
 
@@ -364,16 +364,16 @@ b_{n,m} := u_{n,m} + \alpha (1 - \theta) (u_{n+1,m} - 2u_{n,m} + u_{n-1,m}),
 
     {\footnotesize \footnotesize
      The requirement $u(\tau, x) - f(\tau, x) \geq 0$ becomes, for $-N^- \leq n \leq N^+$, $0 \leq m \leq M$,
-\[
-u_{n,m} \geq f_{n,m}. 
-\]
+    \[
+    u_{n,m} \geq f_{n,m}. 
+    \]
 
-To simplify the operation, we shall translate the complementarity condition to $(m + 1)$-th time point as, for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
-\[
-\{u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) - b_{n,m}\} \{u_{n,m+1} - f_{n,m+1}\} = 0.
-\]
+    To simplify the operation, we shall translate the complementarity condition to $(m + 1)$-th time point as, for $-N^- + 2 \leq n \leq N^+ - 2$, $0 \leq m \leq M - 1$,
+    \[
+    \{u_{n,m+1} - \alpha \theta (u_{n+1,m+1} - 2u_{n,m+1} + u_{n-1,m+1}) - b_{n,m}\} \{u_{n,m+1} - f_{n,m+1}\} = 0.
+    \]
 
-The initial condition is easy because $u(0, x) = f(0, x)$, yielding
+     \pause The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     \[
     u_{n, 0} = f_{n, 0}. 
     \]
@@ -383,7 +383,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     \[
     u_{-N^{-},m} = f(-N^{-},m), \quad u_{N^{+},m} = f(N^{+},m), \quad 0 \leq m \leq M. 
     \]
-     The intuition is that when stock price $S(t) \to \infty$ or $S(t) \to 0$, 
+     \pause  The intuition is that when stock price $S(t) \to \infty$ or $S(t) \to 0$, 
     corresponding to $x \to \infty$ and $x \to -\infty$, 
     the option price at time $t$ should be very close to the option payoff at time $t$.
     }
@@ -399,7 +399,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     At the boundaries, one neighbor lies outside the computational grid.
     \vspace{1em}
 
-    For the term $u_{n,m+1}$ when $n = N^{+} - 1$, we have
+     \pause For the term $u_{n,m+1}$ when $n = N^{+} - 1$, we have
     \begin{align*}
     &u_{N^{+}-1,m+1} - u_{N^{+}-1,m} - \alpha \theta (u_{N^{+},m+1} - 2u_{N^{+}-1,m+1} + u_{N^{+}-2,m+1}) \\
     &\geq \alpha(1 - \theta) (u_{N^{+},m} - 2u_{N^{+}-1,m} + u_{N^{+}-2,m}), 
@@ -410,7 +410,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     \alpha \theta u_{N^{+},m+1},
     \]
 
-    where
+     \pause where
     \[
     b_{N^{+}-1,m} := u_{N^{+}-1,m} + \alpha (1 - \theta) (u_{N^{+},m} - 2u_{N^{+}-1,m} + u_{N^{+}-2,m}),
     \]
@@ -435,7 +435,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     u_{-N^{-}+1,m+1} - \alpha \theta (u_{-N^{-}+2,m+1} - 2u_{-N^{-}+1,m+1}) 
     \geq b_{-N^{-}+1,m} + \alpha \theta u_{-N^{-},m+1}, 
     \]
-    where
+     \pause where
     \[
     b_{-N^{-}+1,m} := u_{-N^{-}+1,m} + \alpha (1 - \theta) (u_{-N^{-}+2,m} - 2u_{-N^{-}+1,m} + u_{-N^{-}+1,m}).
     \]
@@ -463,13 +463,13 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
         b^{(m)} := (b_{-N^-+1,m}, \ldots, b_{N^+-1,m})^T,\\
     \end{gather*}
     \vspace{-3em}
-    \par So each vector represents one time slice of all the interior spatial nodes. At the boundaries,
+    \par  \pause So each vector represents one time slice of all the interior spatial nodes. At the boundaries,
     we define a correction vector to represent how the known boundary 
     values affect the equations for the first and last interior points.
     \begin{align*}
     \xi^{(m)} &:= (\alpha \theta u_{-N^-,m+1}, 0, 0, \ldots, 0, 0, \alpha \theta u_{N^+,m+1})^T,
     \end{align*}
-    and a $(N^+ + N^- - 2) \times (N^+ + N^- - 2)$ square, tridiagonal, symmetric matrix
+     \pause and a $(N^+ + N^- - 2) \times (N^+ + N^- - 2)$ square, tridiagonal, symmetric matrix
     \[
     C = 
     \begin{pmatrix}
@@ -501,7 +501,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     \begin{align*}
         Cu^{(m+1)} \geq b^{(m)} + \xi^{(m)}.
     \end{align*}
-    \par The inequality $u_{n,m} \geq f_{n,m}$ can be written as $u^{(m+1)} \geq f^{(m+1)}$. 
+    \par  \pause The inequality $u_{n,m} \geq f_{n,m}$ can be written as $u^{(m+1)} \geq f^{(m+1)}$. 
     The linear complementarity condition becomes
     \begin{align*}
         \left(u^{(m+1)} - f^{(m+1)}\right)^T \left(Cu^{(m+1)} - b^{(m)} - \xi^{(m)}\right) = 0.
@@ -520,7 +520,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     u^{(0)} = f^{(0)} = \text{payoff}.
     \]
 
-    \textbf{Backward time-stepping (for $m = 0, 1, \ldots, M - 1$):}
+     \pause \textbf{Backward time-stepping (for $m = 0, 1, \ldots, M - 1$):}
     \begin{enumerate}
     \item \textbf{Compute known quantities:}
     \[
@@ -529,12 +529,12 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     %(u_{n+1,m} - 2u_{n,m} + u_{n-1,m})
     and boundary correction $\xi^{(m)}$.
 
-    \item \textbf{Set up right-hand side:}
+     \pause \item \textbf{Set up right-hand side:}
     \[
     q = b^{(m)} + \xi^{(m)}.
     \]
 
-    \item \textbf{Solve LCP:}
+     \pause \item \textbf{Solve LCP:}
     \[
     \begin{cases}
     C u^{(m+1)} \geq q, \\
@@ -563,7 +563,7 @@ The initial condition is easy because $u(0, x) = f(0, x)$, yielding
     Thus, the symmetric matrix $C$ is positive definite, and the linear complementarity problem 
     given by three inequalities has a unique solution.
     \vspace{1em}
-    \par Projected Successive Over-Relaxation (PSOR)
+    \par  \pause Projected Successive Over-Relaxation (PSOR)
     \par We could solve that exactly by inversion, but for 
     large systems (like in PDE grids), we often use iterative methods.
     \par We rearrange each equation for its main variable $u_i$:
@@ -598,7 +598,7 @@ That's the Gauss-Seidel update rule.
     u_i = \frac{1}{1 + 2\alpha \theta} \left( q_i + \alpha \theta u_{i-1} + \alpha \theta u_{i+1} \right).
     \]
     
-    We also need $u_i \geq f_i$, we simply project each update:
+    \pause  We also need $u_i \geq f_i$, we simply project each update:
     \[
     u_i^{(k+1)} = \max \left( f_i, \frac{1}{C_{ii}} \left[ q_i - \sum_{j<i} C_{ij} u_j^{(k+1)} 
     - \sum_{j>i} C_{ij} u_j^{(k)} \right] \right).
@@ -630,7 +630,7 @@ That's the Gauss-Seidel update rule.
 
     At $t = 0$, $\tau = T\sigma^2 / 2$.
 
-    So the original option price surface is:
+     \pause So the original option price surface is:
     \[
     \psi(S, 0) = e^{-\frac{1}{2}(c-1)\ln S - \frac{1}{4}(c+1)^2 \tau_{\max}} u(\ln S, \tau_{\max}).
     \]
@@ -664,21 +664,21 @@ That's the Gauss-Seidel update rule.
     and the possible stock movements (up and down) is inconsistent, arbitrage automatically arises.
     \vspace{1em}
     \par A valid model (arbitrage-free) must satisfy:
-\[
-d < R < u,
-\]
+    \[
+    d < R < u,
+    \]
 
-where:
-\begin{itemize}
-\item \( u = \text{up-factor} = S_u / S_0 \),
-\item \( d = \text{down-factor} = S_d / S_0 \),
-\item \( R = 1 + r \).
-\end{itemize}
+     \pause where:
+    \begin{itemize}
+    \item \( u = \text{up-factor} = S_u / S_0 \),
+    \item \( d = \text{down-factor} = S_d / S_0 \),
+    \item \( R = 1 + r \).
+    \end{itemize}
 
-Only in that range can there exist a risk-neutral probability \( p^* = \frac{R-d}{u-d} \) with \( 0 < p^* < 1 \).
-Arbitrage-free condition ensures no riskless trading profit 
-can be made by combining borrowing/lending and buying/selling the stock.
-If your model violates this, then the entire pricing framework collapses.
+    Only in that range can there exist a risk-neutral probability \( p^* = \frac{R-d}{u-d} \) with \( 0 < p^* < 1 \).
+    Arbitrage-free condition ensures no riskless trading profit 
+    can be made by combining borrowing/lending and buying/selling the stock.
+    If your model violates this, then the entire pricing framework collapses.
 
     }
 \end{frame}
@@ -698,7 +698,7 @@ If your model violates this, then the entire pricing framework collapses.
             V(t) := \varphi_0 B(t) + \sum_{n=1}^N \varphi_n S_n(t) .
         \end{align*}
      \end{itemize}
-      \par The self-financing condition is defined as:
+      \par  \pause The self-financing condition is defined as:
         \begin{align*}
             V(1) - V(0) = \phi_0 \Delta B + \sum_{n=1}^N \phi_n \Delta S_n,
         \end{align*}
@@ -718,7 +718,7 @@ If your model violates this, then the entire pricing framework collapses.
     \begin{align*}
         V^*(1) - V^*(0) = \sum_{n=1}^N \phi_n \Delta S_n^*, \quad V^*(t) = V(t)/B(t).
     \end{align*}
-    Define the capital gain process
+     \pause Define the capital gain process
     \begin{align*}
         G^* = \sum_{n=1}^N \phi_n \Delta S_n^*, \quad  V^*(1) = V(0) + G^*.
     \end{align*}
@@ -739,13 +739,13 @@ If your model violates this, then the entire pricing framework collapses.
     %
     with probability one (i.e.\ \(V(1, \omega) > \tilde{V}(1, \omega)\) for any \(\omega \in \Omega\)).
     \vspace{1em}
-    \par \textbf{Lemma 1.} The following statements are equivalent.
+    \par  \pause \textbf{Lemma 1.} The following statements are equivalent.
     \begin{itemize}
         \item There is a dominant strategy.
         \item There exists a trading strategy such that \(V(0) = 0\) and \(V(1) > 0\) with probability one.
         \item There exists a trading strategy such that \(V(0) < 0\) and \(V(1) \geq 0\) with probability one.
     \end{itemize}
-    \par \textbf{Proof}:
+    \par \pause  \textbf{Proof}:
     \par (a) \(\Rightarrow\) (b): Suppose there are two trading strategies \(\hat{\phi}\) and \(\tilde{\phi}\) such that \(\hat{\phi}\) dominates \(\tilde{\phi}\). Then consider another trading strategy \(\phi = \hat{\phi} - \tilde{\phi}\). We have, via the definition of wealth processes,
     %
     \[
@@ -772,7 +772,7 @@ If your model violates this, then the entire pricing framework collapses.
         \tilde{V}(0) = -\varepsilon < 0, \quad \tilde{V}^*(1, \omega) = -\varepsilon + G^*(\omega) \geq 0.
     \end{align*}
     \par So you borrow money at the beginning (\(V(0) < 0\)), but never lose at the end (\(V(1) \geq 0\)). That's (c).
-    \par (c) $\Rightarrow$ (a): Now suppose we have (c): \( V(0) < 0 \) and \( V(1) \geq 0 \). 
+    \par  \pause (c) $\Rightarrow$ (a): Now suppose we have (c): \( V(0) < 0 \) and \( V(1) \geq 0 \). 
     Construct a new strategy \(\tilde{\phi}\):
     \vspace{-1em}
     \begin{align*}
@@ -797,7 +797,7 @@ If your model violates this, then the entire pricing framework collapses.
     \]
     \par \textbf{Lemma}: No dominant strategies implies the law of one price. In other words, 
     the law of one price is a weaker assumption than the assumption of no dominant strategies.
-    \par \textbf{Proof}
+    \par  \pause \textbf{Proof}
     \par We shall prove this by contradiction. Suppose the law of one price is violated. Then there are two strategies $\phi$ and $\phi'$ such that  
 \[
 V(0) > V'(0), \quad V(1, \omega) = V'(1, \omega), \quad \forall \omega \in \Omega.
@@ -807,7 +807,7 @@ Now consider a new strategy $\tilde{\phi} = \phi' - \phi$. Then
 \tilde{V}(0) = V'(0) - V(0) < 0, \quad \tilde{V}(1, \omega) = V'(1, \omega) - V(1, \omega) = 0 \geq 0.
 \]  
 Therefore, part (c) in the equivalence of dominant strategies is satisfied, and there exists dominant strategies. A contradiction.
-\par Note: Law of one price not imply no dominant strategies.
+\par \pause  Note: Law of one price not imply no dominant strategies.
     }
 \end{frame}
 
@@ -820,7 +820,7 @@ Therefore, part (c) in the equivalence of dominant strategies is satisfied, and 
      \end{align*}
     If there exists a dominant strategy then there must be an arbitrage opportunity. 
      However, the converse is not true.
-     \par \textbf{Proposition}: No arbitrage opportunities $\Rightarrow$ no 
+     \par  \pause \textbf{Proposition}: No arbitrage opportunities $\Rightarrow$ no 
      dominant strategies $\Rightarrow$ law of one price.
      \par \textbf{Lemma}: The following three statements are equivalent.
      \begin{enumerate}
@@ -828,7 +828,7 @@ Therefore, part (c) in the equivalence of dominant strategies is satisfied, and 
         \item[(b)] The discounted wealth $V^*$ associated with $\phi$ satisfies $V^*(0) = 0$, $V^*(1) \geq 0$, and $\mathbb{E}(V^*(1)) > 0$;
         \item[(c)] The associated capital gain process $G^*$ satisfies $G^* \geq 0$ and $\mathbb{E}[G^*] > 0$.
         \end{enumerate}
-    \par \textbf{Proof}:
+    \par  \pause \textbf{Proof}:
     First of all, (a) and (b) are equivalent simply because $B(1) > 0$.
 
 Next, consider statement (c). Suppose $\phi$ is an arbitrage opportunity. We have from (b)
@@ -846,20 +846,20 @@ and
 \begin{frame}{Arbitrage}
 
     {\footnotesize \footnotesize
-      Conversely, suppose $G^* \geq 0$ and $\mathbb{E}[G^*] > 0$ for some strategy $\phi$. Introduce a new strategy $\tilde{\phi} = (\tilde{\phi}_0, \phi_1, \ldots, \phi_N)$, where for the saving account $\tilde{\phi}_0 = -\sum_{n=1}^N \phi_n S_n^*(0)$. Then we see
-\[
-\tilde{V}^*(0) = \tilde{\phi}_0 + \sum_{n=1}^N \phi_n S_n^*(0) = 0,
-\]
-and
-\[
-\tilde{V}^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(0) + G^* = G^*.
-\]
+        Conversely, suppose $G^* \geq 0$ and $\mathbb{E}[G^*] > 0$ for some strategy $\phi$. Introduce a new strategy $\tilde{\phi} = (\tilde{\phi}_0, \phi_1, \ldots, \phi_N)$, where for the saving account $\tilde{\phi}_0 = -\sum_{n=1}^N \phi_n S_n^*(0)$. Then we see
+    \[
+    \tilde{V}^*(0) = \tilde{\phi}_0 + \sum_{n=1}^N \phi_n S_n^*(0) = 0,
+    \]
+    and
+    \[
+    \tilde{V}^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(1) = \tilde{\phi}_0 + \sum_{n=1}^{N} \phi_n S_n^*(0) + G^* = G^*.
+    \]
 
-Thus,
-\[
-\tilde{V}^*(0) = 0, \quad \tilde{V}^*(1) \geq 0, \quad \mathbb{E}[\tilde{V}^*(1)] > 0,
-\]
-which is an arbitrage opportunity. Therefore, we finish the proof of the equivalence of (a), (b), (c).
+     \pause Thus,
+    \[
+    \tilde{V}^*(0) = 0, \quad \tilde{V}^*(1) \geq 0, \quad \mathbb{E}[\tilde{V}^*(1)] > 0,
+    \]
+    which is an arbitrage opportunity. Therefore, we finish the proof of the equivalence of (a), (b), (c).
     }
 \end{frame}
 
@@ -873,32 +873,32 @@ which is an arbitrage opportunity. Therefore, we finish the proof of the equival
     \]
     where recall that $\Omega = (\omega_1, \ldots, \omega_K)$. 
     Note that we only know that $\pi \geq 0$. But some of the $\pi(\omega_i)$ could be zero.
-    \par \textbf{Lemma}:
+    \par  \pause \textbf{Lemma}:
     \par We must have $\sum_{j=1}^K \pi(\omega_j) = 1$. Thus, $\pi$ must be a probability measure, and for every trading strategy $\phi$
-\[
-V(0) = E_\pi [V^*(1)].
-\]
+    \[
+    V(0) = E_\pi [V^*(1)].
+    \]
 
-In other words, if there exists a linear pricing measure, 
-then the measure must be a probability measure, and the price of any asset at time 0 can be written as the expectation of the discounted final 
-payoff of the asset, where the expectation is taken with respect to the measure $\pi$.
+    In other words, if there exists a linear pricing measure, 
+    then the measure must be a probability measure, and the price of any asset at time 0 can be written as the expectation of the discounted final 
+    payoff of the asset, where the expectation is taken with respect to the measure $\pi$.
     }
 \end{frame}
 \begin{frame}{Linear Pricing Measure}
 
     {\footnotesize \footnotesize
        \par \textbf{Proof}:
-       \par Consider a strategy $\phi$ with $\phi_1 = \phi_2 = \cdots = \phi_N = 0$. In other words, the strategy only invests in the saving account and not in any stocks. Then $V^*(1) \equiv V(0)$.
-\[
-V(0) = \sum_{j=1}^K \pi(\omega_j) V^*(1) = \sum_{j=1}^K \pi(\omega_j) V(0),
-\]
-from which $\sum_{j=1}^K \pi(\omega_j) = 1$, and the conclusion follows.
-\vspace{1em}
+        \par Consider a strategy $\phi$ with $\phi_1 = \phi_2 = \cdots = \phi_N = 0$. In other words, the strategy only invests in the saving account and not in any stocks. Then $V^*(1) \equiv V(0)$.
+    \[
+    V(0) = \sum_{j=1}^K \pi(\omega_j) V^*(1) = \sum_{j=1}^K \pi(\omega_j) V(0),
+    \]
+    from which $\sum_{j=1}^K \pi(\omega_j) = 1$, and the conclusion follows.
+    \vspace{1em}
 
-\par \textbf{Theorem 1}: There are no dominant strategies 
-if and only if there exists a linear pricing (probability) measure.
-\vspace{1em}
-\par Proof later.
+    \par  \pause \textbf{Theorem 1}: There are no dominant strategies 
+    if and only if there exists a linear pricing (probability) measure.
+    \vspace{1em}
+    \par Proof later.
     }
 \end{frame}
 
@@ -907,32 +907,32 @@ if and only if there exists a linear pricing (probability) measure.
 
     {\footnotesize \footnotesize
         A probability measure $Q$ is called a risk-neutral measure if $Q$ satisfies two requirements:
-\begin{enumerate}
-\item[(i)] $Q(\omega_i) > 0$, for all $i = 1, \ldots, K$.
-\item[(ii)] $E_Q(S_n^*(1)) = S_n(0)$ for all $n = 1, \ldots, N$.
-\end{enumerate}
+    \begin{enumerate}
+    \item[(i)] $Q(\omega_i) > 0$, for all $i = 1, \ldots, K$.
+    \item[(ii)] $E_Q(S_n^*(1)) = S_n(0)$ for all $n = 1, \ldots, N$.
+    \end{enumerate}
 
-Under a risk-neutral measure, every asset has the same return as that 
-of the saving account. Therefore, under this measure, 
-investor does not give any higher return for higher risk, thus risk-neutral.
-\vspace{1em}
-\par Note that in terms of the simple return, under the risk neutral probability $Q$, we must have
-\[
-E_Q[R_n] = r, \quad R_n = \frac{S_n(1) - S_n(0)}{S_n(0)}.
-\]
-because starting from the discounted-price condition (ii):  
-\[
-E_Q[S_n^*(1)] = S_n(0), \quad S_n^*(1) = \frac{S_n(1)}{B(1)}.
-\]
+    Under a risk-neutral measure, every asset has the same return as that 
+    of the saving account. Therefore, under this measure, 
+    investor does not give any higher return for higher risk, thus risk-neutral.
+    \vspace{1em}
+    \par  \pause Note that in terms of the simple return, under the risk neutral probability $Q$, we must have
+    \[
+    E_Q[R_n] = r, \quad R_n = \frac{S_n(1) - S_n(0)}{S_n(0)}.
+    \]
+    because starting from the discounted-price condition (ii):  
+    \[
+    E_Q[S_n^*(1)] = S_n(0), \quad S_n^*(1) = \frac{S_n(1)}{B(1)}.
+    \]
 
-Since $B(1) = 1 + r$,  
-\begin{align*}
-E_Q\left[\frac{S_n(1)}{1 + r}\right] = S_n(0) 
-\Rightarrow E_Q[S_n(1)] = S_n(0)(1 + r) 
-\Rightarrow E_Q\left[\frac{S_n(1) - S_n(0)}{S_n(0)}\right] = r.
-\end{align*}
+    Since $B(1) = 1 + r$,  
+    \begin{align*}
+    E_Q\left[\frac{S_n(1)}{1 + r}\right] = S_n(0) 
+    \Rightarrow E_Q[S_n(1)] = S_n(0)(1 + r) 
+    \Rightarrow E_Q\left[\frac{S_n(1) - S_n(0)}{S_n(0)}\right] = r.
+    \end{align*}
 
-Thus $E_Q[R_n] = r$.
+    Thus $E_Q[R_n] = r$.
 
     }
 \end{frame}
@@ -944,41 +944,42 @@ Thus $E_Q[R_n] = r$.
     measure $P$ observed in markets! 
     However, it is a very important mathematical tool to derive pricing formulae. 
     \vspace{1em}
-    \par \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
+    \par  \pause \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
     to the existence of a risk-neutral measure.
-    \par To prove Theorem 2, we shall show first that the existence of a risk neutral measure guarantees no arbitrage opportunity. Suppose there exist a risk-neutral measure $Q$. Then for any trading strategy $\phi$, we must have
-\begin{align*}
-E_Q[G^*] &= E_Q\left[\sum_{n=1}^N \phi_n \Delta S_n^*\right] = \sum_{n=1}^N \phi_n E_Q[\Delta S_n^*] 
-= \sum_{n=1}^N \phi_n E_Q[S_n^*(1) - S_n(0)] = 0,
-\end{align*}
-by part (ii) in the definition of risk-neutral measure. Now suppose there is an arbitrage opportunity. Then there is a trading strategy $\phi$ such that
-\[
-G^* \geq 0, \quad E[G^*] = \sum_{j=1}^K G^*(\omega_j) P(\omega_j) > 0,
-\]
+    \vspace{1em}
+    \par  \pause To prove Theorem 2, we shall show first that the existence of a risk neutral measure guarantees no arbitrage opportunity. Suppose there exist a risk-neutral measure $Q$. Then for any trading strategy $\phi$, we must have
+    \begin{align*}
+    E_Q[G^*] &= E_Q\left[\sum_{n=1}^N \phi_n \Delta S_n^*\right] = \sum_{n=1}^N \phi_n E_Q[\Delta S_n^*] 
+    = \sum_{n=1}^N \phi_n E_Q[S_n^*(1) - S_n(0)] = 0,
+    \end{align*}
+     \pause by part (ii) in the definition of risk-neutral measure. Now suppose there is an arbitrage opportunity. Then there is a trading strategy $\phi$ such that
+    \[
+    G^* \geq 0, \quad E[G^*] = \sum_{j=1}^K G^*(\omega_j) P(\omega_j) > 0,
+    \]
     }
 \end{frame}
 
 \begin{frame}{Risk-Neutral Measure}
 
     {\footnotesize \footnotesize
-    by Part (c) in the equivalent statements of arbitrage. Thus, there must be a $G^*(\omega_k) > 0$ and $G^*(\omega_j) \geq 0$ for all $j = 1, \ldots, K$. Therefore,
-\[
-E_Q[G^*] = \sum_{j=1}^K G^*(\omega_j) Q(\omega_j) \geq G^*(\omega_k) Q(\omega_k) > 0,
-\]
-as $Q(\omega_k) > 0$. A contradiction to the fact that $E_Q[G^*] = 0$. The proof is terminated.
+        by Part (c) in the equivalent statements of arbitrage. Thus, there must be a $G^*(\omega_k) > 0$ and $G^*(\omega_j) \geq 0$ for all $j = 1, \ldots, K$. Therefore,
+    \[
+    E_Q[G^*] = \sum_{j=1}^K G^*(\omega_j) Q(\omega_j) \geq G^*(\omega_k) Q(\omega_k) > 0,
+    \]
+    as $Q(\omega_k) > 0$. A contradiction to the fact that $E_Q[G^*] = 0$. The proof is terminated.
 
-The harder part is to show that no arbitrage 
-implies the existence of a risk neutral measure. The proof will give later.
-\vspace{1em}
+    The harder part is to show that no arbitrage 
+    implies the existence of a risk neutral measure. The proof will give later.
+    \vspace{1em}
 
-\par \textbf{Corollary:} In the binomial tree model there is no arbitrage 
-for trading stocks if and only if $u > R > d$.
-\vspace{1em}
-\par \textbf{Proof}: This is because there is a
-\[
-p^* = \frac{R - d}{u - d},
-\]
-and $p^* \in (0, 1)$ if and only if $u > R > d$.
+    \par  \pause \textbf{Corollary:} In the binomial tree model there is no arbitrage 
+    for trading stocks if and only if $u > R > d$.
+    \vspace{1em}
+    \par \textbf{Proof}: This is because there is a
+    \[
+    p^* = \frac{R - d}{u - d},
+    \]
+    and $p^* \in (0, 1)$ if and only if $u > R > d$.
     }
 \end{frame}
 
@@ -1005,7 +1006,7 @@ and $p^* \in (0, 1)$ if and only if $u > R > d$.
 % \columnbreak
 
 \noindent
-(2) Dual Problem
+ \pause (2) Dual Problem
 \[
 \begin{aligned}
 &\min_{y_1,\ldots,y_m} b_1 y_1 + b_2 y_2 + \cdots + b_m y_m \\
@@ -1018,7 +1019,7 @@ and $p^* \in (0, 1)$ if and only if $u > R > d$.
 \end{aligned}
 \]
 \end{multicols}
-In matrix notation, we have (1) $\max\limits_X c^\top X$, subject to $AX \leq b$, $X \geq 0$ 
+ \pause In matrix notation, we have (1) $\max\limits_X c^\top X$, subject to $AX \leq b$, $X \geq 0$ 
 and (2) $\min\limits_Y Y^\top b$, subject to $A^\top Y \geq c$, $Y \geq 0$. (1) and (2) 
 are called dual problems to each other. Note that every equality constraint can be translated into two 
 inequality constraints (e.g.\ $w = c$ means exactly $w \geq c$ and $-w \geq -c$)
@@ -1037,15 +1038,16 @@ inequality constraints (e.g.\ $w = c$ means exactly $w \geq c$ and $-w \geq -c$)
 \item[(c)] The feasible region is empty, and thus the LP has no optimal solution.
 \end{enumerate}
 \vspace{1em}
-% \par Result 2 (Weak Duality): For the primal-dual pair define above, if we take any feasible $x$
-% and any feasible $y$, we have the weak duaility $c^\top x\leq b^\top y$. Proof follows from the two inequalities:
-% $ c^\top x\leq y^\top Ax \leq y^\top b = b^\top y$.
+% \par Result 2 
 \vspace{1em}
-\par Result 3 (Strong Duality):
+\par  \pause Result 2 (Strong Duality):
 If a LP problem has a finite optimal solution, then so does its dual,
  and the optimal values for both the primary and the dual problem must be equal.
  The proof idea uses the geometry of convex sets (via the Farkas lemma or separating hyperplane theorem)
-
+ \vspace{1em}
+\par \pause Another Result: (Weak Duality): For the primal-dual pair define above, if we take any feasible $x$
+and any feasible $y$, we have the weak duaility $c^\top x\leq b^\top y$. Proof follows from the two inequalities:
+$ c^\top x\leq y^\top Ax \leq y^\top b = b^\top y$.
 
     }
 \end{frame}
@@ -1064,7 +1066,7 @@ If a LP problem has a finite optimal solution, then so does its dual,
     \]
     also has an optimal solution $y^*$, and $ c^{\top} x^* = b^{\top} y^*.$
     \vspace{1em}
-    \par This dual relationship is exactly how arbitrage-free pricing is framed:
+    \par  \pause This dual relationship is exactly how arbitrage-free pricing is framed:
     \begin{itemize}
         \item  The primal problem corresponds to ``finding a trading strategy to make profit'' (maximize wealth)
         \item  The dual problem corresponds to ``finding consistent state prices or probabilities'' (minimize cost)
@@ -1079,7 +1081,7 @@ If a LP problem has a finite optimal solution, then so does its dual,
     \par \textbf{Theorem 1}: There are no dominant strategies 
     if and only if there exists a linear pricing (probability) measure.
     \vspace{1em}
-    \par \textbf{Proof}:
+    \par  \pause \textbf{Proof}:
     Let $S = (1, S_1^*(0), \ldots, S_N^*(0))^T$ and let
     \[
     Z =
@@ -1094,7 +1096,7 @@ If a LP problem has a finite optimal solution, then so does its dual,
     \[
     V(0) = hS, \quad V^*(1) = hZ.
     \]
-    \par Using part (b) of Exercise 4, we 
+    \par \pause  Using part (b) of Exercise 4, we 
     see that the existence of a linear pricing measure implies no dominant strategy.
 
 
@@ -1113,10 +1115,10 @@ If a LP problem has a finite optimal solution, then so does its dual,
     there exists a non-negative vector $\pi$, $Z\pi = S$,
      which is the linear pricing measure. The proof is terminated.
      \vspace{1em}
-    \par \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
+    \par  \pause \textbf{Theorem 2}: Absence of arbitrage opportunity is equivalent 
     to the existence of a risk-neutral measure.
     \vspace{1em}
-    \par \textbf{Farkas' Lemma}
+    \par  \pause \textbf{Farkas' Lemma}
     \par Let $A$ be an $m \times n$ matrix and $b$ be an $m$-dimensional column vector. Then either
 
     \[
@@ -1148,7 +1150,7 @@ If a LP problem has a finite optimal solution, then so does its dual,
     \Delta S^*_1(\omega_K) & -\Delta S^*_1(\omega_K) & \Delta S^*_2(\omega_K) & \cdots & -\Delta S^*_N(\omega_K)
     \end{pmatrix} \circ B,
     \]
-    where the notation $\circ$ means pasting two matrices together, and
+     \pause where the notation $\circ$ means pasting two matrices together, and
 
     \[
     B = \begin{pmatrix}
@@ -1169,30 +1171,106 @@ If a LP problem has a finite optimal solution, then so does its dual,
     
     \par \textbf{Lemma}: Denote $b = (1, 0, \ldots, 0)^T$ be a $(K + 1)$ column vector. Then
 
+    \[
+    Ax = b, \, x \geq 0, \, x = (x_1, \ldots, x_{2N+K})
+    \]
+
+    has a solution if and only if there exists an arbitrage opportunity.
+    \vspace{1em}
+    \par  \pause \textbf{Proof}:
+    The equation $Ax = b$ leads to a system of equations:
+
+    \begin{enumerate}
+    \item[(a)] The first equation of the system says
+    \[
+    x_{2N+1} + \cdots + x_{2N+K} = 1,
+    \]
+    which implies that $x_{2N+k} > 0$ for at least one value of $k$.
+
+    \item[(b)] For $i \geq 2$ the $i$th equation is
+    \[
+    \Delta S_1^*(\omega_{i-1})(x_1 - x_2) + \cdots + \Delta S_N^*(\omega_{i-1})(x_{2N-1} - x_{2N}) = x_{2N+i-1}.
+    \]
+    \end{enumerate}
+    \par \pause  ($\Rightarrow$) Suppose $(x_1, x_2, \ldots, x_{2N+K})^T$ is a solution. Let a trading strategy be $\phi_n = x_{2n-1} - x_{2n}$ for $n = 1, 2, \ldots, N$. Then, by the observation (b) above, we have the discounted gain is
+    \[
+    G^* = \Delta S_1^*(\omega_k)\phi_1 + \cdots + \Delta S_N^*(\omega_k)\phi_N = x_{2N+k}, \quad k = 1, \ldots, K.
+    \]
+    }
+\end{frame}
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    Since $x_{2N+k} \geq 0$ for $k = 1, \ldots, K$, this system of equations says $G^* \geq 0$. Since $x_{2N+k} > 0$ for at least one value of $k$, by observation (a), the left hand side of the equation displayed above must be strictly positive for at least one $k$. Hence $\mathbb{E}[G^*] > 0$, and $(\phi_1, \ldots, \phi_N)$ is an arbitrage strategy.
+    \vspace{1em}
+    \par   \pause ($\Leftarrow$) Conversely, suppose there exists an arbitrage opportunity $\phi$, in which case $\mathbb{E}[G^*] > 0$, and
 \[
-Ax = b, \, x \geq 0, \, x = (x_1, \ldots, x_{2N+K})
+G^* = \sum_{n=1}^N \phi_n \Delta S_n^* \geq 0.
 \]
 
-has a solution if and only if there exists an arbitrage opportunity.
-\vspace{1em}
-\par \textbf{Proof}:
-The equation $Ax = b$ leads to a system of equations:
-
-\begin{enumerate}
-\item[(a)] The first equation of the system says
+There's at least one state $\omega_i$ such that $G^*(\omega_i) > 0$. Therefore, we can find a positive constant $\lambda$ such that
 \[
-x_{2N+1} + \cdots + x_{2N+K} = 1,
+\lambda \sum_{k=1}^K G^*(\omega_k) = \lambda \sum_{k=1}^K \sum_{n=1}^N \phi_n \Delta S_n^*(\omega_k) = 1.
 \]
-which implies that $x_{2N+k} > 0$ for at least one value of $k$.
-
-\item[(b)] For $i \geq 2$ the $i$th equation is
-\[
-\Delta S_1^*(\omega_{i-1})(x_1 - x_2) + \cdots + \Delta S_N^*(\omega_{i-1})(x_{2N-1} - x_{2N}) = x_{2N+i-1}.
-\]
-\end{enumerate}
+This can be done by taking $\lambda = 1 / \sum_{k=1}^{K} G^*(\omega_k)$.
     }
 \end{frame}
 
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+    \begin{enumerate}
+\item[(i)] If $\phi_n = 0$, set $x_{2n-1} = x_{2n} = 0$, in which case $x_{2n-1} - x_{2n} = 0 = \lambda \phi_n$.
+\item[(ii)] If $\phi_n > 0$, set $x_{2n-1} = \lambda \phi_n$ and $x_{2n} = 0$, in which case $x_{2n-1} - x_{2n} = \lambda \phi_n$.
+\item[(iii)] If $\phi_n < 0$, set $x_{2n-1} = 0$, $x_{2n} = -\lambda \phi_n$, in which case $x_{2n-1} - x_{2n} = \lambda \phi_n$.
+\item[(iv)] For $k = 1, 2, \ldots, K$, set
+\[
+x_{2N+k} = \Delta S_1^*(\omega_k)(x_1 - x_2) + \cdots + \Delta S_N^*(\omega_k)(x_{2N-1} - x_{2N}).
+\]
+\end{enumerate}
+ \pause Then we have all $x_i \geq 0, i = 1, 2, \ldots, 2N$, and
+\begin{gather*}
+    x_{2N+k} = \Delta S_1^*(\omega_k)\lambda \phi_1 + \cdots + \Delta S_N^*(\omega_k)\lambda \phi_N 
+    = \lambda G^*(\omega_k) \geq 0, \quad k = 1, \ldots, K \\
+    x_{2N+1} + \cdots + x_{2N+K} = \sum_{k=1}^{K} \sum_{n=1}^{N} \lambda \phi_n \Delta S_n^*(\omega_k) = 1,
+\end{gather*}
+
+
+Therefore, $(x_1, \ldots, x_{2N+K})$ is a solution to the problem, and the proof of the lemma is terminated.
+
+    }
+\end{frame}
+
+\begin{frame}{Linear Programming and Linear Pricing Measures}
+
+    {\footnotesize \footnotesize
+     By the above lemma and Farkas's lemma, the absence of arbitrage implies that there is a solution to the equation
+\[
+yA \leq 0, \quad yb > 0, \quad y = (y_0, y_1, \ldots, y_K).
+\]
+
+Since $b = (1, 0, \ldots, 0)^T$, we have $y_0 = yb > 0,$ and $yA \leq 0$ implies three sets of inequalities:
+\begin{gather*}
+    \sum_{j=1}^{K} \Delta S_n^*(\omega_j) y_j \leq 0, \quad \sum_{j=1}^{K} - \Delta S_n^*(\omega_j) y_j \leq 0, \quad n = 1, \ldots, N, \\
+    y_0 - y_n \leq 0, \quad n = 1, \ldots, K.
+\end{gather*}
+
+
+ \pause Therefore, the first two sets of inequalities above must be equalities, i.e.
+\begin{align*}
+\sum_{j=1}^{K} \Delta S_n^*(\omega_j) y_j &= 0, \quad n = 1, \ldots, N; \quad 
+0 < y_0 \leq y_n, \quad n = 1, \ldots, K.
+\end{align*}
+
+In summary, under these weights, each asset's discounted price is a martingale. 
+The weights $y_j > 0$ can be normalized to sum to one, 
+giving a probability measure $Q(\omega_j) = y_j / \sum_i y_i$. Thus, $Q$ is a risk-neutral probability measure.
+% $(y_1, \ldots, y_K)$ forms a risk-neutral probability measure, and the theorem is proved.
+
+
+    }
+\end{frame}
 
 % \begin{frame}
 
