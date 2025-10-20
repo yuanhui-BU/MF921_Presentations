@@ -24,7 +24,7 @@
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 8}
+\subtitle{Week 4}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,15 +35,29 @@
 % \tableofcontents
 % \end{frame}
 
-\begin{frame}{Chapter 9}
+\section{Background}
+\begin{frame}{Background}
 
-    {
-    \begin{center}
-        Chapter 9 Dynamic Money Management Problem
-    \end{center}
-    \begin{center}
-        Other Results Related to Utility Maximization
-    \end{center}
+    {\footnotesize \footnotesize
+    \par Recall The Double Exponential Jump Diffusion Model:
+    \begin{align*}
+        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
+    \end{align*}
+    \par\begin{itemize}
+    \item \( W(t) \): Brownian motion under the real-world measure.
+    \item \( N(t) \): Poisson process with rate \(\lambda\).
+    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
+    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
+    \end{itemize}   
+    \begin{align*}
+        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
+    \end{align*}
+    \par with parameters:
+    \begin{itemize}
+        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
+        \item \(\eta_1 > 1\): rate for upward jumps.
+        \item \(\eta_2 > 0\): rate for downward jumps.
+    \end{itemize}
     }
     
 \end{frame}
