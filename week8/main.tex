@@ -47,6 +47,898 @@
     }
     
 \end{frame}
+
+\begin{frame}{Infinite-Time Horizon HJB Equation}
+
+
+    {\footnotesize \footnotesize
+We have two assets:
+\[
+\begin{cases} 
+\frac{dB(t)}{B(t)} = r \, dt, & \text{(risk-free bond)} \\
+\frac{dS(t)}{S(t)} = \mu \, dt + \sigma \, dW(t), & \text{(risky stock)}
+\end{cases}
+\]
+\par \pause Let $\pi(t)$ be the amount of money invested in the stocks, and $X(t)$ be the wealth.
+Then we have
+\[
+dX(t) = rX(t)\,dt + \pi(t)\sigma [dW(t) + \theta\,dt] - c(t)\,dt,
+\]
+where
+\[
+\theta = \frac{\mu - r}{\sigma}.
+\]
+\par and $c(t)$ is the instantaneous consumption process.
+
+\par A pair \((\pi, c)\) is admissible if:
+\[
+X(t) \geq 0, \, \forall t \geq 0.
+\]
+
+ \pause This ensures the investor never goes bankrupt or uses arbitrage doubling strategies.
+ Sometimes the constraint is relaxed to: \( X(t) \) bounded below by 
+ some random variable with finite expectation (technical condition).
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Infinite-Time Horizon HJB Equation}
+
+
+    {\footnotesize \footnotesize
+    The investor maximizes expected discounted utility of consumption:
+    \[
+    V(t, x) = \sup_{(\pi, c) \in A} \mathbb{E} \left[ \int_{t}^{\infty} e^{-\rho(s-t)} U_1(c(s)) \, ds \middle| X(t) = x \right].
+    \]
+
+    \begin{itemize}
+        \item \( U_1(\cdot) \): instantaneous utility (e.g. CRRA or log)  
+        \item \(\rho > 0\): subjective discount rate  
+        \item \( V(t, x) \): value function (max expected utility from time \( t \) given wealth \( x \))
+    \end{itemize}
+    \par  \pause Because the horizon is infinite and coefficients are time-homogeneous, the problem is stationary.
+
+    Hence:
+    \[
+    V(t, x) = V(0, x) = V(x),
+    \]
+    so the HJB becomes an ordinary differential equation (ODE) in \( x \) only — not a PDE in \((t, x)\).
+    Only the current wealth \( x \) matters, not the calendar time \( t \).
+    }
+    
+\end{frame}
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+     \par  Now imagine applying a temporary control \((\pi, c)\) 
+     only during \([t, t + dt]\), and then switching to the optimal policy afterwards. Then we must have 
+         {\footnotesize \tiny
+         \begin{align*}
+             \mathbb{E} \left[ \int_{t}^{\infty} e^{-\rho(s-t)} U_1(c(s)) ds \middle| X(t) = x \right]
+                &= \mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds \middle| X(t) = x \right]\\
+                +& \mathbb{E} \left[ \mathbb{E} \left\{ \int_{t+dt}^{\infty} 
+                e^{-\rho(s-t)} U_1(c(s)) ds \middle| X(t + dt) \right\} \middle| X(t) = x \right].
+         \end{align*}
+    }
+    \par \pause For the inner expectation of the second term, we can factor out the constant discount term $e^{-\rho dt}$ 
+    
+    {\footnotesize \tiny
+    \begin{align*}
+        \mathbb{E} \left\{ \int_{t+dt}^{\infty} e^{-\rho(s-t)} U_1(c(s)) ds \middle| X(t + dt) \right\}
+        &= e^{-\rho dt} \mathbb{E} \left\{ \int_{t+dt}^{\infty} e^{-\rho(s-t-dt)} U_1(c(s)) ds \middle| X(t + dt) \right\}\\
+        &= e^{-\rho dt} V(X(t + dt)),
+    \end{align*}
+    }
+    where the last equality follows from the optimality of the policy after time \( t + dt \).
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+     Since \( V(x) \) is related to the optimal strategies, and the above strategy is only a particular strategy, we must have
+         {\footnotesize \tiny
+        \[
+        V(x) \geq \mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds + e^{-\rho dt} V(X(t + dt)) \middle| X(t) = x \right],
+        \]
+
+            }
+            \par  \pause in particular,
+            {\footnotesize \tiny
+        \[
+        V(x) \geq \sup_{(\pi, c) \in A} \mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds + e^{-\rho dt} V(X(t + dt)) \middle| X(t) = x \right].
+        \]
+            }
+         \pause But any optimal strategy can be decomposed to a particular strategy from \( t \) to \( t + dt \) and optimal strategy after \( t + dt \), which implies
+
+        {\footnotesize \tiny
+        \[
+        V(x) \leq \sup_{(\pi, c) \in A} \mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds + e^{-\rho dt} V(X(t + dt)) \middle| X(t) = x \right].
+        \]
+    }
+     \pause In summary, we have
+{\footnotesize \tiny
+        \[
+V(x) = \sup_{(\pi, c) \in A} \mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds + e^{-\rho dt} V(X(t + dt)) \middle| X(t) = x \right].
+\]
+    }
+    }
+    
+\end{frame}
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+     For the first term in the above equation
+\[
+\mathbb{E} \left[ \int_{t}^{t+dt} e^{-\rho(s-t)} U_1(c(s)) ds \middle| X(t) = x \right] = U_1(c(t)) dt + o(dt),
+\]
+because as \( \Delta t \to 0 \)
+\[
+\frac{1}{\Delta t} \int_{t}^{t+\Delta t} e^{-\rho(s-t)} U_1(c(s)) ds \to U_1(c(t)).
+\]
+ \pause For the second term
+\[
+e^{-\rho dt} V(X(t + dt)) = (1 - \rho dt) V(X(t + dt)) + o(dt).
+\]
+Thus, we have
+\[
+V(x) = \sup_{(\pi,c) \in A} \{U_1(c(t))dt + (1 - \rho dt)\mathbb{E}[V(X(t + dt))|X(t) = x]\} + o(dt),
+\]
+    }
+    
+\end{frame}
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+      or, adding \(\rho dt \cdot V(x)\) to both left and right sides leads to
+
+    {\footnotesize \tiny
+    \[
+    \rho dt \cdot V(x) + o(dt)
+    = \sup_{(\pi,c) \in A} \{U_1(c(t))dt + (1 - \rho dt) \{\mathbb{E}[V(X(t + dt))|X(t) = x]\}\} - V(x) + \rho dt \cdot V(x)
+    \]
+    \[
+    = \sup_{(\pi,c) \in A} U_1(c(t))dt + (1 - \rho dt)\mathbb{E}[V(X(t + dt)) - V(x)|X(t) = x].
+    \]
+        }
+    \par \pause  Now the only unknown is $\mathbb{E}[V(X(t + dt)) - V(x)|X(t) = x]$.
+        
+    \par Recall:
+
+        {\footnotesize \tiny
+    \[
+    dX(t) = [rX(t) + \pi(t)\sigma\theta - c(t)]dt + \pi(t)\sigma dW(t).
+    \]
+        }
+
+    Then by Itô’s formula:
+
+    {\footnotesize \tiny
+    \[
+    dV(X(t)) = \frac{\partial V(X(t))}{\partial X(t)}dX(t) + \frac{1}{2} \frac{\partial^2 V(X(t))}{\partial (X(t))^2}(dX(t))^2.
+    \]
+        }
+     \pause Take expectations conditional on \( X(t) = x \):
+
+    {\footnotesize \tiny
+    \[
+    \mathbb{E}[dV(X(t))|X(t) = x] = \left[ \frac{\partial V}{\partial x}(rx + \theta\sigma\pi - c) 
+    +\frac{1}{2} \frac{\partial^2 V}{\partial x^2}\pi^2\sigma^2 \right] dt.
+    \]
+        }
+   
+}
+\end{frame}
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+       Integrating from \( t \) to \( t + dt \):
+
+    {\footnotesize \tiny
+    \[
+    \mathbb{E}[V(X(t + dt)) - V(x)|X(t) = x] 
+     = \mathbb{E}\left[\int_t^{t+dt} \left\{ \frac{\partial V}{\partial x}(rX(s) + \theta\sigma\pi - c) + 
+     \frac{1}{2} \frac{\partial^2 V}{\partial x^2} \pi^2\sigma^2 \right\} ds \middle| X(t) = x\right]
+\]
+\[
+= \left\{ \frac{\partial V}{\partial x}(rx + \theta\sigma\pi - c) + 
+\frac{1}{2} \frac{\partial^2 V}{\partial x^2} \pi^2\sigma^2 \right\} dt + o(dt)
+    \]
+    }
+    \par  \pause Substitute this back into the earlier equation
+     {\footnotesize \tiny
+\[
+\rho dt \, V(x) + o(dt) = \sup_{(\pi, c)} \left\{ U_1(c)dt + (1 - \rho dt) 
+\left[ \frac{\partial V}{\partial x}(rx + \theta\sigma\pi - c) + 
+\frac{1}{2} \frac{\partial^2 V}{\partial x^2}\pi^2\sigma^2 \right] dt \right\}.
+\]
+    }
+    
+
+Divide both sides by \( dt \) and let \( dt \to 0 \):
+ {\footnotesize \tiny
+\[
+\rho V(x) = \sup_{(\pi, c)} \left\{ U_1(c) + \frac{\partial V}{\partial x}(rx + \theta\sigma\pi - c) 
++ \frac{1}{2} \frac{\partial^2 V}{\partial x^2}\pi^2\sigma^2 \right\}.
+\]
+    }
+ \pause In other words, we have an HJB equation
+ {\footnotesize \tiny
+\[
+- \rho V(x) + \max_{(\pi,c)} \left\{ U_1(c) + \frac{\partial V}{\partial x} (rx + \theta \sigma \pi - c) 
++ \frac{1}{2} \frac{\partial^2 V}{\partial x^2} \pi^2 \sigma^2 \right\} = 0,
+\]
+    }
+
+which is an ordinary differential equation.
+    }
+\end{frame}
+
+
+\begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+    Define a generic (non-maximized) value function  
+     {\footnotesize \tiny
+    \[
+    \tilde{V}(x) = \mathbb{E} \left[ \int_{0}^{\infty} e^{-\rho s} U_1(c(s)) \, ds \middle| X(0) = x \right],
+    \]
+    }
+    where \((c(s), \pi(s))\) are some given controls. So \(\tilde{V}\) just measures how good this particular policy is.
+    If we later maximize over all admissible strategies, we recover the true value function:  
+\[
+V(x) = \max_{\pi,c} \tilde{V}(x).
+\]
+\par  \pause The Feynman-Kac theorem says:  
+If you have a process \(X(t)\) satisfying the SDE  
+\[
+dX_t = [rX_t + \pi\sigma\theta - c] \, dt + \pi\sigma \, dW_t,
+\]
+then the expectation  
+\[
+\tilde{V}(x) = \mathbb{E}_x \left[ \int_{0}^{\infty} e^{-\rho s} U_1(c(s)) \, ds \right]
+\]
+solves the following linear partial differential equation (or ODE here, since there's only \(x\)):  
+\[
+-\rho \tilde{V}(x) + U_1(c) + \frac{\partial \tilde{V}}{\partial x} (rx + \theta \sigma \pi - c) + \frac{1}{2} \frac{\partial^2 \tilde{V}}{\partial x^2} \pi^2 \sigma^2 = 0.
+\]
+        }
+    \end{frame}
+
+    \begin{frame}{Derivation of the HJB Equation}
+
+
+    {\footnotesize \footnotesize
+    \(\tilde{V}(x)\) as the expected total discounted utility if you keep using the same policy forever. 
+    Then, since we're in an infinite-horizon stationary setup, the rate of change of the ``expected value'' must balance:  
+     {\footnotesize \tiny
+     \begin{center}
+        \text{discounting \((-\rho V) = \) instantaneous utility + expected infinitesimal change in value due to wealth dynamics  }
+    
+     \end{center}
+     }
+     \pause  Now, among all possible controls, the optimal one maximizes this expression at every point \(x\):  
+\[
+V(x) = \max_{\pi,c} \tilde{V}(x).
+\]
+
+ \pause So we simply replace \(\tilde{V}\) with \(V\) and take the maximum inside the equation:  
+\[
+\max_{\pi,c} \left\{ -\rho V(x) + U_1(c) + V'(x)(rx + \theta \sigma \pi - c) + \frac{1}{2} V''(x) \pi^2 \sigma^2 \right\} = 0.
+\]
+There is no terminal condition, as the time horizon is infinite.
+This is exactly the Hamilton-Jacobi-Bellman equation we derived earlier using dynamic programming.
+        }
+    \end{frame}
+
+    \begin{frame}{Explicit Solutions of the Infinite-Horizon HJB Equation}
+
+
+    {\footnotesize \footnotesize
+     Suppose \( U_1(x) = x^{1-\gamma}/(1-\gamma), \gamma > 0 \). Then the optimization problem becomes
+      {\footnotesize \tiny
+\[
+V(x) = \sup_{(\pi, c) \in A} \mathbb{E} \left[ \int_0^\infty e^{-\rho s} \frac{1}{1-\gamma} (c(s))^{1-\gamma} ds \middle| X(0) = x \right].
+\]
+    }
+The HJB equation becomes
+ {\footnotesize \tiny
+\[
+-\rho V(x) + \max_{(\pi,c)} \left\{ \frac{1}{1 - \gamma} c^{1 - \gamma} + \frac{\partial V}{\partial x}(rx + \theta\sigma\pi - c) + \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\pi^2\sigma^2 \right\} = 0.
+\]
+    }
+ \pause Now suppose that we increase the initial wealth by \( a \) times, i.e. considering \( V(ax) \). Since the wealth equation
+ {\footnotesize \tiny
+\[
+d(aX(t)) = r(t)aX(t)dt + \pi(t)\sigma(t)[dW(t) + \theta(t)dt] - c(t)dt,
+\]
+    }
+
+hold if \( \pi \) is changed to \( a\pi \), and \( c \) to \( ac \), and the resulting 
+wealth equation will change from \( X(t) \) to \( aX(t) \).
+\par In other words, we speculate from first equation that
+\[
+V(ax) = a^{1 - \gamma}V(x).
+\]
+        }
+    \end{frame}
+
+
+    \begin{frame}{Explicit Solutions of the Infinite-Horizon HJB Equation}
+
+
+    {\footnotesize \footnotesize
+    Therefore, we have for some constant \( g \), to be determined later, that
+    \[
+    V(x) = \frac{g}{1 - \gamma}x^{1 - \gamma}. 
+    \]
+    Now with this form of \( V(x) \) we get
+\[
+\frac{\partial V}{\partial x} = gx^{-\gamma}, \quad \frac{\partial^2 V}{\partial x^2} = g(-\gamma)x^{-\gamma-1},
+\]
+ \pause and the HJB equation becomes
+\[
+-\rho g\frac{x^{1 - \gamma}}{1 - \gamma} + \max_{(\pi,c)} \left\{ \frac{c^{1 - \gamma}}{1 - \gamma} + gx^{-\gamma}(rx + \theta\sigma\pi - c) - \frac{1}{2}g\gamma x^{-\gamma-1}\pi^2\sigma^2 \right\} = 0.
+\]
+The first-order condition implies that the maximum is achieved at  
+\[
+gx^{-\gamma} \theta \sigma - g\gamma x^{-\gamma-1} \pi \sigma^2 = 0, 
+\]
+\[
+c^{-\gamma} - gx^{-\gamma} = 0. 
+\]  
+    }
+    \end{frame}
+
+\begin{frame}{Explicit Solutions of the Infinite-Horizon HJB Equation}
+
+    {\footnotesize \footnotesize
+      In other words  
+    \[
+    \pi^* = \frac{x \theta}{\gamma \sigma} = \frac{\mu - r}{\gamma \sigma^2} x, \quad c^* = \{ g \}^{- \frac{1}{\gamma}} \cdot x,
+    \]  
+    resulting in a maximal value given by  
+    \[
+    \frac{\gamma}{1 - \gamma} \{ g \}^{ \frac{\gamma - 1}{\gamma}} \cdot x^{1 - \gamma} + gx^{1 - \gamma} r + \frac{1}{2} gx^{1 - \gamma} \frac{\theta^2}{\gamma}.
+    \]  
+
+     \pause Thus, the HJB equation becomes  
+    \[
+    - \rho g \frac{x^{1 - \gamma}}{1 - \gamma} + \frac{\gamma}{1 - \gamma} \{ g \}^{ \frac{\gamma - 1}{\gamma}} \cdot x^{1 - \gamma} + gx^{1 - \gamma} r + \frac{1}{2} gx^{1 - \gamma} \frac{\theta^2}{\gamma} = 0.
+    \]
+    Fortunately, our speculation of the separated solution works out, as the term \( x^{1-\gamma} \) cancels out in the above equation, leading to an equation
+    \[
+    - \rho + \gamma \{ g \}^{-1/\gamma} + (1 - \gamma) \left\{ r + \frac{\theta^2}{2\gamma} \right\} = 0,
+    \]
+    or
+    \[
+    g = \left\{ \frac{\rho}{\gamma} - \frac{1 - \gamma}{\gamma} \left\{ r + \frac{\theta^2}{2\gamma} \right\} \right\}^{-\gamma}.
+    \]
+
+    }
+    \end{frame}
+
+\begin{frame}{Explicit Solutions of the Infinite-Horizon HJB Equation}
+
+    {\footnotesize \footnotesize
+     In summary
+\[
+V^*(x) = \frac{g}{1 - \gamma} x^{1-\gamma}, \quad g = \left\{ \frac{\rho}{\gamma} - \frac{1 - \gamma}{\gamma} \left\{ r + \frac{\theta^2}{2\gamma} \right\} \right\}^{-\gamma},
+\]
+with
+\[
+\pi^* = \frac{x\theta}{\gamma\sigma} = \frac{\mu - r}{\gamma\sigma^2}x, \quad c^* = \{ g \}^{-1/\gamma} \cdot x.
+\]
+
+Note that to make sure that \( c^*(x) \geq 0 \), we need to impose that
+\[
+g \geq 0.
+\]
+
+ \pause This leads to a requirement that
+\[
+\rho \geq (1 - \gamma) \left\{ r + \frac{\theta^2}{2\gamma} \right\},
+\]
+unlike in the finite-horizon case where we always have \( g(t) \geq 0 \). The above constraint is trivially true if \( \gamma > 1 \), as the right side is negative.
+
+    }
+\end{frame}
+
+\begin{frame}{Explicit Solutions of the Infinite-Horizon HJB Equation}
+
+    {\footnotesize \footnotesize
+    This constraint on the parameter is linked to the transversality condition, which requires that the solution for the infinite horizon problem does not explode to infinity. Indeed, if
+\[
+\rho < (1 - \gamma) \left\{ r + \frac{\theta^2}{2\gamma} \right\},
+\]
+ \pause then \( h \) and \( g(t, T) \) from the last chapter about the HJB for finite horizon problem are given by
+\[
+h = \frac{(1 - \gamma)r}{\gamma} + \frac{(1 - \gamma)\theta^2}{2\gamma^2} - \frac{\rho}{\gamma} > 0,
+\]
+\[
+g(t, T) = \left[ \left( 1 + \frac{1}{h} \right) \exp \left\{ (T - t)h \right\} - \frac{1}{h} \right]^{\gamma} \to \infty, \quad T \to \infty, \quad \forall t,
+\]
+and the optimal solution for the finite horizon problem goes to infinity,
+\[
+V^*(t, T, x) = g(t, T) \frac{x^{1 - \gamma}}{1 - \gamma} \to \infty, \quad T \to \infty.
+\]
+\par \pause  That means your expected utility is infinite,
+the investor could get unbounded lifetime happiness by postponing consumption and letting wealth compound forever. 
+Therefore, to make the infinite-horizon solution well-behaved, we must impose the opposite condition for $\rho$.
+    }
+\end{frame}
+
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+    \par One risk-free asset (bank account) \( B(t) \)
+    \[
+\frac{dB(t)}{B(t)} = r(t) \, dt,
+\]
+\par \( d \) risky assets (stocks) \( S_i(t) \)
+\[
+\frac{dS_i(t)}{S_i(t)} = \mu_i(t) \, dt + \sigma_i(t) \, dW(t), \quad i = 1, \ldots, d.
+\]
+Note here all the coefficients could be random, adapted processes.
+\vspace{1em}
+\par  \pause We assume the investor has a utility function $ U(\cdot) $ is strictly increasing and strictly concave, and 
+$ U'(0) = +\infty $ and $ U'(\infty) = 0 $. Examples of this include 
+$U(x) = \frac{x^{1-\gamma}}{1-\gamma}, \text{with } 0 < \gamma < 1.$, and $ U(x) = \ln(x).$
+\vspace{1em}
+\par  \pause At time 0, the investor chooses a consumption and portfolio 
+strategy ($ c(t), \pi(t) $) to maximize expected utility from both consumption and terminal wealth:
+\[
+V(x) = \sup_{(\pi,c) \in \mathcal{A}} \mathbb{E} \left[ \int_0^T U_1(c(t)) \, dt + U_2(X^\pi(T)) \right].
+\]  
+    }
+\end{frame}
+
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+    subject to the wealth dynamics
+\[
+dX_t = r_t X_t \, dt + \pi_t' (\mu_t - r_t 1) \, dt + \pi_t' \sigma_t \, dW_t - c_t \, dt,
+\]
+\par and a starting wealth \(X_0 = x > 0\).
+\vspace{1em}
+\par \pause  The value function \(V(t, x)\) satisfies an HJB of the form
+\[
+0 = \sup_{\pi,c} \left\{ U_1(c) + V_t + (r_t x + \pi' (\mu_t - r_t 1) - c) V_x + \frac{1}{2} V_{xx} \pi' \sigma \sigma' \pi \right\},
+\]
+which is difficult to solve when coefficients or dimensions are non-constant.
+ So we look for an alternative formulation that's linear.
+ \vspace{1em}
+ \par  \pause Utility maximization problems are concave, 
+ and concave optimization can be equivalently studied through convex duality.
+ Instead of maximizing over controls \((c, \pi)\),
+  we can minimize over a dual variable \(Y\) that represents 
+  the state-price density.
+
+    }
+\end{frame}
+
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+    \par  In the primal problem we choose consumption and portfolio to affects wealth \(X_t\).
+     In the dual problem we choose a price system \(Y_t\) that prices all attainable wealth processes.
+    \par Every feasible wealth process satisfies the budget constraint
+\[
+\mathbb{E}\left[Y_T X_T + \int_0^T Y_t c_t \, dt\right] \leq x,
+\]
+\par or every state-price density \( Y_t \) (a nonnegative martingale satisfying \( Y_0 = 1 \) and \( Y_t B_t^{-1} S_t \) is a martingale).
+\vspace{1em}
+\par \pause  Introduce a positive multiplier \( y > 0 \) for this budget constraint. Define the Lagrangian:
+\[
+\mathcal{L}((\pi, c), y) = \mathbb{E} \left[ \int_0^T U_1(c_t) \, dt + U_2(X_T) \right] - y \left( \mathbb{E} \left[ \int_0^T Y_t c_t \, dt + Y_T X_T \right] - x \right).
+\]
+Now the original constrained maximization
+\[
+\max_{(\pi, c)} \mathbb{E} [\cdots] \quad \text{s.t. budget constraint}
+\]
+becomes an unconstrained problem
+\[
+\max_{(\pi, c)} \mathcal{L}((\pi, c), y),
+\]
+    }
+\end{frame}
+
+
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+     followed by a minimization over \( y > 0 \):
+\[
+V(x) = \inf_{y > 0} \max_{(\pi, c)} \mathcal{L}((\pi, c), y).
+\]
+\par Inside the expectation, the Lagrangian separates in \( c_t \) and \( X_T \):
+\[
+\mathcal{L}((\pi, c), y) = \mathbb{E} \left[ \int_0^T \left( U_1(c_t) - yY_t c_t \right) \, dt + \left( U_2(X_T) - yY_T X_T \right) \right] + xy.
+\]
+
+\par Each term has the generic structure \( U(x) - yx \).
+\vspace{1em}
+\par  \pause For each utility \( U \), define its convex conjugate:
+\[
+\tilde{U}(y) = \max_{x>0} [U(x) - xy].
+\]
+
+Then
+\[
+U(x) = \min_{y>0} [\tilde{U}(y) + xy],
+\]
+and \( U'(x) = y \iff x = I(y) = (U')^{-1}(y) \).
+
+    }
+\end{frame}
+
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+    Substituting this definition into the Lagrangian,
+\[
+\max_{x>0} [U(x) - yx] = \tilde{U}(y),
+\]
+we can carry out the maximization over \( c_t \) and \( X_T \) immediately:
+\[
+\max_{c_t > 0} [U_1(c_t) - yY_t c_t] = \tilde{U}_1(yY_t), \quad \max_{X_T > 0} [U_2(X_T) - yY_T X_T] = \tilde{U}_2(yY_T).
+\]
+ \pause After optimizing out \( c_t \) and \( X_T \), the value becomes
+\[
+V(x) = \inf_{y>0} \left\{ \mathbb{E} \left[ \int_0^T \tilde{U}_1(yY_t) \, dt + \tilde{U}_2(yY_T) \right] + xy \right\}.
+\]
+
+This is the dual problem:
+\[
+\tilde{V}(y) = \mathbb{E} \left[ \int_0^T \tilde{U}_1(yY_t) \, dt + \tilde{U}_2(yY_T) \right], \quad V(x) = \inf_{y>0} [\tilde{V}(y) + xy].
+\]
+ \pause Now it's a convex minimization over the single scalar \( y > 0 \) (and implicitly over admissible \( Y_t \)), 
+the hard nonlinear controls have disappeared.
+
+    }
+\end{frame}
+\begin{frame}{A Duality Approach to Portfolio Optimization}
+
+    {\footnotesize \footnotesize
+     Once you have the optimal \( y^* \) and \( Y_t^* \), you can recover the original (primal) variables through the first-order condition
+\[
+U'(c_t^*) = y^* Y_t^*, \quad U'(X_T^*) = y^* Y_T^*.
+\]
+
+Equivalently,
+\[
+c_t^* = I_1(y^* Y_t^*), \quad X_T^* = I_2(y^* Y_T^*),
+\]
+where \( I_i = (U_i')^{-1} \) are the inverse marginal-utility functions.
+
+    }
+\end{frame}
+\begin{frame}{Review of Option Pricing}
+
+    {\footnotesize \footnotesize
+     
+Let the state-price process \(\xi(t)\) be
+\[
+\xi(t) = \exp \left\{ - \int_0^t r(s) ds \right\} Z(t) > 0,
+\]
+where
+\[
+Z(t) := \exp \left\{ - \int_0^t \theta^T (s) dW(s) - \frac{1}{2} \int_0^t \| \theta(s) \|^2 ds \right\},
+\]
+\[
+\theta(t) := \sigma^{-1}(t) [b(t) - r(t)\mathbf{1}],
+\]
+and \(\mathbf{1} = (1, 1, \ldots, 1)^\top\). 
+\par  \pause In other words, \(\xi(t)\) is the multiplication of the discount factor and risk-neutral Radon-Nikodym derivative, i.e., the risk-neutral measure is defined as
+\[
+P^0(A) := \mathbb{E}[Z(T)I_A], \quad A \in \mathcal{F}_T.
+\]
+ \pause Then by the Itô formula, \(\xi(t)\) is the unique solution of the stochastic differential equation
+\[
+\frac{d\xi(t)}{\xi(t)} = -r(t) dt - \theta(t) dW(t), \quad \xi(0) = 1.
+\]
+    }
+\end{frame}
+
+\begin{frame}{Review of Option Pricing}
+
+    {\footnotesize \footnotesize
+     The price of a European option with a final payoff \(\Psi(T)\) at 
+     time \(T\) and continuous dividend payment \(\psi(t)\) paid continuously 
+     to the holder of the option between time 0 and \(T\) is given
+      {\footnotesize \tiny
+\[
+\mathbb{E}^0 \left[ \exp \left\{ - \int_0^T r(s) ds \right\} \Psi(T) \right] + \mathbb{E}^0 \left[ \int_0^T \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) dt \right]
+\]
+\[
+= \mathbb{E} \left[ \exp \left\{ - \int_0^T r(s) ds \right\} \Psi(T) Z(T) \right] + \mathbb{E}^0 \left[ \int_0^T \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) dt \right]
+\]
+\[
+= \mathbb{E}[\xi(T)\Psi(T)] + \mathbb{E}^0 \left[ \int_0^T \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) dt \right].
+\]
+
+    }
+
+ \pause Next, we shall show that the second expectation above is
+ {\footnotesize \tiny
+\[
+\mathbb{E}^0 \left[ \int_0^T \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) dt \right] = \mathbb{E} \left[ \int_0^T \xi(t) \psi(t) dt \right].
+\]
+    }
+
+ 
+
+    }
+\end{frame}
+
+
+\begin{frame}{Review of Option Pricing}
+
+    {\footnotesize \footnotesize
+      Indeed, by Fubini's theorem which is applicable because the integrand is nonnegative, we have
+       {\footnotesize \tiny
+\[
+\mathbb{E}^0 \left[ \int_0^T \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) dt \right]
+= \int_0^T \mathbb{E}^0 \left[ \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) \right] dt
+\]
+\[
+= \int_0^T \mathbb{E} \left[ \exp \left\{ - \int_0^t r(s) ds \right\} \psi(t) Z(t) \right] dt
+= \int_0^T \mathbb{E} [\xi(t)\psi(t)] dt
+= \mathbb{E} \left[ \int_0^T \xi(t)\psi(t) dt \right].
+\]
+    }
+
+
+ \pause Thus, in terms of the state-price process, the price of a European option with a final payoff \(\Psi(T)\) at time \(T\) and 
+continuous dividend payment \(\psi(t)\) paid continuously to the holder of the option between time 0 and \(T\) is given
+\[
+\mathbb{E} \left[ \int_0^T \xi(t)\psi(t) dt + \xi(T) \Psi(T) \right].
+\]
+ \pause In fact, \(\xi(t) = 1 / S^*(t)\) where \(S^*(t)\) is the optimal wealth that puts a fraction \(\theta / \sigma\) in 
+stock and \(1 - \theta / \sigma\) in the money market account, which is exactly the optimal wealth for Kelly criterion.
+    }
+\end{frame}
+
+\begin{frame}{Review of Option Pricing}
+
+    {\footnotesize \footnotesize
+     It is easy to check that
+\[
+d(\xi(t)X(t)) = -c(t)\xi(t)dt + \left\{ -\xi(t)X(t)\theta(t) + \xi(t)\pi(t)^\top\sigma(t) \right\}dW(t).
+\]
+
+ \pause Therefore
+\[
+\xi(t)X(t) + \int_0^t c(s)\xi(s)ds
+\]
+is a stochastic integral, whence a super-martingale (because it is nonnegative, as \( X(t) \geq 0 \) and \(\xi(t) \geq 0\)),
+\[
+\mathbb{E}\left\{\xi(t)X(t) + \int_0^t c(s)\xi(s)ds\right\} \leq \xi(0)X(0) = x.  
+\]
+
+    }
+\end{frame}
+
+\begin{frame}{Upper bound}
+
+    {\footnotesize \footnotesize
+     By the definition $\tilde{U}$ we have $U(x) \leq \tilde{U}(a) + xa$, and therefore,
+\[
+U_1(c(t)) \leq \tilde{U}_1(y\xi(t)) + c(t)y\xi(t)
+\]
+\[
+U_2(X(T)) \leq \tilde{U}_2(y\xi(T)) + X(T)y\xi(T).
+\]
+
+ \pause Hence
+\begin{align*}
+    &\mathbb{E} \left[ \int_{0}^{T} U_1(c(t))dt + U_2(X(T)) \right]\\
+&\leq \mathbb{E} \left[ \int_{0}^{T} \{ \tilde{U}_1(y\xi(t)) + c(t)y\xi(t) \} dt + \tilde{U}_2(y\xi(T)) + X(T)y\xi(T) \right]\\
+&= \mathbb{E} \left[ \int_{0}^{T} \tilde{U}_1(y\xi(t))dt + \tilde{U}_2(y\xi(T)) \right] 
++ y\mathbb{E} \left[ \int_{0}^{T} c(t)\xi(t)dt + X(T)\xi(T) \right]\\
+&\leq \mathbb{E} \left[ \int_{0}^{T} \tilde{U}_1(y\xi(t))dt + \tilde{U}_2(y\xi(T)) \right] + xy,
+\end{align*}
+
+where the last inequality follows from wealth inequality we get in previous slide.
+
+    }
+\end{frame}
+\begin{frame}{Upper bound}
+
+    {\footnotesize \footnotesize
+     If we define
+\[
+\tilde{V}(y) := \mathbb{E} \left[ \int_{0}^{T} \tilde{U}_1(y\xi(t))dt + \tilde{U}_2(y\xi(T)) \right],
+\]
+then what we have shown is that
+\[
+\mathbb{E} \left[ \int_{0}^{T} U_1(c(t))dt + U_2(X(T)) \right] \leq \tilde{V}(y) + xy.
+\]
+
+ \pause Thus, taking the maximum of the trading and consumption strategies yields
+\[
+V(x) \leq \tilde{V}(y) + xy.
+\]
+
+Thus,
+\[
+V(x) \leq \min_{y} \{\tilde{V}(y) + xy\}. 
+\]
+We now want to find a $y^*$ such that this bound becomes an equality.
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+      Consider a European option with a final payoff \( I_2(y\xi(T)) \) and continuous dividend payment \( I_1(y\xi(t)) \) paid continuously to the holder of the option between time 0 and \( T \). The price of such an option is given by \( A(y) \),
+    \[
+    A(y) := \mathbb{E} \left[ \int_{0}^{T} \xi(t)I_1(y\xi(t))dt + \xi(T)I_2(y\xi(T)) \right].
+    \]
+    Now choose \( y^* \) such that
+    \[
+    A(y^*) = x.  
+    \]
+    \par  \pause In other words, the price of the option is precisely the initial wealth available to the investor.
+    \vspace{1em}
+    \par Then we claim the optimal consumption strategy is just to consume the continuous dividend amount
+\[
+c^*(t) = I_1(y^*\xi(t)),
+\]
+and the optimal investment portfolio is nothing but the replicating portfolio \(\pi^*(t)\) for the option \(A(y^*)\), i.e. the replicating portfolio for the wealth process \(X^*(t)\),
+\[
+X^*(t) = \frac{1}{\xi(t)} \mathbb{E} \left[ \int_t^T \xi(t)I_1(y^*\xi(t))dt + \xi(T)I_2(y^*\xi(T)) \middle| \mathcal{F}_t \right].
+\]
+
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+     Note that
+     \vspace{-1em}
+\[
+X^*(T) = I_2(y^*\xi(T)).
+\]
+
+We want to show that
+\[
+\min_y \{\tilde{V}(y) + xy\} = \tilde{V}(y^*) + xy^*. \tag{*}
+\]
+
+This is a critical step that provides a link between option pricing and utility maximization because \(y^*\) comes from matching the initial option price to \(x\), while the left side is from utility maximization. Note that the argmin of \(\tilde{V}(y) + xy\) is achieved at
+\[
+\tilde{V}'(y) + x = 0,
+\]
+\vspace{-1em}
+or
+\[
+\frac{d}{dy} \mathbb{E} \left[ \int_0^T \tilde{U}_1(y\xi(t))dt + \tilde{U}_2(y\xi(T)) \right] = -x.
+\]
+ \pause Assuming the interchangeability of the derivative and expectation, we have
+\[
+\mathbb{E} \left[ \int_0^T \xi(t)\tilde{U}_1'(y\xi(t))dt + \xi(T)\tilde{U}_2'(y\xi(T)) \right] = -x.
+\]
+  In other words,
+\[
+\mathbb{E} \left[ \int_0^T \xi(t)I_1(y\xi(t))dt + \xi(T)I_2(y\xi(T)) \right] = x,
+\]
+\par because of $U'(y)= I(y)$, which is exactly the definition of \( y^* \). This shows $(*)$.
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+  
+ 
+\par Using \( c^*(t) \) and \( \pi^*(t) \) from the option pricing above, we have
+ {\footnotesize \tiny
+\begin{align*}
+   & \mathbb{E} \left[ \int_0^T U_1(c^*(t))dt + U_2(X^*(T)) \right]
+    = \mathbb{E} \left[ \int_0^T U_1(I_1(y^*\xi(t)))dt + U_2(I_2(y^*\xi(T))) \right]\\
+    &= \mathbb{E} \left[ \int_0^T U_1(I_1(y^*\xi(t)))dt - \int_0^T y^*\xi(t)I_1(y^*\xi(t))dt \right]\\
+    & + \mathbb{E}[U_2(I_2(y^*\xi(T))) - y^*\xi(T)I_2(y^*\xi(T))] 
+    + \mathbb{E} \left[ \int_0^T y^*\xi(t)I_1(y^*\xi(t))dt + y^*\xi(T)I_2(y^*\xi(T)) \right] \\
+    & \pause = \mathbb{E} \left[ \int_0^T \tilde{U}_1(y^*\xi(t))dt + \tilde{U}_2(y^*\xi(T)) + 
+    y^*\mathbb{E} \left[ \int_0^T \xi(t)I_1(y^*\xi(t))dt + \xi(T)I_2(y^*\xi(T)) \right] \right]\\
+    &  \pause = \mathbb{E} \left[ \int_0^T \tilde{U}_1(y^*\xi(t))dt + \tilde{U}_2(y^*\xi(T)) \right] + xy^*,
+\end{align*}
+    }
+\par  \pause where the second to the last equality follows from $\tilde{U}(y) = U(I(y)) - yI(y)$
+, and the last equality follows from $ A(y^*) = x.  $
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+   Thus,
+\[
+\mathbb{E} \left[ \int_0^T U_1(c^*(t))dt + U_2(X^*(T)) \right] = \tilde{V}(y^*) + xy^*.
+\]
+
+In summary, we have
+\[
+V(x) \geq \mathbb{E} \left[ \int_0^T U_1(c^*(t))dt + U_2(X^*(T)) \right] = \tilde{V}(y^*) + xy^*. 
+\]
+ \pause However by $V(x) \leq \min\limits_{y} \{\tilde{V}(y) + xy\}$
+\[
+V(x) \leq \tilde{V}(y^*) + xy^*. 
+\]
+
+Therefore, we have
+\[
+V(x) = \tilde{V}(y^*) + xy^* = \mathbb{E} \left[ \int_0^T U_1(c^*(t))dt + U_2(X^*(T)) \right]
+\]
+and that the optimal strategy is given by \( c^* \) and \( \pi^* \).
+
+Furthermore, the optimal value is
+\[
+V(x) = \tilde{V}(y^*) + xy^* = \min_y \{\tilde{V}(y) + xy\}.
+\]
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+    The replicating (hedging) strategy of the option with
+
+\begin{itemize}
+    \item Price \( A(y^*) = x \),
+    \item Final payoff \( I_2(y^*\xi(T)) = X^*(T) \),
+    \item Continuous dividend \( I_1(y^*\xi(t)) = c^*(t) \),
+\end{itemize}
+
+is exactly the same as the optimal consumption strategy \( (\pi^*,c^*) \) for the investor with initial wealth \( x \).
+\vspace{1em}
+\par  \pause Because 
+\[
+V(x) = \mathbb{E}\left[ \int_{0}^{T} U_1(c^*(t))dt + U_2(X^*(T)) \right] = \tilde{V}(y^*) + xy^*
+\]
+the maximum achievable utility.
+
+So holding that European option and consuming its continuous dividends is equivalent to implementing the dynamic trading strategy that maximizes utility.  
+The two problems coincide in value and structure.
+    }
+\end{frame}
+
+\begin{frame}{A Related European Option that Attains the Upper Bound}
+
+    {\footnotesize \footnotesize
+    \textbf{Remark}: 
+    \par (i) The duality approach points to an interesting connection
+    between option pricing and utility maximization. This can be used to solve the
+    utility maximization problem via Monte Carlo simulation. In particular, we can
+    use Monte Carlo simulation to compute the related option price, which is the
+    same as the maximal value of the utility maximization.
+    \vspace{1em}
+    \par  \pause (ii) The dual approach also suggests the role of financial institutions.
+    A small investor might not have the resources or flexibility to continuously trade and rebalance to follow the optimal $\pi^*(t)$.
+    A financial institution, however, can create and hedge such an option efficiently.
+     Therefore, the investor can simply buy the contingent claim that replicates the optimal wealth and consumption stream. 
+     In this way, the investor achieves the same utility$ V(x) $without managing the portfolio himself.
+    }
+\end{frame}
+%  {\footnotesize \tiny
+
+%     }
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
