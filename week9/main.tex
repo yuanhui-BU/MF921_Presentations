@@ -17,14 +17,15 @@
 \usefonttheme{professionalfonts} % keeps proper math fonts
 
 \usepackage{amsmath,amssymb,amsfonts} % math symbols (\mathcal, \mathbb, etc.)
-\usepackage{mathrsfs}                 % optional: \mathscr for fancy script
+\usepackage{mathrsfs}    
+\usepackage{multicol}             % optional: \mathscr for fancy script
 
 % \setbeamercovered{invisible} 
 \setbeamercovered{transparent}
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 4}
+\subtitle{Week 9}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,33 +36,183 @@
 % \tableofcontents
 % \end{frame}
 
-\section{Background}
-\begin{frame}{Background}
 
-    {\footnotesize \footnotesize
-    \par Recall The Double Exponential Jump Diffusion Model:
-    \begin{align*}
-        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
-    \end{align*}
-    \par\begin{itemize}
-    \item \( W(t) \): Brownian motion under the real-world measure.
-    \item \( N(t) \): Poisson process with rate \(\lambda\).
-    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
-    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
-    \end{itemize}   
-    \begin{align*}
-        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
-    \end{align*}
-    \par with parameters:
-    \begin{itemize}
-        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
-        \item \(\eta_1 > 1\): rate for upward jumps.
-        \item \(\eta_2 > 0\): rate for downward jumps.
-    \end{itemize}
+\begin{frame}{Chapter 9}
+
+    {
+    \begin{center}
+        Chapter 12 Backward Stochastic Differential Equations
+    \end{center}
     }
     
 \end{frame}
-% \begin{frame}
+
+\begin{frame}{Motivation and Definition}
+
+    {\footnotesize \footnotesize
+Consider the following question: Find a random variable \( Y_0 \) and a progressively measurable process \( Z_t \in \mathbb{R}^d \), such that
+\[
+-dY_t = f(t, Y_t, Z_t)dt - Z_t^T dW_t, \quad Y_T = \xi,
+\]
+
+where \( T \) means transpose, \( \xi \) is a constant ($\mathcal{F}_T$ measurable r.v?), 
+and \( W_t \) is a standard \( d \)-dimensional Brownian motion. 
+This is an example of backward stochastic differential equations (BSDE), 
+which can be viewed as a hedging problem to match the final payoff \( Y_T = \xi \) 
+by finding the initial price \( Y_0 \) and the hedging strategy \( Z_t \).
+\vspace{1em}
+\par In addition to the link with option pricing, there are at least four applications.
+
+(1) BSDE is linked to recursive utilities.
+
+(2) BSDE has been used to study continuous-time principle-agent problems, starting from Sannikov (2008, Review of Economic Studies).
+
+(3) There is a link between BSDE and certain classes of semi-linear parabolic PDE's, as an extension of the Feynman-Kac formula.
+
+(4) There is a natural link between BSDE's and stochastic control problems. 
+For example, the above BSDE problem can be formulated as a special stochastic control problem such that
+\[
+\min_{y,Z} E \left[ \left\{ Y_T^{y,Z} - \xi \right\}^2 \right] = 0,
+\]
+    }
+    
+\end{frame}
+\begin{frame}{Motivation and Definition}
+
+    {\footnotesize \footnotesize
+(4) There is a natural link between BSDE's and stochastic control problems. 
+For example, the above BSDE problem can be formulated as a special 
+stochastic control problem such that
+\[
+\min_{y,Z} E \left[ \left\{ Y_T^{y,Z} - \xi \right\}^2 \right] = 0,
+\]
+where \( Y_T^{y,Z} \) is the solution of
+\[
+-dY_t = f(t, Y_t, Z_t)dt - Z_t^T dW_t, \quad Y_0 = y.
+\]
+
+This minimization problem can be solved by using a neural network, 
+by learning \( Y_T^{y,Z} \) to match \( \xi \) as close as possible. 
+This connection leads to a fast way to 
+solve some semi-linear PDE's, especially in the high-dimensional case, by using neural networks.
+\vspace{1em}
+\par As a comparison, the HJB equation is a continuous analogy of dynamic programming and 
+is in general a nonlinear parabolic PDE, which is challenging to solve numerically, 
+especially in high dimensions. However, for certain special stochastic control problem, 
+the HJB may become a semi-linear parabolic PDE, which 
+can be solved by using neural networks via backward stochastic differential equations (BSDEs).
+In general, instead of using BSDEs and PDEs, 
+one can use iterated procedure to build a neural network to
+ solve stochastic control problems.
+    }
+    
+\end{frame}
+
+\begin{frame}{Motivation and Definition}
+
+    {\footnotesize \footnotesize
+
+\par A formal definition of one-dimensional BSDE 
+for a given pair \((\xi,f)\) satisfying the regularity conditions.
+\par For the pair \((\xi,f)\) we require: 
+\begin{itemize}
+    \item  (i) \(\xi\in\mathcal{F}_{T}\) is a \(L^{2}\) random variable.
+    \item (ii) \(f(\cdot,t,y,z):\Omega\times[0,T]\times\mathbb{R}\times\mathbb{R}^{d}\to \mathbb{R}\), denoted for simplicity as \(f(t,y,z)\), is progressively 
+measurable for all \(y\) and \(z\), such that \(E[\int_{0}^{T}f^{2}(t,0,0)dt]<\infty\).
+\end{itemize}
+\par A solution to the BSDE at the beginning is a pair \((Y,Z)\), 
+both progressively measurable, such that \(E[\sup\limits_{0\leq t\leq T}|Y_{t}|^{2}]<\infty\),
+ \(E\left[\int_{0}^{T}|Z_{t}|^{2}\,dt\right]<\infty\), and
+ \vspace{-1em}
+\[
+Y_{t}=\xi+\int_{t}^{T}f(s,Y_{s},Z_{s})ds-\int_{t}^{T}Z_{s}^{\top}dW_{s},\quad 0 \leq t \leq T.
+\]
+\par Here \(\xi\) and \(f\) are called the terminal condition and the driver of the BSDE, respectively.
+\par Given \(\xi \in L^2\) and \(f\) satisfying a uniform Lipschitz condition, i.e. there exists a constant \(C_f\) such that  
+\[
+|f(t,x_1,y_1) - f(t,x_2,y_2)| \leq C_f \left( |x_1 - x_2| + |y_1 - y_2| \right),
+\]  
+there exists a unique solution \((Y,Z)\) to the BSDE. Unfortunately, the uniform Lipschitz 
+condition does not hold in many cases.
+    }
+    
+\end{frame}
+
+\begin{frame}{Linear BSDE}
+
+    {\footnotesize \footnotesize
+    First consider a special case \(f = 0\), in which the BSDE becomes  
+    \[
+    Y_t = \xi - \int_{t}^{T} Z_s^{\top} dW_s, \quad 0 \leq t \leq T. \tag{*}
+    \]
+    Recall that the martingale representation theorem yields 
+    for every \(\mathcal{F}_T\) measurable and square integrable 
+    random variable \(\xi\), there exists a unique progressively measurable 
+    process \(\beta_t\), \(E\left[\int_0^T |\beta_t|^2 dt\right] < \infty\), such that
+\[
+\xi = E[\xi] + \int_0^T \beta_s^T dW_s.
+\]
+We shall prove that the unique solution of the BSDE $(*)$ is given by
+\[
+Y_t = E[\xi|\mathcal{F}_t], \quad Z_t = \beta_t.
+\]
+    }
+    
+\end{frame}
+
+\begin{frame}{Linear BSDE}
+
+    {\footnotesize \footnotesize
+     First note that by 
+     \begin{align*}
+        Y_t &= E[\xi|\mathcal{F}_t]\\
+        &= E[\xi] + E\left[\int_0^T \beta_s^T dW_s |\mathcal{F}_t\right]\\
+        &= \xi - \int_0^T Z_s^T dW_s + \int_0^t Z_s^T dW_s 
+        + E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right]\\
+        & = \xi - \int_t^T Z_s^T dW_s + E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right]\\
+        &= \xi - \int_t^T Z_s^T dW_s,
+     \end{align*}
+because \(E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right] = 0\) as the local
+ martingale of the
+ stochastic integral becomes a martingale, as will be shown in the following problem. 
+    }
+    
+\end{frame}
+
+\begin{frame}{Linear BSDE}
+
+    {\footnotesize \footnotesize
+      Prove that the local martingale \(M_t = \int_0^t Z_s^T dW_s\) is actually a martingale.
+      \vspace{1em}
+      \par We know that \( E \left[ \int_0^T |Z_t|^2  dt \right] < \infty \) 
+      and the quadratic variation of \( \int_0^t Z_s^T dW_s \) is \( \int_0^T |Z_t|^2  dt \). 
+      Thus, by the Burkholder-Davis-Gundy inequality for the quadratic variation of a martingale, 
+      with \( p = 2 \), there exists a positive constant \( C_2 \) such that
+          {\footnotesize \tiny
+          \[
+E \left[ \left( \sup_{0 \leq t \leq T} \left| \int_0^t Z_s^T dW_s \right| \right)^2 \right]
+\leq C_p E \left[ \left( \int_0^T |Z_t|^2  dt \right)^{p/2} \right] 
+= C_2 E \left[ \int_0^T |Z_t|^2  dt \right] < \infty.
+\]
+    }
+
+\par Define stopping times \(\tau_n := \inf\{t : \langle M \rangle_t \geq n\} \land T\). 
+Each stopped process \(M_t^{\tau_n} := M_{t \land \tau_n}\) is a bounded \(L^2\)-martingale. 
+Because of BDG, the family \(\{M_T^{\tau_n}\}_n\) is uniformly integrable. 
+Hence we can pass to the limit \(n \to \infty\) in the martingale property:
+\[
+\mathbb{E}[M_t \mid \mathcal{F}_s] = \lim_{n \to \infty} \mathbb{E}[M_t^{\tau_n} \mid \mathcal{F}_s] = \lim_{n \to \infty} M_s^{\tau_n} = M_s, \quad 0 \leq s \leq t \leq T,
+\]
+where we used DCT, justified by the UI bound above. 
+Therefore \(M\) is a martingale.
+    }
+    
+\end{frame}
+
+    % {\footnotesize \tiny
+
+    % }
+% \begin{frame}{}
 
 %     {\footnotesize \footnotesize
 
