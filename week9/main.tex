@@ -209,6 +209,150 @@ Therefore \(M\) is a martingale.
     
 \end{frame}
 
+\begin{frame}{Linear BSDE}
+
+    {\footnotesize \footnotesize
+    To show the uniqueness of the BSDE $(*)$, without using the general theorem of the BSDE based on the uniform Lipschitz condition, consider a solution pair \((Y_t, Z_t)\). Note that when \(t = 0\)
+\[
+Y_0 = \xi - \int_0^T Z_s^T dW_s,
+\]
+yielding
+\[
+Y_0 = E[\xi] - E \left[ \int_0^T Z_s^T dW_s \right] = E[\xi],
+\]
+again because \(\int_0^T Z_s^T dW_s\) has a martingale property. Furthermore, by $(*)$,
+\[
+dY_t = Z_t^T dW_t, \quad Y_t = 
+Y_0 + \int_0^t Z_s^T dW_s = E[\xi] + \int_0^t Z_s^T dW_s. \tag{**}
+\]
+Thus,
+\[
+\xi = Y_t + \int_{t}^{T} Z_s^T dW_s
+= E[\xi] + \int_{0}^{t} Z_s^T dW_s + \int_{0}^{T} Z_s^T dW_s
+= E[\xi] + \int_{0}^{T} Z_s^T dW_s.
+\]
+Such \(Z\) must be unique according 
+to the martingale representation theorem. Hence \((Y_t, Z_t)\) 
+must be unique due to $(**)$.
+    }
+    
+\end{frame}
+
+\begin{frame}{The solution for the linear BSDE via the Girsanov theorem}
+
+    {\footnotesize \footnotesize
+    Now we consider BSDE with a linear driver, i.e.,
+\[
+f(t,y,z)=A_{t}+B_{t}y+C_{t}^{\top}z,
+\]
+where \(A_{t}\), \(B_{t}\) are one-dimensional progressive measurable 
+processes and \(C_{t}\) is a \(d\)-dimensional progressive measurable process, 
+such that
+\[
+E\left[\int_{0}^{T}|A_{t}|^{2}\,dt\right]<\infty,
+\]
+\par and \(B_{t}\) and \(C_{t}\) are bounded processes. 
+We attempt to reduce this case to the case of zero driver, 
+via the Girsanov theorem and other transforms.
+\vspace{1em}
+\par To eliminate the term \(C_{t}^{\top}z\) in the driver, we consider a new probability measure \(Q\), defined as
+\[
+\frac{dQ}{dP}=\exp\left\{\int_{0}^{T}C_{t}^{\top}dW_{t}-\frac{1}{2}\int_{0}^{T}| C_{t}|^{2}\,dt\right\},
+\]
+and a new process
+\[
+\bar{W}_{t}=W_{t}-\int_{0}^{t}C_{s}ds.
+\]
+    }
+    
+\end{frame}
+
+\begin{frame}{The solution for the linear BSDE via the Girsanov theorem}
+
+    {\footnotesize \footnotesize
+   By Girsanov theorem, \(\bar{W}_{t}\) is a standard Brownian motion under the new measure \(Q\). Note that the Novikov condition is satisfied because
+\[
+E\left[\exp\left(\frac{1}{2}\int_{0}^{T}|C_{s}|^{2}\,ds\right)\right]<\infty.
+\]
+
+Using \(\bar{W}_{t}\), the dynamic of \(Y_{t}\) can be re-written as
+\begin{align*}
+    -dY_{t} &= (A_{t}+B_{t}Y_{t}+C_{t}^{\top}Z_{t})\,dt-Z_{t}^{\top}dW_{t}\\
+    &= (A_{t}+B_{t}Y_{t}+C_{t}^{\top}Z_{t})\,dt-Z_{t}^{\top}(d\bar{W}_{t}+ C_{t}dt)\\
+    &= (A_{t}+B_{t}Y_{t})\,dt-Z_{t}^{\top}d\bar{W}_{t}.
+\end{align*}
+Next, to eliminate the term \(B_{t}y\) in the driver, we consider the discounted version of \(Y\). More precisely, introduce
+\[
+Y_{D,t}=Y_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\},\ \ Z_{D,t}=Z_{t}\exp\left\{ \int_{0}^{t}B_{s}ds\right\}.
+\]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{The solution for the linear BSDE via the Girsanov theorem}
+
+    {\footnotesize \footnotesize
+    Then by the Ito formula
+    \begin{align*}
+        dY_{D,t} &= \exp\left\{\int_{0}^{t}B_{s}ds\right\}dY_{t}
+        +Y_{t}\exp\left\{\int_ {0}^{t}B_{s}ds\right\}B_{t}dt\\
+        &= \exp\left\{\int_{0}^{t}B_{s}ds\right\}\left\{-A_{t}dt
+        -B_{t}Y_{t}dt +Z_{t}^{\top}d\bar{W}_{t}+Y_{t}B_{t}dt\right\}\\
+        & = -A_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\}dt+Z_{D,t}^{\top}d \bar{W}_{t},
+    \end{align*}
+\par with the terminal condition $Y_{D,T}=\xi\exp\left\{\int_{0}^{T}B_{s}ds\right\}.$
+\par Finally to eliminate \(A_{t}\), we define
+\[
+\bar{Y}_{t}=Y_{D,t}+\int_{0}^{t}A_{u}\exp\left\{\int_{0}^{u}B_{s}ds\right\}du.
+\]
+Then
+\[
+d\bar{Y}_{t} = dY_{D,t}+A_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\}dt= Z_{D,t}^{\top}d\bar{W}_{t},
+\]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{The solution for the linear BSDE via the Girsanov theorem}
+
+    {\footnotesize \footnotesize
+    with the terminal condition
+    \begin{align*}
+        \bar{Y}_T &= Y_{D,T} + \int_0^T A_u \exp \left\{ \int_0^u B_s ds \right\} du\\
+        &= \xi \exp \left\{ \int_0^T B_s ds \right\} + \int_0^T A_u 
+\exp \left\{ \int_0^u B_s ds \right\} du.
+    \end{align*}
+    Thus, we can apply the previous result 
+    $Y_t = E[\xi|\mathcal{F}_t], \;Z_t = \beta_t$ about BSDE with zero driver, we have the unique solution is given by
+\[
+\bar{Y}_t = E^Q \left[ \xi \exp \left\{ \int_0^T B_s ds \right\} + \int_0^T A_u \exp \left\{ \int_0^u B_s ds \right\} du | \mathcal{F}_t \right],
+\]
+whence
+\begin{align*}
+    Y_{D,t} &= \bar{Y}_t - \int_0^t A_u \exp \left\{ \int_0^u B_s ds \right\} du\\
+    &= E^Q \left[ \xi \exp \left\{ \int_0^T B_s ds \right\} +
+ \int_t^T A_u \exp \left\{ \int_0^u B_s ds \right\} du | \mathcal{F}_t \right].
+\end{align*}
+    }
+    
+\end{frame}
+
+\begin{frame}{The solution for the linear BSDE via the Girsanov theorem}
+
+    {\footnotesize \footnotesize
+     Thus, the unique solution of the linear BSDE is given by
+     \begin{align*}
+        Y_t &= Y_{D,t} \exp \left\{ -\int_0^t B_s ds \right\}\\
+        &= E^Q \left[ \xi \exp \left\{ \int_t^T B_s ds \right\} 
++ \int_t^T A_u \exp \left\{ \int_t^u B_s ds \right\} du |\mathcal{F}_t \right].
+     \end{align*}
+
+    }
+    
+\end{frame}
+
     % {\footnotesize \tiny
 
     % }
