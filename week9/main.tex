@@ -348,11 +348,86 @@ whence
         &= E^Q \left[ \xi \exp \left\{ \int_t^T B_s ds \right\} 
 + \int_t^T A_u \exp \left\{ \int_t^u B_s ds \right\} du |\mathcal{F}_t \right].
      \end{align*}
+Let
+\[
+\Psi(t) = \exp \left\{ \int_0^t B_s ds \right\} \frac{dQ}{dP} \Big|_{\mathcal{F}_t}.
+\]
+Then we can show 
+\[
+\frac{d\Psi(t)}{\Psi(t)} = B_t dt + C_t^\top dW_t, \quad \Psi(0) = 1,
+\]
+and the unique solution of the BSDE is given by
+\[
+Y_t = \frac{1}{\Psi(t)} E^P \left[ \xi \Psi(T) + \int_t^T A_u \Psi(u) du |\mathcal{F}_t \right].
+\]
 
     }
     
 \end{frame}
+\begin{frame}{Connection with semi-linear parabolic PDE's}
 
+    {\footnotesize \footnotesize
+      It can be shown that the above BSDE is linked to a semi-linear parabolic PDE  
+\[
+\frac{\partial u}{\partial t}(t,x) + \frac{1}{2}(\Delta_x u)(t,x)
+ + f(t,u(t,x),(\nabla_x u)(t,x)) = 0, \, u(T,x) = g(x),
+\]
+
+where \(\Delta_x u\) is the Laplace operator and \(\nabla_x u\) is the gradient, i.e.
+\[
+\Delta_x u = \sum_{i=1}^d \frac{\partial^2 u}{\partial x_i^2}, \, \nabla_x u 
+= \left( \frac{\partial u}{\partial x_1}, \ldots, \frac{\partial u}{\partial x_d} \right).
+\]
+
+\par This equation is semi-linear because the second derivative is linear despite 
+that \(f\) on the first derivative is nonlinear. The link can be stated in two parts.
+\vspace{1em}
+\par (1) If the semi-linear PDE has a \(C^2\) solution, then subject to some regularity conditions on \(u\), such as a linear growth condition, the solution of BSDE  
+\[
+Y_t = g(W_T) + \int_t^T f(s,Y_s,Z_s)ds - \int_t^T Z_s^T dW_s, \, 0 \leq t \leq T.
+\]
+can be given in terms of \(u\) as  
+\[
+Y_t = u(t,W_t), \, Z_t = (\nabla_x u)(t,W_t).
+\]
+    }
+    
+\end{frame}
+
+\begin{frame}{Connection with semi-linear parabolic PDE's}
+
+    {\footnotesize \footnotesize
+    This is essentially from the Itô formula, because
+    \[
+    u(T,W_{T}) = g(W_{T}),
+    \]
+    and
+    \begin{align*}
+        du(t,W_{t}) &= \frac{\partial u}{\partial t}dt + \frac{1}{2}(\Delta_{x}u)(t,W_{t})dt + (\nabla_{x}u)(t,W_{t})dW_{t}
+        \\ & = -f(t,u(t,W_{t}),(\nabla_{x}u)(t,W_{t})) + (\nabla_{x}u)(t,W_{t})dW_{t}
+        \\ &= -f(t,u(t,W_{t}),Z_{t}) + Z_{t}dW_{t},
+    \end{align*}
+    which means that with \(Y_{t} = u(t,W_{t})\) we have
+    \[
+    Y_{t} = g(W_{T}) + \int_{t}^{T}f(s,Y_{s},Z_{s})ds - \int_{t}^{T}Z_{s}^{\top}dW_{s}, \quad 0 \leq t \leq T.
+    \]
+    (2) Conversely, suppose the BSDE has a solution \((Y_{t},Z_{t})\), where $Y_{t} = u(t,W_{t})$
+    for a continuous function \(u\). Then \(u\) is a viscosity solution to the 
+    semi-linear PDE.
+    \vspace{1em}
+    \par Given this link with BSDE, one can use the neural network to solve 
+    the semi-linear parabolic PDE to get \(u(0,\xi)\), because $u(0,\xi) = Y_{0}.$
+    }
+    
+\end{frame}
+
+\begin{frame}{Connection with semi-linear parabolic PDE's}
+
+    {\footnotesize \footnotesize
+     
+    }
+    
+\end{frame}
     % {\footnotesize \tiny
 
     % }
