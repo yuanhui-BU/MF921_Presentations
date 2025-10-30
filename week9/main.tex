@@ -61,7 +61,7 @@ This is an example of backward stochastic differential equations (BSDE),
 which can be viewed as a hedging problem to match the final payoff \( Y_T = \xi \) 
 by finding the initial price \( Y_0 \) and the hedging strategy \( Z_t \).
 \vspace{1em}
-\par In addition to the link with option pricing, there are at least four applications.
+\par  \pause In addition to the link with option pricing, there are at least four applications.
 
 (1) BSDE is linked to recursive utilities.
 
@@ -69,11 +69,11 @@ by finding the initial price \( Y_0 \) and the hedging strategy \( Z_t \).
 
 (3) There is a link between BSDE and certain classes of semi-linear parabolic PDE's, as an extension of the Feynman-Kac formula.
 
-(4) There is a natural link between BSDE's and stochastic control problems. 
-For example, the above BSDE problem can be formulated as a special stochastic control problem such that
-\[
-\min_{y,Z} E \left[ \left\{ Y_T^{y,Z} - \xi \right\}^2 \right] = 0,
-\]
+% (4) There is a natural link between BSDE's and stochastic control problems. 
+% For example, the above BSDE problem can be formulated as a special stochastic control problem such that
+% \[
+% \min_{y,Z} E \left[ \left\{ Y_T^{y,Z} - \xi \right\}^2 \right] = 0,
+% \]
     }
     
 \end{frame}
@@ -91,12 +91,12 @@ where \( Y_T^{y,Z} \) is the solution of
 -dY_t = f(t, Y_t, Z_t)dt - Z_t^T dW_t, \quad Y_0 = y.
 \]
 
-This minimization problem can be solved by using a neural network, 
+ \pause This minimization problem can be solved by using a neural network, 
 by learning \( Y_T^{y,Z} \) to match \( \xi \) as close as possible. 
 This connection leads to a fast way to 
 solve some semi-linear PDE's, especially in the high-dimensional case, by using neural networks.
 \vspace{1em}
-\par As a comparison, the HJB equation is a continuous analogy of dynamic programming and 
+\par  \pause As a comparison, the HJB equation is a continuous analogy of dynamic programming and 
 is in general a nonlinear parabolic PDE, which is challenging to solve numerically, 
 especially in high dimensions. However, for certain special stochastic control problem, 
 the HJB may become a semi-linear parabolic PDE, which 
@@ -120,7 +120,7 @@ for a given pair \((\xi,f)\) satisfying the regularity conditions.
     \item (ii) \(f(\cdot,t,y,z):\Omega\times[0,T]\times\mathbb{R}\times\mathbb{R}^{d}\to \mathbb{R}\), denoted for simplicity as \(f(t,y,z)\), is progressively 
 measurable for all \(y\) and \(z\), such that \(E[\int_{0}^{T}f^{2}(t,0,0)dt]<\infty\).
 \end{itemize}
-\par A solution to the BSDE at the beginning is a pair \((Y,Z)\), 
+\par  \pause A solution to the BSDE at the beginning is a pair \((Y,Z)\), 
 both progressively measurable, such that \(E[\sup\limits_{0\leq t\leq T}|Y_{t}|^{2}]<\infty\),
  \(E\left[\int_{0}^{T}|Z_{t}|^{2}\,dt\right]<\infty\), and
  \vspace{-1em}
@@ -128,7 +128,7 @@ both progressively measurable, such that \(E[\sup\limits_{0\leq t\leq T}|Y_{t}|^
 Y_{t}=\xi+\int_{t}^{T}f(s,Y_{s},Z_{s})ds-\int_{t}^{T}Z_{s}^{\top}dW_{s},\quad 0 \leq t \leq T.
 \]
 \par Here \(\xi\) and \(f\) are called the terminal condition and the driver of the BSDE, respectively.
-\par Given \(\xi \in L^2\) and \(f\) satisfying a uniform Lipschitz condition, i.e. there exists a constant \(C_f\) such that  
+\par  \pause Given \(\xi \in L^2\) and \(f\) satisfying a uniform Lipschitz condition, i.e. there exists a constant \(C_f\) such that  
 \[
 |f(t,x_1,y_1) - f(t,x_2,y_2)| \leq C_f \left( |x_1 - x_2| + |y_1 - y_2| \right),
 \]  
@@ -145,14 +145,14 @@ condition does not hold in many cases.
     \[
     Y_t = \xi - \int_{t}^{T} Z_s^{\top} dW_s, \quad 0 \leq t \leq T. \tag{*}
     \]
-    Recall that the martingale representation theorem yields 
+     \pause Recall that the martingale representation theorem yields 
     for every \(\mathcal{F}_T\) measurable and square integrable 
     random variable \(\xi\), there exists a unique progressively measurable 
     process \(\beta_t\), \(E\left[\int_0^T |\beta_t|^2 dt\right] < \infty\), such that
 \[
 \xi = E[\xi] + \int_0^T \beta_s^T dW_s.
 \]
-We shall prove that the unique solution of the BSDE $(*)$ is given by
+ \pause We shall prove that the unique solution of the BSDE $(*)$ is given by
 \[
 Y_t = E[\xi|\mathcal{F}_t], \quad Z_t = \beta_t.
 \]
@@ -172,7 +172,7 @@ Y_t = E[\xi|\mathcal{F}_t], \quad Z_t = \beta_t.
         & = \xi - \int_t^T Z_s^T dW_s + E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right]\\
         &= \xi - \int_t^T Z_s^T dW_s,
      \end{align*}
-because \(E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right] = 0\) as the local
+ \pause because \(E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right] = 0\) as the local
  martingale of the
  stochastic integral becomes a martingale, as will be shown in the following problem. 
     }
@@ -184,7 +184,7 @@ because \(E\left[\int_t^T Z_s^T dW_s |\mathcal{F}_t\right] = 0\) as the local
     {\footnotesize \footnotesize
       Prove that the local martingale \(M_t = \int_0^t Z_s^T dW_s\) is actually a martingale.
       \vspace{1em}
-      \par We know that \( E \left[ \int_0^T |Z_t|^2  dt \right] < \infty \) 
+      \par  \pause We know that \( E \left[ \int_0^T |Z_t|^2  dt \right] < \infty \) 
       and the quadratic variation of \( \int_0^t Z_s^T dW_s \) is \( \int_0^T |Z_t|^2  dt \). 
       Thus, by the Burkholder-Davis-Gundy inequality for the quadratic variation of a martingale, 
       with \( p = 2 \), there exists a positive constant \( C_2 \) such that
@@ -196,7 +196,7 @@ E \left[ \left( \sup_{0 \leq t \leq T} \left| \int_0^t Z_s^T dW_s \right| \right
 \]
     }
 
-\par Define stopping times \(\tau_n := \inf\{t : \langle M \rangle_t \geq n\} \land T\). 
+\par \pause  Define stopping times \(\tau_n := \inf\{t : \langle M \rangle_t \geq n\} \land T\). 
 Each stopped process \(M_t^{\tau_n} := M_{t \land \tau_n}\) is a bounded \(L^2\)-martingale. 
 Because of BDG, the family \(\{M_T^{\tau_n}\}_n\) is uniformly integrable. 
 Hence we can pass to the limit \(n \to \infty\) in the martingale property:
@@ -220,12 +220,12 @@ yielding
 \[
 Y_0 = E[\xi] - E \left[ \int_0^T Z_s^T dW_s \right] = E[\xi],
 \]
-again because \(\int_0^T Z_s^T dW_s\) has a martingale property. Furthermore, by $(*)$,
+ \pause because \(\int_0^T Z_s^T dW_s\) has a martingale property. Furthermore, by $(*)$,
 \[
 dY_t = Z_t^T dW_t, \quad Y_t = 
 Y_0 + \int_0^t Z_s^T dW_s = E[\xi] + \int_0^t Z_s^T dW_s. \tag{**}
 \]
-Thus,
+ \pause Thus,
 \[
 \xi = Y_t + \int_{t}^{T} Z_s^T dW_s
 = E[\xi] + \int_{0}^{t} Z_s^T dW_s + \int_{0}^{T} Z_s^T dW_s
@@ -255,7 +255,7 @@ E\left[\int_{0}^{T}|A_{t}|^{2}\,dt\right]<\infty,
 We attempt to reduce this case to the case of zero driver, 
 via the Girsanov theorem and other transforms.
 \vspace{1em}
-\par To eliminate the term \(C_{t}^{\top}z\) in the driver, we consider a new probability measure \(Q\), defined as
+\par  \pause To eliminate the term \(C_{t}^{\top}z\) in the driver, we consider a new probability measure \(Q\), defined as
 \[
 \frac{dQ}{dP}=\exp\left\{\int_{0}^{T}C_{t}^{\top}dW_{t}-\frac{1}{2}\int_{0}^{T}| C_{t}|^{2}\,dt\right\},
 \]
@@ -275,13 +275,13 @@ and a new process
 E\left[\exp\left(\frac{1}{2}\int_{0}^{T}|C_{s}|^{2}\,ds\right)\right]<\infty.
 \]
 
-Using \(\bar{W}_{t}\), the dynamic of \(Y_{t}\) can be re-written as
+ \pause Using \(\bar{W}_{t}\), the dynamic of \(Y_{t}\) can be re-written as
 \begin{align*}
     -dY_{t} &= (A_{t}+B_{t}Y_{t}+C_{t}^{\top}Z_{t})\,dt-Z_{t}^{\top}dW_{t}\\
     &= (A_{t}+B_{t}Y_{t}+C_{t}^{\top}Z_{t})\,dt-Z_{t}^{\top}(d\bar{W}_{t}+ C_{t}dt)\\
     &= (A_{t}+B_{t}Y_{t})\,dt-Z_{t}^{\top}d\bar{W}_{t}.
 \end{align*}
-Next, to eliminate the term \(B_{t}y\) in the driver, we consider the discounted version of \(Y\). More precisely, introduce
+ \pause Next, to eliminate the term \(B_{t}y\) in the driver, we consider the discounted version of \(Y\). More precisely, introduce
 \[
 Y_{D,t}=Y_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\},\ \ Z_{D,t}=Z_{t}\exp\left\{ \int_{0}^{t}B_{s}ds\right\}.
 \]
@@ -302,7 +302,7 @@ Y_{D,t}=Y_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\},\ \ Z_{D,t}=Z_{t}\exp\left\{
         & = -A_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\}dt+Z_{D,t}^{\top}d \bar{W}_{t},
     \end{align*}
 \par with the terminal condition $Y_{D,T}=\xi\exp\left\{\int_{0}^{T}B_{s}ds\right\}.$
-\par Finally to eliminate \(A_{t}\), we define
+\par  \pause Finally to eliminate \(A_{t}\), we define
 \[
 \bar{Y}_{t}=Y_{D,t}+\int_{0}^{t}A_{u}\exp\left\{\int_{0}^{u}B_{s}ds\right\}du.
 \]
@@ -324,12 +324,12 @@ d\bar{Y}_{t} = dY_{D,t}+A_{t}\exp\left\{\int_{0}^{t}B_{s}ds\right\}dt= Z_{D,t}^{
         &= \xi \exp \left\{ \int_0^T B_s ds \right\} + \int_0^T A_u 
 \exp \left\{ \int_0^u B_s ds \right\} du.
     \end{align*}
-    Thus, we can apply the previous result 
+     \pause Thus, we can apply the previous result 
     $Y_t = E[\xi|\mathcal{F}_t], \;Z_t = \beta_t$ about BSDE with zero driver, we have the unique solution is given by
 \[
 \bar{Y}_t = E^Q \left[ \xi \exp \left\{ \int_0^T B_s ds \right\} + \int_0^T A_u \exp \left\{ \int_0^u B_s ds \right\} du | \mathcal{F}_t \right],
 \]
-whence
+ \pause whence
 \begin{align*}
     Y_{D,t} &= \bar{Y}_t - \int_0^t A_u \exp \left\{ \int_0^u B_s ds \right\} du\\
     &= E^Q \left[ \xi \exp \left\{ \int_0^T B_s ds \right\} +
@@ -348,7 +348,7 @@ whence
         &= E^Q \left[ \xi \exp \left\{ \int_t^T B_s ds \right\} 
 + \int_t^T A_u \exp \left\{ \int_t^u B_s ds \right\} du |\mathcal{F}_t \right].
      \end{align*}
-Let
+ \pause Let
 \[
 \Psi(t) = \exp \left\{ \int_0^t B_s ds \right\} \frac{dQ}{dP} \Big|_{\mathcal{F}_t}.
 \]
@@ -379,7 +379,7 @@ where \(\Delta_x u\) is the Laplace operator and \(\nabla_x u\) is the gradient,
 = \left( \frac{\partial u}{\partial x_1}, \ldots, \frac{\partial u}{\partial x_d} \right).
 \]
 
-\par This equation is semi-linear because the second derivative is linear despite 
+\par  \pause This equation is semi-linear because the second derivative is linear despite 
 that \(f\) on the first derivative is nonlinear. The link can be stated in two parts.
 \vspace{1em}
 \par (1) If the semi-linear PDE has a \(C^2\) solution, then subject to some regularity conditions on \(u\), such as a linear growth condition, the solution of BSDE  
@@ -407,11 +407,11 @@ Y_t = u(t,W_t), \, Z_t = (\nabla_x u)(t,W_t).
         \\ & = -f(t,u(t,W_{t}),(\nabla_{x}u)(t,W_{t})) + (\nabla_{x}u)(t,W_{t})dW_{t}
         \\ &= -f(t,u(t,W_{t}),Z_{t}) + Z_{t}dW_{t},
     \end{align*}
-    which means that with \(Y_{t} = u(t,W_{t})\) we have
+     \pause which means that with \(Y_{t} = u(t,W_{t})\) we have
     \[
     Y_{t} = g(W_{T}) + \int_{t}^{T}f(s,Y_{s},Z_{s})ds - \int_{t}^{T}Z_{s}^{\top}dW_{s}, \quad 0 \leq t \leq T.
     \]
-    (2) Conversely, suppose the BSDE has a solution \((Y_{t},Z_{t})\), where $Y_{t} = u(t,W_{t})$
+     \pause (2) Conversely, suppose the BSDE has a solution \((Y_{t},Z_{t})\), where $Y_{t} = u(t,W_{t})$
     for a continuous function \(u\). Then \(u\) is a viscosity solution to the 
     semi-linear PDE.
     \vspace{1em}
@@ -421,10 +421,283 @@ Y_t = u(t,W_t), \, Z_t = (\nabla_x u)(t,W_t).
     
 \end{frame}
 
-\begin{frame}{Connection with semi-linear parabolic PDE's}
+\begin{frame}{An example}
 
     {\footnotesize \footnotesize
-     
+     Let
+\[
+f(t, u, x_1, ..., x_d) = \beta \sum_{i=1}^d x_i^2.
+\]
+Then the semi-linear parabolic PDE becomes
+\[
+\frac{\partial u}{\partial t}(t, x) + \frac{1}{2}(\Delta_x u)(t, x) + 
+\beta \sum_{i=1}^d \left( \frac{\partial u}{\partial x_i} \right)^2 = 0, \quad u(T, x) = g(x). 
+\]
+ \pause The BSDE becomes
+\[
+dY(t) = -\beta \sum_{i=1}^d Z_i^2(t) dt + \sum_{i=1}^d Z_i(t) dW_i(t), \quad Y(T) = g(x + W(T)).
+\]
+ \pause Rewriting the BSDE, we get a related stochastic control problem
+\[
+\min_{y, Z} E \left[ \left\{ Y_T^{y, Z} - g(x + W_T) \right\}^2 \right] = 0,
+\]
+where \( Y_T^{y,Z} \) is the solution of
+\[
+dY(t) = -\beta \sum_{i=1}^d Z_i^2(t)dt + \sum_{i=1}^d Z_i(t)dW_i(t), \quad Y(0) = y.
+\]
+    }
+    
+\end{frame}
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+    We're solving  semi-linear parabolic PDE
+\[
+\partial_t u + \frac{1}{2} \Delta u + \beta |\nabla u|^2 = 0, \quad u(T, x) = g(x).
+\]
+Define  
+\[
+v(t, x) := \exp(2\beta u(t, x)).
+\]
+\par  \pause Compute \( v_t \) and \(\Delta v\)
+\[
+v_t = \frac{\partial}{\partial t} e^{2\beta u} = e^{2\beta u} \cdot 2\beta u_t = 2\beta v u_t.
+\]
+For each coordinate \( x_i \):
+\[
+\partial_{x_i} v = \partial_{x_i} (e^{2\beta u}) = e^{2\beta u} \cdot 2\beta u_{x_i} = 2\beta v u_{x_i}.
+\]
+ \pause Differentiate once more:
+\[
+\partial_{x_i x_i} v = \partial_{x_i} (2\beta v u_{x_i}) 
+= 2\beta ((2\beta v u_{x_i}) u_{x_i} + v u_{x_i x_i}) = 2\beta v u_{x_i x_i} + (2\beta)^2 v u_{x_i}^2.
+\]
+Sum over \( i = 1, \ldots, d \) 
+\[
+\Delta v = \sum_{i=1}^{d} \partial_{x_i x_i} v = 2\beta v \Delta u + (2\beta)^2 v \sum_{i=1}^{d} u_{x_i}^2 = 2\beta v \Delta u + 4\beta^2 v |\nabla u|^2.
+\]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+     Combine \( v_t \) and \(\Delta v\)
+     \[
+    v_t + \frac{1}{2} \Delta v = (2\beta v u_t) + \frac{1}{2} (2\beta v \Delta u + 4\beta^2 v |\nabla u|^2) = v \left( 2\beta u_t + \beta \Delta u + 2\beta^2 |\nabla u|^2 \right).
+    \]
+    Now use the PDE:
+    \[
+    u_t + \frac{1}{2} \Delta u + \beta |\nabla u|^2 = 0 \implies 2\beta u_t + \beta \Delta u + 2\beta^2 |\nabla u|^2 = 0.
+    \]
+
+     \pause Therefore
+    \[
+    v_t + \frac{1}{2} \Delta v = 0.
+    \]
+
+    Also, from \( u(T, x) = g(x) \),
+    \[
+    v(T, x) = e^{2\beta g(x)}.
+    \]
+    \( v \) satisfies the backward heat equation
+  \[
+  v_t + \frac{1}{2} \Delta v = 0, \quad v(T, x) = e^{2\beta g(x)}.
+  \]
+    }
+    
+\end{frame}
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+       The standard Feynman–Kac representation is for the forward 
+       heat equation with initial data at time 0:
+    \[
+    w_s = \frac{1}{2} \Delta w, \quad w(0, x) = h(x) \implies w(s, x) = \mathbb{E}[h(x + W_s)].
+    \]
+     \pause Define
+  \[
+  s := T - t, \quad w(s, x) := v(T - s, x).
+  \]
+   Then  \( w(0, x) = v(T, x) = e^{2\beta g(x)} \), differentiate 
+  \[
+  w_s(s, x) = -v_t(T - s, x), \quad \Delta w(s, x) = \Delta v(T - s, x).
+  \]
+   \pause Since \( v_t + \frac{1}{2} \Delta v = 0 \), we have \(-v_t = \frac{1}{2} \Delta v\). Hence
+  \[
+  w_s = \frac{1}{2} \Delta w, \quad w(0, x) = e^{2\beta g(x)}.
+  \]
+   So \( w \) solves the forward heat equation with initial condition \( e^{2\beta g} \). Apply Feynman–Kac:
+  \[
+  w(s, x) = \mathbb{E}\left[e^{2\beta g(x+W_s)}\right].
+  \]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+    Finally the change of variables \( s = T - t \):
+  \[
+  v(t, x) = w(T - t, x) = \mathbb{E}\left[e^{2\beta g(x+W_{T-t})}\right].
+  \]
+      \pause Since $v = e^{2\beta u}$,
+     \[
+    u(t,x) = \frac{1}{2\beta} \ln \left( E\left[ \exp \{ 2\beta g(x + W_{T-t}) \} \right] \right).
+    \]
+    In particular, \( u(T,x) = g(x) \) and for the BSDE
+\[
+Y(0) = u(0,x) = \frac{1}{2\beta} \ln \left( E\left[ \exp \{ 2\beta g(x + W_T) \} \right] \right).
+\]
+    \pause  Note that the solution of the BSDE is given by the pair \((Y_t, Z_t)\), where
+\[
+Y_t = u(t,x + W_t), \quad Z_t = (\nabla_x u)(t,x + W_t), \quad 0 \leq t \leq T,
+\]
+\[
+Y_T = u(T,x + W_T) = g(x + W_T).
+\]
+\vspace{1em}
+This semi-linear parabolic PDE can also be seen as an HJB equation for a simple quadratic-control problem.
+
+    }
+    
+\end{frame}
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+    Take a \( d \)-dimensional control \(\lambda_t = (\lambda_{1,t}, \ldots, \lambda_{d,t})\) and the controlled state
+\[
+dX_t = -2\sqrt{\beta} \lambda_t dt + dW_t, \quad X_t = x.
+\]
+
+Running cost is \(\|\lambda_t\|^2 = \sum_i \lambda_{i,t}^2\). The value function (at time \(t\)) is
+\[
+u(t, x) = \min_\lambda \mathbb{E} \left[ \int_t^T \|\lambda_s\|^2 ds + g(X_T) \,\middle|\, \mathcal{F}_t \right].
+\]
+ \pause Indeed, the HJB equation is given by
+\[
+0 = \partial_t u(t, x) + \inf_\lambda \left\{ (-2\sqrt{\beta} \lambda) \cdot \nabla u(t, x) + \frac{1}{2} \Delta u(t, x) + \|\lambda\|^2 \right\}, \quad u(T, x) = g(x).
+\]
+Pull out the term not depending on \(\lambda\):
+\[
+0 = \partial_t u + \frac{1}{2} \Delta u + \inf_\lambda \left\{ \|\lambda\|^2 - 2\sqrt{\beta} \lambda \cdot \nabla u \right\}.
+\]
+    }
+    
+\end{frame}
+
+
+\begin{frame}{An example}
+
+    {\footnotesize \footnotesize
+    For fixed \(p := \nabla u(t, x)\),
+\[
+\|\lambda\|^2 - 2\sqrt{\beta} \lambda \cdot p = \|\lambda - \sqrt{\beta} p\|^2 - \beta \|p\|^2.
+\]
+
+Hence
+\[
+\inf_\lambda \{ \cdots \} = -\beta \|\nabla u\|^2, \quad \lambda^*(t, x) = \sqrt{\beta} \nabla u(t, x).
+\]
+
+ \pause Plugging back:
+\[
+\partial_t u + \frac{1}{2} \Delta u - \beta \|\nabla u\|^2 = 0, \quad u(T, x) = g(x). 
+\]
+\vspace{1em}
+\par The above theory can be extended to include forward state dynamics, which
+can a¤ect both the drift and volatility, resulting in forward-backward stochastic
+di¤erential equations (FBSDE)
+    }
+    
+\end{frame}
+\begin{frame}{Forward backward stochastic differential equations}
+
+    {\footnotesize \footnotesize
+    Consider the following forward backward stochastic differential equation (FBSDE): Find a random variable \( Y_0 \) and an adapted process \( Z_t \) such that
+    \begin{align*}
+        dX_t &= \mu(t, X_t)dt + \sigma(t, X_t)^T dW_t, \quad X_0 = x\\
+        dY_t &= -f(t, X_t, Y_t, Z_t)dt + Z_t^T dW_t,\\
+        Y_T &= g(W_T).
+    \end{align*}
+
+    \par where \( T \) means transpose and \( W_t \) is a standard \( d \)-dimensional Brownian motion. 
+    This can be viewed as a hedging problem to match the final payoff \( Y_T \) by finding the initial price 
+    \( Y_0 \) and the hedging strategy \( Z_t \), 
+    but with the stochastic state dynamic \( X_t \) for the drift and volatility of \( Y_t \).
+    \vspace{1em}
+    \par  \pause The above FBSDE problem can be formulated as a special stochastic control problem such that
+\[
+\min_{y,Z} E \left[ \left\{ Y_T^{y,Z} - g(W_T) \right\}^2 \right] = 0,
+\]
+
+where \( Y_T^{y,Z} \) is the solution of
+\begin{align*}
+    dX_t &= \mu(t, X_t)dt + \sigma(t, X_t)^T dW_t, \quad X_0 = x\\
+    dY_t &= -f(t, X_t, Y_t, Z_t)dt + Z_t^T dW_t.
+\end{align*}
+
+    }
+    
+\end{frame}
+
+\begin{frame}{Connection with a semi-linear parabolic PDE}
+
+    {\footnotesize \footnotesize
+    \par This minimization problem can again be solved by using a neural network, 
+    by learning \( Y_T^{y,Z} \) to match \( g(\xi + W_T) \) as close as possible.
+    \par Time grid \( 0 = t_0 < \cdots < t_N = T, \Delta t_k \).
+    \par Forward Euler for \( X \):
+    \[
+    X_{k+1} = X_k + \mu(t_k, X_k)\Delta t_k + \sigma(t_k, X_k)^T\Delta W_k.
+    \]
+     \pause Parameterize \( Z: Z_{t_k} \approx Z_\theta(t_k, X_k) \in \mathbb{R}^d \)(NN). 
+    Treat \( Y_0 \) as a trainable scalar \( y_\theta \). Backward Euler-Maruyama for \( Y \):
+    \[
+    Y_{k+1} = Y_k - f(t_k, X_k, Y_k, Z_\theta(t_k, X_k))\Delta t_k + Z_\theta(t_k, X_k)^T\Delta W_k, \quad Y_0 = y_\theta.
+    \]
+     \pause The loss function, empirical mean of terminal mismatch
+    \[
+\mathcal{L}(\theta) = \frac{1}{M}\sum_{m=1}^{M}\left(Y^{(m)}_N - g(W^{(m)}_T)\right)^2.
+\]
+
+Minimize by SGD/backprop through the simulation; at optimum \( \mathcal{L} \approx 0 \) and \( y_\theta \approx Y_0 \).
+
+    }
+    
+\end{frame}
+\begin{frame}{Connection with a semi-linear parabolic PDE}
+
+    {\footnotesize \footnotesize
+    \par It can be shown that the above FBSDE is linked to a semi-linear parabolic PDE
+\[
+0 = \frac{\partial u}{\partial t}(t,x) + Au(t,x) + f(t,x,u(t,x),\sigma(t,X_t)^T(\nabla_x u)(t,x)),
+\]
+\[
+u(T,x) = g(x),
+\]
+ \pause where the generator
+\[
+Au(t,x) = \frac{1}{2} \text{Tr} \left[ \sigma \sigma^T(t,x)(\text{Hess}_x u)(t,x) \right] + (\nabla_x u)(t,x) \cdot \mu(t,x)
+\]
+\par where \(\text{Hess}_x u\) is the Hessian matrix, and Tr denotes the trace of the matrix. 
+This equation is again semi-linear because the second derivative is linear despite that \(f\) 
+on the first derivative is nonlinear. 
+\par  \pause The solution of FBSDE can be given in terms of \(u\) as
+\[
+Y_t = u(t,X_t), \quad Z_t = \sigma(t,X_t)^T(\nabla_x u)(t,X_t).
+\]
+In particular, one can also use the neural network to solve the semi-linear parabolic PDE to get \(u(0,\xi)\), because
+\[
+u(0,x) = Y_0.
+\]
     }
     
 \end{frame}
