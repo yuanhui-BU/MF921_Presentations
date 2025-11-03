@@ -46,6 +46,206 @@
     }
     
 \end{frame}
+
+
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+     We start with an open domain  
+\[
+\Omega \subset \mathbb{R}^d,
+\]
+and a function \( u(t, x) \) satisfying a nonlinear second-order PDE  
+\[
+F(t, x, u(t, x), D_t u(t, x), D_x u(t, x), D_x^2 u(t, x)) = 0, \quad (t, x) \in [0, T) \times \Omega.
+\]
+Where :  
+    \begin{itemize}
+        \item \( D_t u \): time derivative \(\partial u / \partial t\)  
+        \item \( D_x u = \nabla_x u = \left( \frac{\partial u}{\partial x_1}, \ldots, \frac{\partial u}{\partial x_d} \right)^T \)  
+        \item \( D_x^2 u \): the Hessian matrix, with entries \((D_x^2 u)_{ij} = \frac{\partial^2 u}{\partial x_i \partial x_j}\)
+    \end{itemize}
+     with the terminal condition
+    \[
+u(T, x) = g(x).
+\]
+This is typical for backward PDEs (as in HJB equations).  
+For infinite-horizon problems, there's no finite terminal time \( T \), so this condition disappears.
+    }
+   
+    
+\end{frame}
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+    Before defining viscosity solutions, we require \( F \) to behave "nicely" under 
+    perturbations, this ensures the notion of viscosity sub/supersolutions makes sense.
+    \begin{itemize}
+        \item (i) Ellipticity condition: for symmetric matrices \( M, \hat{M} \):
+
+\[
+M \leq \hat{M} \Rightarrow F(t, x, u, q, p, M) \geq F(t, x, u, q, p, \hat{M}), \quad (t, x) \in [0, T) \times \Omega.
+\]
+So ellipticity ensures \( F \) is nonincreasing in the second derivative argument.
+        \item (ii) Parabolicity condition: for the time derivative variable \( q \):  
+
+\[
+q \leq \hat{q} \Rightarrow F(t, x, u, q, p, M) \geq F(t, x, u, \hat{q}, p, M), \quad (t, x) \in [0, T) \times \Omega.
+\]
+
+    \end{itemize}
+    A main motivation for viscosity: many HJB equations (or other nonlinear PDEs) 
+    have nonsmooth solutions — the value function \( v(t, x) \) is 
+    typically not differentiable.
+So we can't plug \( v \) into the PDE in the classical sense (because \( Dv \) and \( D^2v \) don't exist everywhere).
+
+Viscosity theory solves this by testing the PDE against smooth functions that touch \( v \) locally.
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+     Definition. Assume both the ellipticity and parabolicity conditions are satisfied.
+     \begin{itemize}
+        \item A continuous function \(u:\Omega\to\mathbb{R}\) is a viscosity subsolution of the above PDE
+if for any \(C^{1}\times C^{2}\)  function \(\phi\) that touches \(u\) from above 
+and any local maximum point \((t,y)\in[0,T)\times\Omega\) of \(u-\phi\) we have
+    \[
+    F(t,y,u(t,y),D_{t}\phi(t,y),D_{x}\phi(t,y),D_{x}^{2}\phi(t,y))\leq 0,
+    \]
+    and
+    \[
+    u(T,x)\leq g(x).
+    \]  
+        \item A continuous function \(u:\Omega\to\mathbb{R}\) is a viscosity 
+        supersolution of the above PDE if for any \(C^{1}\times C^{2}\) 
+        function \(\phi:[0,T)\times\Omega\to\mathbb{R}\) and any local minimum point \((t,y)\in[0,T)\times\Omega\) of \(u-\phi\) we have
+    \[
+    F(t,y,u(t,y),D_{t}\phi(t,y),D_{x}\phi(t,y),D_{x}^{2}\phi(t,y))\geq 0,
+    \]
+    and
+    \[
+    u(T,x)\geq g(x).
+    \]
+    \(\phi\) is called a test function. 
+    If \(u\) is both a viscosity subsolution and a viscosity supersolution, then \(u\) is called a 
+    viscosity solution (necessarily with \(u(T,x)=g(x)\)).
+     \end{itemize}
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+      Lemma 1
+      \begin{itemize}
+        \item[(i)] A classical solution is a viscosity solution.
+        \item[(ii)] A \(C^{1}\times C^{2}\) viscosity solution is a classical solution.
+      \end{itemize}
+    \par \textbf{Proof}
+    \par $(i)$ Suppose $u$ is a classical solution, i.e., $C^{1}\times C^{2}$ and satisfying the
+PDE. For any test function $\phi$ and any local maximum point
+$(t,y)\in[0,T)\times \Omega$ of $u-\phi$ we have
+\[
+D_x u(t,y)=D_x \phi(t,y),\qquad D_x^2 u(t,y)\le D_x^2 \phi(t,y),
+\]
+because $\Omega\subset\mathbb{R}^d$ is an open domain, and the first–order inequality holds,
+\[
+D_t u(t,y)\le D_t \phi(t,y),
+\]
+because the maximum point may be at the boundary $t=0$. Thus,
+\begin{align*}
+&F\bigl(t,y,u(t,y), D_t\phi(t,y), D_x\phi(t,y), D_x^2\phi(t,y)\bigr)\\
+&\qquad= F\bigl(t,y,u(t,y), D_t\phi(t,y), D_x u(t,y), D_x^2\phi(t,y)\bigr)\\
+&\qquad\le F\bigl(t,y,u(t,y), D_t\phi(t,y), D_x u(t,y), D_x^2 u(t,y)\bigr)\\
+&\qquad\le F\bigl(t,y,u(t,y), D_t u(t,y), D_x u(t,y), D_x^2 u(t,y)\bigr)\\
+&\qquad= 0,
+\end{align*}
+where the first and second inequalities follow from the ellipticity and parabolicity
+conditions, respectively. Hence $u$ is a viscosity subsolution. Similarly, $u$ is a
+viscosity supersolution. Therefore, $u$ is a viscosity solution.
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+    (ii) Suppose $u$ is a viscosity solution and is $C^{1}\times C^{2}$. Then we can take
+$\phi=u$. We have any point $(t,y)\in[0,T)\times \Omega$ is both a local maximum point and local
+minimum point of $u-\phi$. Thus,
+\begin{align*}
+&F\bigl(t,y,u(t,y), D_t u(t,y), D_x u(t,y), D_x^2 u(t,y)\bigr)\\
+&\qquad= F\bigl(t,y,u(t,y), D_t\phi(t,y), D_x\phi(t,y), D_x^2\phi(t,y)\bigr)\\
+&\qquad= 0,
+\end{align*}
+where the last equality comes from the definitions of subsolution and supersolution.
+This shows that $u$ is a classical solution.
+\vspace{1em}
+\par \textbf{Remark:}
+\par $1)$: For the infinite-horizon problem, the first term \( t \) and \( D_t \) is dropped from \( F \), i.e., we have  
+    \[
+    F(x, u(x), D_x u(x), D_x^2 u(x)) = 0, \quad x \in \Omega,
+    \]
+    the terminal condition disappears, and we 
+    do not need the parabolicity condition. For a finite-horizon deterministic control problem, the term \( D_x^2 \) is dropped from \( F \), i.e., we have  
+    }
+   
+    
+\end{frame}
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+    \[
+    F(t, x, u(t, x), D_t u(t, x), D_x u(t, x)) = 0, \quad (t, x) \in [0, T) \times \Omega,
+    \]
+    and we do not need the ellipticity condition. For an infinite-horizon deterministic control problem, we have  
+    \[
+    F(x, u(x), D_x u(x)) = 0, \quad x \in \Omega,
+    \]
+    for which both ellipticity and parabolicity conditions are not needed.
+    \vspace{1em}
+    \par $2)$: For any viscosity subsolution, we can always choose the new test function \(\hat{\phi}\) touches \(u\) at one point, which is the local maximum point of \(u - \hat{\phi}\), and \(\hat{\phi}\) is above the subsolution \(u\). Indeed, for any viscosity subsolution and a test function at any local maximum point \((t_0, y_0) \in [0, T) \times \Omega\) of \(u - \phi\), we have
+    \[
+    u(t, x) - \phi(t, x) \leq u(t_0, y_0) - \phi(t_0, y_0), \quad \forall (t, x) \in N_{(t_0, y_0)},
+    \]
+    where \(N_{(t_0, y_0)}\) is a sufficiently small neighborhood of \((t_0, y_0)\) within \([0, T) \times \Omega\). We can define a new test function
+    \[
+    \hat{\phi}(t, x) = \phi(t, x) + u(t_0, y_0) - \phi(t_0, y_0).
+    \]
+    Then
+    \[
+    u(t_0, y_0) = \hat{\phi}(t_0, y_0),
+    \]
+    \[
+    u(t, x) - \hat{\phi}(t, x) = u(t, x) - \phi(t, x) - u(t_0, y_0) + \phi(t_0, y_0) \leq 0, \quad \forall (t, x) \in N_{(t_0, y_0)}.
+    \]
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Definition of Viscosity Solutions}
+
+    {\footnotesize \footnotesize
+      Thus, the new test function \(\hat{\phi}\) touches \(u\) at one 
+      point \((t_0, y_0)\), which is the local maximum point of \(u - \hat{\phi}\), 
+      and \(\hat{\phi}\) is above the subsolution \(u\). Similarly, for any supersolution \(u\), 
+      there is a test function \(\hat{\phi}\) that touches \(u\) at a local 
+      minimum point of \(u - \hat{\phi}\), and \(\hat{\phi}\) is below the supersolution \(u\).
+      \vspace{1em}
+    \par $3)$: The fact that \( u \) is a viscosity solution to the PDE \( F = 0 \) does
+    not imply that \( u \) is a viscosity solution to the PDE \(-F = 0\).
+    }
+   
+    
+\end{frame}
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
