@@ -246,6 +246,319 @@ This shows that $u$ is a classical solution.
    
     
 \end{frame}
+\begin{frame}{Connection with the HJB Equation: An Overview}
+
+    {\footnotesize \footnotesize
+       For a finite-horizon stochastic control for diffusion process,
+
+\[
+v(t, x) = \sup_{u_t \in U} E \left[ \int_0^T e^{-\beta s} c(X_s, u_s) ds 
++ e^{-\beta T} g(X_T) \middle| X_t = x \right], 
+\]
+
+\[
+dX_t = b(X_t, u_t) dt + \sigma(X_t, u_t) dW_t, \quad t \geq 0,
+\]
+
+where \( b : \mathbb{R}^d \times U \rightarrow \mathbb{R}^d \) is the drift and \(\sigma(X_t, u_t)\) is the volatility matrix. The HJB equation is given by
+
+\[
+-\frac{\partial v(t, x)}{\partial t} + \beta v(t, x) - 
+\sup_{u \in U} [A_u v(t, x) + c(x, u)] = 0, 
+\]
+\[
+v(T, x) = g(x),
+\]
+where
+
+\[
+A_u v(t, x) = \sum_{i=1}^d b_i (x, u) \frac{\partial v}{\partial x_i} + \frac{1}{2} \sum_{i=1}^d \sum_{j=1}^d a_{ij}(x, u) \frac{\partial^2 v}{\partial x_i \partial x_j}
+\]
+\[
+= b^\top (x, u) \cdot Dv + \frac{1}{2} \text{Su} \left( a(x, u) \circ D^2 v \right),
+\]
+
+
+    }
+   
+    
+\end{frame}
+\begin{frame}{Connection with the HJB Equation: An Overview}
+
+    {\footnotesize \footnotesize
+    and the matrix \( a(x, u) = \sigma(x, u) \sigma^\top (x, u) \) is assumed to be positive semi-definite, 
+    \(\circ\) denotes the Hadamard product, and \( \text{Su}(A) \) denotes
+     the sum of all the elements in the matrix \( A \). In this case the
+      finite-horizon HJB equation can be written as
+
+\[
+F(t, x, r, q, p, M) = -q + \beta r - \sup_{u \in U} \left[ b^\top (x, u) 
+\cdot p + \frac{1}{2} \text{Su} \left( a(x, u) \circ M \right) + c(x, u) \right].
+\]
+
+\par The parabolicity condition is automatically satisfied thanks to the \(-q\) 
+term above. Next, we shall prove that the ellipticity condition is satisfied.
+\vspace{1em}
+\par By the Schur product theorem, the Hadamard product of two positive semidefinite matrices is positive semidefinite. Thus, \(a(x,u) \circ (\hat{M} - M)\) is positive semidefinite, if \(\hat{M} - M\) is positive semidefinite. Therefore,
+
+\[
+\text{Su}(a(x,u) \circ (\hat{M} - M)) = 1^T \left( a(x,u) \circ (\hat{M} - M) \right) 1 \geq 0,
+\]
+
+where \(1^T = (1, ..., 1)\) is a \(d\)-dimensional row vector, yielding
+\[
+b^T(x,u) \cdot p + \frac{1}{2} \text{Su} \left( a(x,u) \circ M \right) + c(x,u) \leq b^T(x,u) \cdot p + \frac{1}{2} \text{Su} \left( a(x,u) \circ \hat{M} \right) + c(x,u).
+\]
+
+    }
+   
+    
+\end{frame}
+\begin{frame}{Connection with the HJB Equation: An Overview}
+
+    {\footnotesize \footnotesize
+     Taking sup gives
+
+\[
+b^T(x,u) \cdot p + \frac{1}{2} \text{Su} \left( a(x,u) \circ M \right) 
++ c(x,u) \leq \sup_{u \in U} \left[ b^T(x,u) \cdot p + \frac{1}{2} \text{Su} 
+\left( a(x,u) \circ \hat{M} \right) + c(x,u) \right].
+\]
+
+Repeating the sup leads to
+{\footnotesize \tiny
+\[
+\sup_{u \in U} \left[ b^T(x,u) \cdot p + \frac{1}{2} \text{Su} \left( a(x,u) 
+\circ M \right) + c(x,u) \right] \leq \sup_{u \in U} \left[ b^T(x,u) \cdot p 
++ \frac{1}{2} \text{Su} \left( a(x,u) \circ \hat{M} \right) + c(x,u) \right].
+\]
+}
+Hence
+
+\[
+F(t,x,r,q,p,M) \geq F(t,x,r,q,p,\hat{M}),
+\]
+\par and the ellipticity condition holds, so that we can define the 
+viscosity solution for the finite-horizon HJB equation.
+\par he viscosity solution is connected to the HJB equation. With suitable
+ regularity conditions, it can be shown that the value function of stochastic control problem  is
+ the unique bounded viscosity solution of the finite-horizon HJB equation.
+    }
+   
+    
+\end{frame}
+\begin{frame}{Infinite-Horizon
+Deterministic Control and the First-Order
+HJB equation}
+
+    {\footnotesize \footnotesize
+      Consider the following deterministic control problem
+\[
+v(x) = \sup_{u_t \in U} \int_0^\infty e^{-\beta t} c(X_t, u_t) dt,
+\]
+with state dynamics
+\[
+dX_t = f(X_t, u_t)dt, \quad t \geq 0, \quad X(0) = x.
+\]
+
+The HJB equation is given by
+\[
+\beta v(x) - \sup_{u \in U} [Dv(x) \cdot f(x, u) + c(x, u)] = 0. 
+\]
+\par Regularity Conditions:
+\begin{itemize}
+    \item The set of controls \(U\) is compact.
+    \item The state dynamic function \(f : \mathbb{R}^d \times U \rightarrow \mathbb{R}^d\) is continuous. Furthermore, \(f\) is Lipschitz continuous (a strong form of uniform continuous) in the first variable, i.e., there exists a constant \(L > 0\) such that
+    \[
+    \|f(x, u) - f(y, u)\| \leq L \|x - y\|, \quad x, y \in \mathbb{R}^d, \quad u \in U.
+    \]
+\end{itemize}
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Infinite-Horizon
+Deterministic Control and the First-Order
+HJB equation}
+
+    {\footnotesize \footnotesize
+    \begin{itemize}
+        \item The cost function \(c : \mathbb{R}^d \times U \rightarrow \mathbb{R}\) is continuous and uniformly bounded. Furthermore, \(c\) is Lipschitz continuous in the first variable, there exists a constant \(L > 0\) such that
+    \[
+    |c(x, u) - c(y, u)| \leq L \|x - y\|, \quad x, y \in \mathbb{R}^d, \quad u \in U.
+    \]
+    \end{itemize}
+    \par We assume the above regularity conditions hold for all the results below.
+
+Note that the HJB equation is a special case of the nonlinear first order PDE
+\[
+F(x, u(x), Du(x)) = 0, \quad x \in \Omega. \tag{14.6}
+\]
+
+\par Since the elliptical and parabolic conditions are automatically satisfied for the first order PDE (14.6), we can define viscosity solutions to (14.6).
+\vspace{1em}
+\par Theorem 1. The value function \(v\) is the unique uniformly 
+bounded viscosity solution to the HJB equation.
+
+Note that unbounded viscosity solutions may exist, and they are not related to the value function of the control problem.
+
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+     First recall the Gronwall inequality: Let \( A(t) \), \(\Psi(t)\) and \(\chi(t)\) be real continuous functions defined on \( t \in [a, b] \) with \( A(t) \geq 0 \). If
+\[
+A(t) \leq \Psi(t) + \int_a^t A(s)\chi(s)ds, \quad t \in [a, b],
+\]
+then
+\[
+A(t) \leq \Psi(t) + \int_a^t \chi(s)\Psi(s) \exp\left[\int_s^t \chi(u)du\right] ds, \quad t \in [a, b].
+\]
+\vspace{1em}
+\par Lemma 2: Suppose \( X_t^x \) and \( X_t^y \) are the state processes with the same control policy \( u_t \) but different starting values \( x \) and \( y \), i.e., \( X_t^x(u_t) \) has the dynamic  
+\[
+dX_t = f(X_t, u_t)dt, \quad X_0 = x.
+\]  
+Then we have  
+\[
+\|X_t^x - X_t^y\| \leq e^{Lt} \|x - y\|, \quad 0 \leq t \leq T.
+\]
+     
+    }
+   
+    
+\end{frame}
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+    \par [Proof]
+    \par We have  
+\[
+X_t^x = x + \int_0^t f(X_s^x, u_s)ds, \quad X_t^y = y + \int_0^t f(X_s^y, u_s)ds.
+\]  
+Thus,  
+\[
+X_t^x - X_t^y = x - y + \int_0^t f(X_s^x, u_s) - f(X_s^y, u_s)ds,
+\]  
+from which we get  
+\[
+\|X_t^x - X_t^y\| \leq \|x - y\| + \int_0^t \|f(X_s^x, u_s) - f(X_s^y, u_s)\| ds
+\]  
+\[
+\leq \|x - y\| + L \int_0^t \|X_s^x - X_s^y\| ds.
+\]  
+
+    }
+\end{frame}
+
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+    
+     Then the Gronwall inequality gives  
+\[
+\|X_t^x - X_t^y\| \leq \|x - y\| + \int_0^t L \|x - y\| e^{L(t-s)} ds
+\]  
+\[
+= \|x - y\| + L \|x - y\| e^{Lt} \left( \frac{1}{L} (1 - e^{-Lt}) \right)
+\]  
+\[
+= \|x - y\| + \|x - y\| \left( e^{Lt} - 1 \right)
+\]  
+\[
+= \|x - y\| e^{Lt},
+\]  
+from which the conclusion follows.
+\vspace{1em}
+\par Proposition 1 : The value function \( v \) is uniformly bounded and uniformly continuous.
+\vspace{1em}
+\par [Proof]
+\par The uniformly boundedness follows from the fact that \( |c(x, u)| \leq C \) and \(\int_0^\infty e^{-\beta t}Cdt < \infty\).
+
+Fix an arbitrary \(\varepsilon > 0\). Consider \( x, y \in \mathbb{R}^d\). There exists a control policy \( u_t^\varepsilon \) such that
+\[
+v(y) \leq \int_0^\infty e^{-\beta t}c(X_t^y, u_t^\varepsilon)dt + \varepsilon,
+\]
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+     \( X_t^y \) means that \( X_t^y \) starts from \( y \) (i.e., \( X_0^y = y \)), thanks to the definition of sup. Since \( u_t^\varepsilon \) is one of the control policies, we also have
+\[
+v(x) \geq \int_0^\infty e^{-\beta t}c(X_t^x, u_t^\varepsilon)dt.
+\]
+
+Thus,
+\[
+v(y) - v(x) \leq \int_{0}^{\infty} e^{-\beta t} [c(X_t^y, u_t^{\varepsilon}) - c(X_t^x, u_t^{\varepsilon})] \, dt + \varepsilon.
+\]
+
+Since \( c \) is uniformly bounded, we can find \( T > 0 \), independent of \( x \) and \( y \), such that
+\[
+\int_{T}^{\infty} e^{-\beta t} [c(X_t^y, u_t^{\varepsilon}) - c(X_t^x, u_t^{\varepsilon})] \, dt < \varepsilon.
+\]
+Therefore,
+\[
+v(y) - v(x) \leq \int_{0}^{T} e^{-\beta t} [c(X_t^y, u_t^{\varepsilon}) - c(X_t^x, u_t^{\varepsilon})] \, dt + 2\varepsilon
+\]
+\[
+\leq L \int_{0}^{T} e^{-\beta t} \|X_t^y - X_t^x\| \, dt + 2\varepsilon,
+\]
+via the Lipschitz condition.
+ 
+    }
+   
+    
+\end{frame}
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+Switching \( x \) and \( y \) in the above argument leads to
+\[
+v(x) - v(y) \leq L \int_{0}^{T} e^{-\beta t} \|X_t^y - X_t^x\| \, dt + 2\varepsilon.
+\]
+In summary,
+\[
+|v(x) - v(y)| \leq L \int_{0}^{T} e^{-\beta t} \|X_t^y - X_t^x\| \, dt + 2\varepsilon.
+\]
+
+Using Lemma 2, we have
+\[
+|v(x) - v(y)| \leq L \|y - x\| \int_{0}^{T} e^{(L - \beta)t} \, dt + 2\varepsilon.
+\]
+
+Thus, there exists a \( \delta \) (independent of \( x \) and \( y \)) such that
+\[
+|v(x) - v(y)| \leq 3\varepsilon,
+\]
+as long as \( \|y - x\| \leq \delta \). Thus, \( v \) is uniformly continuous.
+
+    }
+   
+    
+\end{frame}
+\begin{frame}{Continuity and the Dynamic Programming Principle}
+
+    {\footnotesize \footnotesize
+ Proposition 2:  (Dynamic Programming Principle) For every \( x \in \mathbb{R}^d \) and \( t \geq 0 \),
+
+\[
+v(x) = \sup_{u \in \mathcal{U}} \left[ \int_0^t e^{-\beta s} c(X_s, u_s) ds + e^{-\beta t} v(X_t) \right].
+\]
+
+    }
+   
+    
+\end{frame}
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
