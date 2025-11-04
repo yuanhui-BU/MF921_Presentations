@@ -559,6 +559,218 @@ v(x) = \sup_{u \in \mathcal{U}} \left[ \int_0^t e^{-\beta s} c(X_s, u_s) ds + e^
    
     
 \end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    Lemma 3: For every \( x \in \mathbb{R}^d \) and every open neighborhood of \( x \), denoted by \( N_x \), there exists \( t_x > 0 \) small enough, such that for any control policy \( u \), the state dynamics given by
+\[
+dX_t = f(X_t, u_t)dt, \quad X_0 = x,
+\]
+satisfies
+\[
+X_t \in N_x, \quad \forall 0 \leq t \leq t_x.
+\]
+    \par Intuitively, $f(x,u)$ is bounded and Lipschitz continuous, your system can’t move too far away from its starting point 
+$x$ in an infinitesimally short time.
+\vspace{1em}
+\par [Proof]
+\par Since \( f \) is continuous and \( U \) is compact, we have for every \( x \in \mathbb{R}^d \),
+\[
+M_x = \sup_{u \in U} \|f(x, u)\| < \infty.
+\]
+
+Because
+\[
+X^x_t = x + \int_0^t f(X^x_s, u_s)ds = x + \int_0^t f(x, u_s)ds + \int_0^t [f(X^x_s, u_s) - f(x, u_s)] ds,
+\]
+we have, via the Lipschitz continuity,
+\[
+\|X^x_t - x\| \leq M_x t + L \int_0^t \|X^x_s - x\| ds.
+\]
+
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    The Gronwall inequality yields that
+    \begin{align*}
+        \|X^x_t - x\| &\leq M_x t + \int_0^t LM_x s \exp [L(t - s)] ds\\
+        &\leq M_x t + LM_x t \int_0^t \exp [L(t - s)] ds\\
+         &\leq M_x t + M_x t(e^{Lt}-1)\\
+        &= M_x te^{Lt},
+    \end{align*}
+\par from which the conclusion follows. 
+\vspace{1em}
+\par Proposition 3: The value function \( v \) is a viscosity supersolution to the HJB equation
+\[
+\beta v(x) - \sup_{u \in U} [Dv(x) \cdot f(x,u) + c(x, u)] = 0.
+\]
+\vspace{1em}
+\par [Proof]
+\par Consider a \( C^1 \) test function \( \phi \), and let \( y \) be local minimum of \( v - \phi \). There exists a neighborhood of \( y \), say \( N_y \), such that
+\[
+v(x) - \phi(x) \geq v(y) - \phi(y), \quad x \in N_y.
+\]
+ 
+
+    }
+   
+    
+\end{frame}
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    
+Thus,
+\[
+v(x) - v(y) \geq \phi(x) - \phi(y), \quad x \in N_y.
+\]
+By Lemma 3, for any control policy \( u_t \in U \) there exists \( t_y \) small enough such that  
+\[
+X_0 = y, \quad X_t \in N_y, \quad \forall 0 \leq t \leq t_y.
+\]  
+Thus,  
+\[
+v(X^y_t) - v(y) \geq \phi(X^y_t) - \phi(y), \quad \forall 0 \leq t \leq t_y.
+\]  
+For any control policy \( u_t \in U \) and \( u_0 = u \), the dynamic programming principle from Proposition 2 yields  
+\[
+v(y) \geq \int_0^t e^{-\beta s} c(X^y_s, u_s) ds + e^{-\beta t} v(X^y_t).
+\]  
+Therefore, adding the two inequalities leads to, \( 0 \leq t \leq t_y, \)  
+\[
+v(X^y_t) \geq \int_0^t e^{-\beta s} c(X^y_s, u_s) ds + e^{-\beta t} v(X^y_t) + \phi(X^y_t) - \phi(y).
+\]  
+    }
+   
+    
+\end{frame}
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    Hence for \( 0 \leq t \leq t_y, \)  
+\[
+v(X^y_t) \left( \frac{1 - e^{-\beta t}}{t} \right) - \frac{1}{t} 
+\int_0^t e^{-\beta s} c(X^y_s, u_s) ds \geq \frac{\phi(X^y_t) - \phi(y)}{t}. \tag{14.7}
+\]  
+Letting \( t \to 0 \),
+\begin{itemize}
+    \item  From Proposition 1, we know \( v \) is uniformly continuous.
+    As \( t \to 0 \), the trajectory \( X_t^y \) starting at \( y \) satisfies \( X_t^y \to y \) (because \( f \) is continuous).
+    Hence
+    \[
+    v(X_t^y) \longrightarrow v(y).
+    \]
+     \item \[ \frac{1 - e^{-\beta t}}{t} \to \beta \]
+    
+    This is the Taylor expansion of \( e^{-\beta t} \):
+    \[
+    e^{-\beta t} = 1 - \beta t + o(t) \Longrightarrow \frac{1 - e^{-\beta t}}{t} \to \beta.
+    \]
+    
+\end{itemize}
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+  
+\begin{itemize}
+     \item \[ \frac{1}{t} \int_0^t e^{-\beta s} c(X_s^y, u_s) \, ds \to c(y, u_0) \]
+   
+    For small \( t \), the control \( u_s \) is nearly constant at its initial value \( u_0 \),
+    and \( X_s^y \approx y + f(y, u_0) s \), so \( X_s^y \to y \). By continuity of \( c \),
+    \[
+    e^{-\beta s} c(X_s^y, u_s) \to c(y, u_0).
+    \]
+    
+    Then by the mean value theorem for integrals, the average converges.
+     \item \[ \frac{\phi(X_t^y) - \phi(y)}{t} \to D\phi(y) \cdot f(y, u_0) \]
+    
+    By first-order Taylor expansion:
+    \[
+    \phi(X_t^y) = \phi(y) + D\phi(y) \cdot (X_t^y - y) + o(\|X_t^y - y\|).
+    \]
+    
+    But
+    \[
+    \frac{X_t^y - y}{t} = \frac{1}{t} \int_0^t f(X_s^y, u_s) \, ds \to f(y, u_0).
+    \]
+    
+    So indeed:
+    \[
+    \frac{\phi(X_t^y) - \phi(y)}{t} \to D\phi(y) \cdot f(y, u_0).
+    \]
+\end{itemize}
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+   Take limits on both sides of (14.7) as \( t \to 0 \):
+
+Left-hand side:
+\[
+v(X_t^y) \left( \frac{1 - e^{-\beta t}}{t} \right) - \frac{1}{t} \int_0^t e^{-\beta s} c(X_s^y, u_s) \, ds \longrightarrow \beta v(y) - c(y, u_0).
+\]
+
+Right-hand side:
+\[
+\frac{\phi(X_t^y) - \phi(y)}{t} \longrightarrow D\phi(y) \cdot f(y, u_0).
+\]
+
+Now combine them and rearrange:
+\[
+\beta v(y) \geq D\phi(y) \cdot f(y, u_0) + c(y, u_0).
+\]
+Since \( u_0 \) is arbitrary, we get
+\[
+\beta v(y) \geq \max_{u \in U} \{D\phi(y) \cdot f(y, u) + c(y, u)\}.
+\]
+
+In other words
+\[
+\beta v(y) - \sup_{u \in U} \{D\phi(y) \cdot f(y, u) + c(y, u)\} \geq 0,
+\]
+which shows that \( v \) is a supersolution of the HJB equation.
+
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    Proposition 4: The value function \( v \) is a viscosity subsolution to the HJB equation
+    \[
+    \beta v(x) - \sup_{u \in U} [Dv(x) \cdot f(x,u) + c(x, u)] = 0.
+    \]
+    \vspace{1em}
+    \par [Proof]
+    }
+   
+    
+\end{frame}
+
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
