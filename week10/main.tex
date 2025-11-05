@@ -766,11 +766,315 @@ which shows that \( v \) is a supersolution of the HJB equation.
     \]
     \vspace{1em}
     \par [Proof]
+    \par Consider a \( C^1 \) test function \( \phi \), and let \( y \) be local maximum of \( v - \phi \). There exists a neighborhood of \( y \), say \( N_y \), such that
+\[
+v(x) - \phi(x) \leq v(y) - \phi(y), \quad x \in N_y.
+\]
+Thus,
+\[
+v(x) - v(y) \leq \phi(x) - \phi(y), \quad x \in N_y.
+\]
+By Lemma 3, for any control policy \( u_t \in U \) there exists \( t_y \) small enough such that  
+\[
+X_0 = y, \quad X_t \in N_y, \quad \forall 0 \leq t \leq t_y.
+\]  
+Thus,  
+\[
+v(X^y_t) - v(y) \leq \phi(X^y_t) - \phi(y), \quad \forall 0 \leq t \leq t_y.
+\]  
+    }
+   
+    
+\end{frame}
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    
+For any small \(\varepsilon > 0\), the DPP ensures existence of an \(\varepsilon\)-optimal control policy \( u_s^{\varepsilon,t} \) such that
+\[
+v(y) \leq \int_0^t e^{-\beta s} c(X_s^y, u_s^{\varepsilon,t}) \, ds + e^{-\beta t} v(X_t^y) + \varepsilon t.
+\]
+\par This is the "reverse" inequality of the supersolution case, since \( v(y) \) is a supremum and this control nearly attains that supremum. 
+\vspace{1em}
+\par Therefore, adding the two inequalities leads to, \( 0 \leq t \leq t_y, \)  
+\[
+v(X_t^y) \leq \int_0^t e^{-\beta s} c(X_s^y, u_s^{\varepsilon,t}) \, ds + e^{-\beta t} v(X_t^y) + \phi(X_t^y) - \phi(y) + \varepsilon t.
+\] 
+Rearranging:
+\[
+v(X_t^y)(1 - e^{-\beta t}) - \int_0^t e^{-\beta s} c(X_s^y, u_s^{\varepsilon,t}) \, ds \leq \phi(X_t^y) - \phi(y) + \varepsilon t. \tag{14.8}
+\]
+The complication here is that the control policy \( u_s^{\varepsilon,t} \) depends on \( t \). Thus, we have to be careful when taking the limit \( t \to 0 \) in (14.8). For \( 0 \leq t \leq t_y \), we have by the Lipschitz condition of \( f \):
     }
    
     
 \end{frame}
 
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+    \[
+\|f(X_s^y, u_s^{\varepsilon,t}) - f(y, u_s^{\varepsilon,t})\| \leq L \|X_s^y - y\|,
+\]
+and
+\[
+\phi(X_t^y) - \phi(y) = \int_0^t D\phi(X_s^y) \cdot f(X_s^y, u_s^{\varepsilon,t}) \, ds = \int_0^t D\phi(y) \cdot f(y, u_s^{\varepsilon,t}) \, ds + o(t), \tag{14.9}
+\]
+because
+    {\footnotesize \scriptsize
+    \begin{align*}
+        &\frac{1}{t} \left| \int_{0}^{t} \{ D\phi(X_s^y) 
+        \cdot f(X_s^y, u_s^{\varepsilon,t}) - D\phi(y) \cdot f(y, u_s^{\varepsilon,t}) \} \, ds \right|\\
+        &= \frac{1}{t} \left| \int_{0}^{t} \{ D\phi(X_s^y) \cdot (f(X_s^y, u_s^{\varepsilon,t}) - f(y, u_s^{\varepsilon,t})) + (D\phi(X_s^y) 
+        - D\phi(y)) \cdot f(y, u_s^{\varepsilon,t}) \} \, ds \right|\\
+        & \leq \frac{1}{t} \int_{0}^{t} |D\phi(X_s^y) \cdot (f(X_s^y, u_s^{\varepsilon,t}) 
+        - f(y, u_s^{\varepsilon,t}))| \, ds 
+        + \frac{1}{t} \int_{0}^{t} |(D\phi(X_s^y) 
+        - D\phi(y)) \cdot f(y, u_s^{\varepsilon,t})| \, ds\\
+        &\leq \frac{1}{t} \int_{0}^{t} \|D\phi(X_s^y)\| \cdot \|f(X_s^y, u_s^{\varepsilon,t}) - f(y, u_s^{\varepsilon,t})\| \, ds 
+        + \frac{1}{t} \int_{0}^{t} |(D\phi(X_s^y) - D\phi(y)) \cdot f(y, u_s^{\varepsilon,t})| \, ds\\
+        &\leq \frac{L}{t} \int_{0}^{t} \|D\phi(X_s^y)\| \cdot \|X_s^y - y\| \, ds 
+        + M_y \frac{1}{t} \int_{0}^{t} \|D\phi(X_s^y) - D\phi(y)\| \, ds
+    \end{align*}
+
+    }
+
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+     as \( t \to 0 \), where \( M_y = \sup_{u \in U} \|f(y, u)\| \), because \( D\phi(X^y_s) \to D\phi(y) \) and \( X^y_s \to y \) as \( s \to 0 \). 
+
+Thus, (14.8) and (14.9) yield
+\[
+v(X^y_t)(1 - e^{-\beta t}) - \int_0^t e^{-\beta s} c(X^y_s, u_s^{\varepsilon,t}) \, ds - \int_0^t D\phi(y) \cdot f(y, u_s^{\varepsilon,t}) \, ds \leq o(t) + t\varepsilon. \tag{14.10}
+\]
+Similarly, the Lipschitz condition of \( c \) gives
+\[
+\int_0^t e^{-\beta s} c(X^y_s, u_s^{\varepsilon,t}) \, ds = \int_0^t c(y, u_s^{\varepsilon,t}) \, ds + o(t). \tag{14.11}
+\]
+and the uniform continuity of \( v \) leads to
+\[
+v(X^y_t)(1 - e^{-\beta t}) = \beta t v(y) + o(t) = \int_0^t \beta v(y) \, ds + o(t). \tag{14.12}
+\]
+Combining (14.10)-(14.12) yields
+\[
+\int_0^t \left[ \beta v(y) - D\phi(y) \cdot f(y, u_s^{\varepsilon,t}) - c(y, u_s^{\varepsilon,t}) \right] ds \leq t\varepsilon + o(t).
+\]
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{The Verification Result}
+
+
+    {\footnotesize \footnotesize
+     Thus, the inf of the integrand inside must satisfy
+\[
+\inf_{u \in U} \left[ \beta v(y) - D\phi(y) \cdot f(y, u) - c(y, u) \right] \leq \varepsilon.
+\]
+
+In other words,
+\[
+\beta v(y) - \sup_{u \in U} \left\{ D\phi(y) \cdot f(y, u) + c(y, u) \right\} \leq \varepsilon.
+\]
+
+Since \( \varepsilon > 0 \) is arbitrary, we have that \( v \) is 
+a subsolution of the HJB equation. 
+
+    }
+   
+    
+\end{frame}
+
+
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+      Theorem 2: (The Comparison Principle). Let \( u_1 \) be any viscosity subsolution 
+      to the HJB equation and \( u_2 \) be any viscosity supersolution to the HJB equation. 
+      If \( u_1 \) and \( u_2 \) are both uniformly bounded, then \( u_1 \leq u_2 \).
+    \[
+    \beta v(x) - \sup_{u \in U} [Dv(x) \cdot f(x,u) + c(x, u)] = 0.
+    \]
+\par Theorem 2 is the most difficult part of the proof of Theorem 1. 
+The proof of Theorem 2 relies on a doubling variable technique from Kruzkov (1970), 
+which introduces a new function \( \Psi \) of two variables in \( u_1(x) \) and \( u_2(y) \). 
+The function \( \Psi \) allows us to treat \( u_2 \) (resp. \( u_1 \)) 
+as a constant with respect to the test function of \( u_1 \) (resp. \( u_2 \)).
+\vspace{1em}
+\par We shall prove Theorem 2 by contradiction. Suppose there exists \( \delta > 0 \) 
+and \( z \in \mathbb{R}^d \) such that \( u_1(z) - u_2(z) \geq 2\delta \).
+We will try to derive a contradiction from this assumption using the “doubling variable” trick.
+\vspace{1em}
+\par Consider a (doubling variable) function \(\Psi : \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R}\) defined as
+\[
+\Psi(x, y; \varepsilon, \alpha, p) = -u_1(x) + u_2(y) + \frac{\|x - y\|^2}{2\varepsilon} + \alpha \left[ \left( 1 + \|x\|^2 \right)^p + \left( 1 + \|y\|^2 \right)^p \right],
+\]
+    }
+   
+    
+\end{frame}
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+    \par  where the constants \(\varepsilon, \alpha, p > 0\). The key idea of the proof is to show a contradiction by using the fact that, when \(\varepsilon \to 0\) and \(\alpha \to 0\), the minimum of \(\Psi(x, y; \varepsilon, \alpha, p)\) should be achieved when \(x = y\) with the value \(u_2(x) - u_1(x)\). The term \(\left( 1 + \|x\|^2 \right)^p + \left( 1 + \|y\|^2 \right)^p\) is added to ensure that \(\Psi\) has a minimum point.
+    \vspace{1em}
+    \par Choose \(\alpha\) small enough so that \(2\alpha \left( 1 + \|z\|^2 \right)^p \leq \delta\)
+\[
+\Psi(z, z; \varepsilon, \alpha, p) = -u_1(z) + u_2(z) + 2\alpha \left( 1 + \|z\|^2 \right)^p \leq -2\delta + \delta = -\delta.
+\]
+We choose \(p > 0\) so small that
+\[
+p \left( 2L + M \right) \leq \beta,
+\]
+\par where \(M = \sup_{u \in U} \|f(0, u)\|\). Note that \(\alpha\) and \(p\) do not depend on \(\varepsilon\).
+\vspace{1em}
+\par The definition of \(\Psi\) implies that
+\[
+\lim_{\|x \|\to \infty} \Psi(x, y; \varepsilon, \alpha, p) \to \infty, \quad \lim_{\|y \|\to \infty} \Psi(x, y; \varepsilon, \alpha, p) \to \infty,
+\]
+ }
+   
+    
+\end{frame}
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+    \par Because \(u_1\) and \(u_2\) are bounded by the assumption in the theorem. Therefore, there must exist a pair \((\bar{x}, \bar{y}) \in K_\varepsilon\) that attain the minimum of the continuous function \(\Psi\), where \(K_\varepsilon\) is a compact set. In particular,
+    \[
+\Psi(\bar{x}, \bar{y}; \varepsilon, \alpha, p) = \inf_{x, y} \Psi(x, y; \varepsilon, \alpha, p) \leq \Psi(z, z; \varepsilon, \alpha, p) \leq -\delta.
+\]
+Lemma 4: For any \(\varepsilon > 0\), we have
+\[
+\beta \Psi (\bar{x}, \bar{y}; \varepsilon, \alpha, p) \geq -\frac{L}{\varepsilon} \| \bar{x} - \bar{y} \|^2 - L \| \bar{x} - \bar{y} \| - \varepsilon. \tag{14.15}
+\]
+\par [Proof]
+\par Introduce the notation
+\[
+H(x, p) = \sup_{u \in U} [f(x, u) \cdot p + c(x, u)].
+\]
+Then the HJB equation can be written as
+\[
+\beta v(x) - H(x, Dv(x)) = 0.
+\]
+
+(i) Consider a test function
+\[
+\phi (x) = u_2 (\bar{y}) + \frac{\| x - \bar{y} \|^2}{2\varepsilon} + \alpha \left[ \left( 1 + \| x \|^2 \right)^p + \left( 1 + \| \bar{y} \|^2 \right)^p \right].
+\]
+
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+    Note that  
+\[
+\Psi(x, \bar{y}; \varepsilon, \alpha, p) = -u_1(x) + \phi(x).
+\]
+
+     Thus, \(-u_1(x) + \phi(x)\) attains its minimum at \(\bar{x}\). Hence, \(u_1(x) - \phi(x)\) attains its maximum at \(\bar{x}\). By the definition of the subsolution,  
+\[
+\beta u_1(\bar{x}) - H(\bar{x}, D\phi(\bar{x})) \leq 0.
+\]
+
+However,  
+\[
+D\phi(x) = \frac{x - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|x\|^2 \right)^{p-1} x \right].
+\]
+
+Thus,  
+\[
+\beta u_1(\bar{x}) \leq H(\bar{x}, D\phi(\bar{x})) = H \left( \bar{x}, \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{x}\|^2 \right)^{p-1} \bar{x} \right] \right),
+\]
+from which we get, by the definition of sup in \(H(x, p)\)  
+\[
+\beta u_1(\bar{x}) \leq f(\bar{x}, u_\varepsilon) \cdot \left\{ \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{x}\|^2 \right)^{p-1} \bar{x} \right] \right\} + c(\bar{x}, u_\varepsilon) + \varepsilon, \quad \exists u_\varepsilon \in U. \tag{14.16}
+\]
+    }
+   
+    
+\end{frame}
+
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+     Similarly, consider a test function
+\[
+\tilde{\phi}(y) = u_1(\bar{x}) - \frac{\|\bar{x} - y\|^2}{2\varepsilon} - \alpha \left[ \left( 1 + \|\bar{x}\|^2 \right)^p + \left( 1 + \|y\|^2 \right)^p \right].
+\]
+
+Note that
+\[
+\Psi(\bar{x}, y; \varepsilon, \alpha, p) = u_2(y) - \tilde{\phi}(y).
+\]
+
+Thus, \(u_2(y) - \tilde{\phi}(y)\) attains its minimum at \(\bar{y}\). By the definition of the supersolution,
+\[
+\beta u_2(\bar{y}) - H(\bar{y}, D\tilde{\phi}(\bar{y})) \geq 0.
+\]
+However,
+\[
+D\tilde{\phi}(y) = \frac{\bar{x} - y}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|y\|^2 \right)^{p-1} y \right].
+\]
+
+Thus,
+\[
+\beta u_2(\bar{y}) \geq H \left( \bar{y}, \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{y}\|^2 \right)^{p-1} \bar{y} \right] \right),
+\]
+from which we get
+\[
+\beta u_2(\bar{y}) \geq f(\bar{y}, u) \cdot \left\{ \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{y}\|^2 \right)^{p-1} \bar{y} \right] \right\} + c(\bar{y}, u), \quad \forall u \in U. \tag{14.17}
+\]
+    }
+   
+    
+\end{frame}
+\begin{frame}{Uniqueness via the Comparison Principle}
+
+
+    {\footnotesize \footnotesize
+      Combine (14.16) and (14.17) gives
+      \begin{align*}
+        &\beta \left( u_1 (\bar{x}) - u_2 (\bar{y}) \right)\\
+        \leq &f(\bar{x}, u_\varepsilon) \cdot \left\{ \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{x}\|^2 \right)^{p-1} \bar{x} \right] \right\} + c(\bar{x}, u_\varepsilon)\\
+        &- f(\bar{y}, u_\varepsilon) \cdot \left\{ \frac{\bar{x} - \bar{y}}{\varepsilon} + \alpha \left[ 2p \left( 1 + \|\bar{y}\|^2 \right)^{p-1} \bar{y} \right] \right\} - c(\bar{y}, u_\varepsilon) + \varepsilon\\
+        =& (f(\bar{x}, u_\varepsilon) - f(\bar{y}, u_\varepsilon)) \cdot \frac{\bar{x} - \bar{y}}{\varepsilon} + c(\bar{x}, u_\varepsilon) - c(\bar{y}, u_\varepsilon) + \varepsilon\\
+        &+ \alpha 2p \left( 1 + \|\bar{x}\|^2 \right)^{p-1} f(\bar{x}, u_\varepsilon) \cdot \bar{x} - \alpha 2p \left( 1 + \|\bar{y}\|^2 \right)^{p-1} f(\bar{y}, u_\varepsilon) \cdot \bar{y}.\\
+      \end{align*}
+      Note that for the first two terms of the above equation,
+\[
+\left| (f(\bar{x}, u_\varepsilon) - f(\bar{y}, u_\varepsilon)) \cdot \frac{\bar{x} - \bar{y}}{\varepsilon} \right| \leq \frac{1}{\varepsilon} \|f(\bar{x}, u_\varepsilon) - f(\bar{y}, u_\varepsilon)\| \cdot \|\bar{x} - \bar{y}\|
+\]
+\[
+\leq \frac{L}{\varepsilon} \|\bar{x} - \bar{y}\|^2,
+\]
+\[
+|c(\bar{x}, u) - c(\bar{y}, u)| \leq L \|\bar{x} - \bar{y}\|.
+\]
+
+
+    }
+   
+    
+\end{frame}
 % \begin{frame}
 
 %     {\footnotesize \footnotesize
