@@ -24,7 +24,7 @@
 
 
 \title{MF921 Topics in Dynamic Asset Pricing}
-\subtitle{Week 4}
+\subtitle{Week 11}
 \author{Yuanhui Zhao}
 \date{Boston University}
 
@@ -35,37 +35,373 @@
 % \tableofcontents
 % \end{frame}
 
-\section{Background}
-\begin{frame}{Background}
+\begin{frame}{Chapter 14}
 
-    {\footnotesize \footnotesize
-    \par Recall The Double Exponential Jump Diffusion Model:
-    \begin{align*}
-        \frac{dS(t)}{S(t^{-})} = \mu dt + \sigma dW(t) + d\left(\sum_{i=1}^{N(t)} (V_i - 1)\right)
-    \end{align*}
-    \par\begin{itemize}
-    \item \( W(t) \): Brownian motion under the real-world measure.
-    \item \( N(t) \): Poisson process with rate \(\lambda\).
-    \item \( V_i \): multiplicative jump sizes, i.i.d. random variables.
-    \item \( Y = \log(V) \), the jump sizes follow double exponential law:
-    \end{itemize}   
-    \begin{align*}
-        f_Y(y) = p \eta_1 e^{-\eta_1 y} \mathbf{1}_{y \geq 0} + q \eta_2 e^{\eta_2 y} \mathbf{1}_{y < 0}
-    \end{align*}
-    \par with parameters:
-    \begin{itemize}
-        \item \( p, q \geq 0, p + q = 1 \): probabilities of upward/downward jumps.
-        \item \(\eta_1 > 1\): rate for upward jumps.
-        \item \(\eta_2 > 0\): rate for downward jumps.
-    \end{itemize}
+    {
+    \begin{center}
+        An introduction to Finite Difference methods for PDEs in Finance
+    \end{center}
+     \begin{center}
+        Agnès Tourin
+    \end{center}
     }
     
 \end{frame}
+
+\begin{frame}{Introduction}
+
+    {\footnotesize \footnotesize
+    \par This note focuses on the practical design of finite difference methods for solving
+     Hamilton–Jacobi–Bellman (HJB) equations that arise in quantitative finance. These equations typically model 
+     optimal decision-making over time, such as in portfolio selection or option pricing. Because these problems involve both time evolution and uncertainty (stochastic behavior), 
+    the resulting partial differential equations (PDEs) are usually of parabolic type.
+    \vspace{1em}
+    \par A key framework used in the note is the Barles–Souganidis convergence theory. 
+    It shows that if a numerical scheme is consistent (approximates the correct PDE), monotone 
+    (preserves order in the solution), and stable (bounded behavior over time), 
+    then the numerical solution will converge to the correct viscosity solution of the HJB equation.
+    \vspace{1em}
+    \par Finite difference methods are most useful in problems with low spatial dimension (1 to 3 variables). 
+    Their simplicity and ease of implementation make them attractive for many practical finance problems. 
+    In higher dimensions, they can be combined with Monte Carlo methods to retain computational tractability.
+    }
+    
+\end{frame}
+
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+     Consider the parabolic PDE
+\begin{equation}
+u_t + F(t, x, u, Du, D^2u) = 0 \text{ in } (0, T] \times \mathbb{R}^N
+\end{equation}
+\begin{equation}
+u(0, x) = u_0(x) \text{ in } \mathbb{R}^N
+\end{equation}
+
+where \( F \) is Elliptic
+\[
+F(t, x, u, p, A) \leq F(t, x, u, p, B), \text{ if } A \geq B.
+\]
+
+For a sake of simplicity, we assume that \( u_0 \) is bounded in \( \mathbb{R}^N \).
+ Furthermore, we assume that (1), (2) satisfy a strong comparison principle.
+ \vspace{1em}
+ \par Strong Comparison Principle
+  \vspace{1em}
+ \par For (1), (2), If $u$ is a viscosity subsolution (upper semi-continuous, bounded)
+ and $v$ is a viscosity supersolution (lower semi-continuous, bounded).
+ Then:
+\[
+u(t,x) \leq v(t,x) \quad \text{for all } (t,x) \in [0,T] \times \mathbb{R}^N
+\]
+
+This guarantees uniqueness: if two solutions start from the same initial condition, they cannot cross.
+    }
+    
+\end{frame}
+
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+      The PDE operator $F$ often comes from stochastic control problems, like optimal trading or investment.
+
+Here, $F$ is defined as:
+\[
+F(t,x,r,p,X) = \sup_{\alpha \in A} \left\{ -\mathrm{tr}[a^\alpha(t,x)X] 
+- b^\alpha(t,x)p - c^\alpha(t,x)r - f^\alpha(t,x)\right\},
+\]
+where $a^\alpha = \frac{1}{2}\sigma^\alpha\sigma^{\alpha T}$.
+\vspace{1em}
+\par Typically, the set of control $\mathcal{A}$ is compact or finite, 
+all the coefficients in the equations are bounded and Lipschitz continuous in $x$,
+ Hölder with coefficient $\frac{1}{2}$ in $t$ and all the bounds are independent of $\alpha$. 
+ Then the unique viscosity solution $u$ of (1) is a bounded and Lipschitz continuous function and 
+ is the solution of the underlying stochastic control problem. The ideas, concepts and techniques actually 
+ apply to a broader range of optimal control problems. In particular, you can adapt the techniques 
+to handle different situations, even possibly treat some delicate singular control problems.
+    }
+    
+\end{frame}
+
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+    \par The aim is to build an approximation scheme which preserves the Ellipticity. 
+    This discrete Ellipticity property is called monotonicity. The monotonicity,
+     together with the consistency of the scheme and some regularity 
+    and boundedness conditions ensure its convergence to the unique viscosity solution of the PDE (1),(2).
+    Without monotonicity, even a consistent scheme can converge to the wrong solution
+    \vspace{1em}
+    \par The theory of viscosity solutions relies on comparison principles: the idea that a subsolution is always less than a supersolution.
+    A non-monotone scheme can break this order at the discrete level. A computed subsolution becomes larger than the supersolution
+    and the whole logic of convergence collapses.
+    \vspace{1em}
+    \par A consistent scheme only tells you that you are approximating some PDE —
+     but unless it is monotone, you might be approximating the wrong solution to the right PDE.
+
+    }
+    
+\end{frame}
+
+
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+    \par A numerical scheme is an equation of the following form
+    \[
+    S(h,t,x,u_h(t,x),[u_h]_{t,x}) = 0 \quad \text{for } (t,x) \in G_h \setminus \{t=0\} \tag{3}
+    \]
+
+    \[
+    u_h(0,x) = u_0(x) \quad \text{in } G_h \cap \{t=0\} \tag{4}
+    \]
+    \begin{itemize}
+\item $h = (\Delta t, \Delta x)$: This is the discretization size. Time and space steps.
+\item $G_h = \Delta t \cdot \{0, 1, \dots, n_T\} \times \Delta x \cdot \mathbb{Z}^N$:
+  This defines a discrete space-time grid: time from 0 to $T$ in steps of $\Delta t$, and space as an $N$-dimensional grid in steps of $\Delta x$.
+\item $u_h(t,x)$: This is the numerical approximation of the solution $u(t,x)$ on the grid.
+\item $[u_h]_{t,x}$: This stands for values of $u_h$ at nearby grid points
+ used to compute derivatives numerically (like neighbors in finite difference formulas).
+\end{itemize}
+\vspace{1em}
+\par Note: The numerical solution $u_h$ is computed only at grid (mesh) points.
+But we can treat it like a continuous function by interpolating between those values.
+This idea connects the discrete world (numerical) with the continuous world (PDE).
+    }
+    
+\end{frame}
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+    The theory requires the following assumptions
+    \vspace{1em}
+    \par \textbf{Monotonicity}
+    \vspace{1em}
+    \[
+S(h,t,x,r,u) \geq S(h,t,x,r,v) \text{ if } u \leq v. 
+\]
+
+    \par The monotonicity assumption can be weakened somewhat. We only need it to hold approximately, with a margin of error that vanishes to 0 as $h$ goes to 0.
+   \vspace{1em}
+    \par \textbf{Consistency}
+    \vspace{1em}
+    \par For every smooth function $\Phi(t,x)$ with bounded derivatives,
+    \begin{align*}
+        \lim_{h \to 0, (n \Delta t, i \Delta x) \to (t,x), c \to 0} &S(h,n \Delta t,i \Delta x,\Phi(t,x) 
+        + c,[\Phi + c]_{t,x})\\
+        & = \Phi_t + F(t,x,\Phi(t,x),D\Phi(t,x),D^2\Phi(t,x)).
+    \end{align*}
+    \par \textbf{Stability}
+    \vspace{1em}
+    \par For every $h > 0$, the scheme has a solution $u_h$ which is uniformly bounded independently of $h$.
+
+    }
+    
+\end{frame}
+\begin{frame}{Barles-Souganidis framework}
+
+    {\footnotesize \footnotesize
+    \par Theorem (Barles-Souganidis[5])
+    \vspace{1em}
+    \par Under the above assumptions, if the scheme (3),(4) satisfy the consistency,
+    monotonicity and stability properties, its solution $u_h$ converges locally
+    uniformly to the unique viscosity solution of (1),(2).
+    \vspace{1em}
+    \par Next, we will go through some example tests to illustrate this theory.
+    }
+    
+\end{frame}
+
+\begin{frame}{The heat equation}
+
+    {\footnotesize \footnotesize
+    \par First, recall the classic explicit and implicit schemes for the linear heat equation in dimension 1 and verify that these schemes satisfy the required properties.
+
+    \[
+    u_t - u_{xx} = 0 \text{ in } (0,T] \times \mathbb{R}.  \tag{5}
+    \]
+    
+
+    \[
+    u(0,x) = u_0(x)  \tag{6}
+    \]
+
+
+    \par We assume here that \( u_0 \) is continuous and bounded in \(\mathbb{R}\). Of course, 
+    the linear heat equation does not require the machinery of viscosity solutions but falls 
+    into the scope of this theory and provides the opportunity to understand the connection between 
+    the theory for linear parabolic equations and the theory of viscosity solutions. More precisely, 
+    our goal here is to verify that the standard finite difference 
+    approximations for the heat equation are convergent in the Barles-Souganidis sense.
+    }
+    
+\end{frame}
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+     First of all, we define the mesh \(\{(n \Delta t, i \Delta x)| n \in \{0, \dots, N\}, i \in \mathbb{Z}\}\) where \((\Delta t, \Delta x)\) are the discretization steps and \(N\) is such that \(N \Delta t = T\).
+\[
+\frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}.
+\]
+Since this scheme is explicit, it is very easy to compute at each time step \(n + 1\) the value of the approximation \(\{u_{i}^{n+1}| i \in \mathbb{Z}\}\) from the value of the approximation at the time step \(n\), namely \(\{u_{i}^{n}| i \in \mathbb{Z}\}\)
+\[
+u_{i}^{n+1} = u_{i}^{n} + \Delta t \left\{\frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}\right\}.
+\]
+Furthermore, we initialize this algorithm by imposing the initial condition
+\[
+u_{i}^{0} = u_{0}(i \Delta x).
+\]
+Here, we may define formally the scheme \(S\) by setting:
+\[
+S(\Delta t, \Delta x, (n + 1) \Delta t, i \Delta x, u_{i}^{n+1}, [u_{i-1}^{n}, u_{i}^{n}, u_{i+1}^{n}] ) = \frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} - \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}.
+\]
+\par Note that, in the last argument, only 3 grid points are used, instead of the whole grid.
+    }
+    
+\end{frame}
+
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+    \par  This section is about verifying 
+     that the explicit scheme is consistent, meaning it approximates the true PDE correctly as the grid is refined.
+     We're checking that:
+\[
+\frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} \approx u_{t}(t_{n}, x_{i}), \quad \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}} \approx u_{xx}(t_{n}, x_{i})
+\]
+\par If both approximations match the true derivatives up to small error, then the scheme is consistent with:
+\[
+u_{t} = u_{xx}
+\]
+\par Spatial Derivative Approximation (Center Difference)
+\par We expand $u_{i+1}^{n}$ and $u_{i-1}^{n}$ around $x_{i}$ using Taylor expansions:
+  \[
+u_{i+1}^n = u_i^n + u_x(n\Delta t,i\Delta x)\Delta x + \frac{1}{2}u_{xx}(n\Delta t,i\Delta x)\Delta x^2 + u_{xxx}(n\Delta t,i\Delta x)\frac{1}{6}\Delta x^3 + 
+\]
+\[
+\frac{1}{24}u_{xxxx}(n\Delta t,i\Delta x)\Delta x^4 + \Delta x^4 \epsilon(\Delta x),
+\]
+and
+\[
+u_{i-1}^n = u_i^n - u_x(n\Delta t,i\Delta x)\Delta x + \frac{1}{2}u_{xx}(n\Delta t,i\Delta x)\Delta x^2 - \frac{1}{6}u_{xxx}(n\Delta t,i\Delta x)\Delta x^3 +
+\]
+\[
+\frac{1}{24}u_{xxxx}(n\Delta t,i\Delta x)\Delta x^4 + \Delta x^4 \epsilon(\Delta x).
+\]
+
+    }
+    
+\end{frame}
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+     \par Where \(\lim_{\Delta x \to 0} \epsilon(\Delta x) = 0\). Then, 
+     adding up the two expansions, subtracting \(2u_i^n\) from the 
+     left and right hand sides and dividing by \(\Delta x^2\), one obtains
+
+\[
+\frac{u_{i+1}^n + u_{i-1}^n - 2u_i^n}{\Delta x^2} = u_{xx}(n\Delta t,i\Delta x) 
++ \frac{1}{12}u_{xxxx}(n\Delta t,i\Delta x)\Delta x^2 + \Delta x^2 \epsilon(\Delta x),
+\]
+
+and thus the truncation error for this approximation of the second spatial derivative is of order 2. Similarly the expansion
+
+\[
+u_{i}^{n+1} = u_{i}^{n} + u_{t}(n\Delta t,i\Delta x)\Delta t + 
+\frac{1}{2}u_{tt}(n\Delta t,i\Delta x)\Delta t^{2} + \Delta t^{2}\epsilon(\Delta t),
+\]
+
+where \(\lim_{\Delta t \to 0} \epsilon(\Delta t) = 0\) yields
+
+\[
+\frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = u_{t}(n\Delta t,i\Delta x) + \frac{1}{2}u_{tt}(n\Delta t,i\Delta x)\Delta t + \Delta t\epsilon(\Delta t).
+\]
+\par The truncation error for the approximation of the first derivative 
+in time is of order 1 only. So the scheme is formally consistent with:
+\[
+u_t = u_{xx},
+\]
+as $\Delta t \to 0$ and $\Delta x \to 0$.
+    }
+\end{frame}
+
+
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+     \par For the heat equation explicit scheme:
+\[
+u_{i}^{n+1} = u_{i}^{n} + \frac{\Delta t}{\Delta x^{2}} (u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}).
+\]
+\par Rewriting:
+\[
+u_{i}^{n+1} = u_{i}^{n} \left( 1 - \frac{2\Delta t}{\Delta x^{2}} \right) +
+ \frac{\Delta t}{\Delta x^{2}} (u_{i+1}^{n} + u_{i-1}^{n}).
+\]
+\vspace{1em}
+\par  Furthermore, the approximation \(S\) is monotone if and only if \(S\) is 
+decreasing in \(u_{i}^{n}, u_{i+1}^{n}\) and \(u_{i-1}^{n}\). First of all, it 
+is unconditionally decreasing with
+ respect to both $u_{i-1}^n$ and $u_{i+1}^n$. Secondly, it is only decreasing 
+ in $u_i^n$ if the following CFL condition is satisfied:
+
+\[
+(-1 + 2\frac{\Delta t}{\Delta x^2}) \leq 0
+\]
+
+or equivalently
+
+\[
+\Delta t \leq \frac{1}{2}\Delta x^2.
+\]
+
+    }
+\end{frame}
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+     Finally, we can prove the boundedness of the approximation independently 
+     of the discretization steps and hence the stability 
+     of the scheme recursively by showing the maximum principle
+\[
+\max_i |u_i^n| \leq \max_i |u_i^0|
+\]
+using the monotonicity property under the CFL condition.
+
+Indeed, we have
+\begin{align*}
+    u_i^{n+1} &= u_i^n(1 - 2\frac{\Delta t}{\Delta x^2}) + \frac{\Delta t}{\Delta x^2}(u_{i+1}^n + u_{i-1}^n)\\
+    &\leq \max_i |u_i^n|(1 - 2\frac{\Delta t}{\Delta x^2}) + 2\frac{\Delta t}{\Delta x^2} \max_i |u_i^n|\\
+    &\leq \max_i |u_i^n|,
+\end{align*}
+to show reverse inequality we can reverse the time index in the logic and will end up bounding both directions.
+This symmetry confirms:
+
+\[
+\max_i |u_i^{n+1}| = \max_i |u_i^n| = \max_i |u_i^0|.
+\]
+\par The maximum is non-increasing and bounded across all steps.
+    }
+\end{frame}
+
+\begin{frame}{The standard explicit scheme}
+
+    {\footnotesize \footnotesize
+     
+    }
+\end{frame}
+
 % \begin{frame}
 
-%     {\footnotesize \footnotesize
+    % {\footnotesize \footnotesize
 
-%     }
+    % }
     
 % \end{frame}
 % % {\mathbb{P}^*}
