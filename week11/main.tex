@@ -390,12 +390,127 @@ This symmetry confirms:
     }
 \end{frame}
 
-\begin{frame}{The standard explicit scheme}
+\begin{frame}{The standard implicit scheme}
 
     {\footnotesize \footnotesize
-     
+     \par For many financial applications, the explicit scheme turns out to be very
+        inaccurate because the CFL condition forces the time step to be so small
+        that the rounding error dominates the total computational error (computational
+        error=rounding error+truncation error). Most of the time, an implicit
+        scheme is preferred because it is unconditionally convergent, regardless of
+        the size of the time step.
+        \vspace{1em}
+    \par We now evaluate the second derivative at time $(n+1)\Delta t$ instead of time $n\Delta t$,
+\[
+\frac{u_{i}^{n+1}-u_{i}^{n}}{\Delta t} = \frac{u_{i+1}^{n+1}+u_{i-1}^{n+1}-2u_{i}^{n+1}}{\Delta x^2}.
+\]
+\par We also need to initialize this scheme by setting
+\[
+u_{i}^{0}=u_{0}(i\Delta x).
+\]
+\par Implementing an algorithm allowing to compute the approximation is less obvious here. 
+This discrete equation may be converted into a linear system of equations and the 
+algorithm will then consist in inverting a tridiagonal matrix. The truncation errors for 
+smooth functions 
+are the same as for the explicit scheme and the consistency follows from this analysis.
     }
 \end{frame}
+
+
+\begin{frame}{The standard implicit scheme}
+
+    {\footnotesize \footnotesize
+    \par It turns out that, for any choice of the time step, the implicit scheme is monotone. In order to verify that claim, let us rewrite the implicit scheme using the notation $S$:
+
+\[
+S(\Delta t, \Delta x, (n+1)\Delta t, i\Delta x, u_i^{n+1}, [u_{i-1}^{n+1}, u_i^n, u_{i+1}^{n+1}]) =
+\]
+
+\[
+\frac{u_i^{n+1}-u_i^n}{\Delta t} - \frac{u_{i+1}^{n+1}+u_{i-1}^{n+1}-2u_i^{n+1}}{\Delta x^2}.
+\]
+
+    \par Since $S$ is decreasing in $u_i^n, u_{i+1}^{n+1}$ and $u_{i-1}^{n+1}$ 
+    the implicit scheme is unconditionally monotone.
+    \vspace{1em}
+    \par Besides, the implicit scheme is clearly consistent with the heat equation and is stable because, like the explicit scheme, it satisfies the maximum principle
+
+\[
+\max_i |u_i^n| \leq \max_i |u_i^0|.
+\]
+    }
+\end{frame}
+
+\begin{frame}{The standard implicit scheme}
+
+    {\footnotesize \footnotesize
+     One may also consider alternately the so-called Crank-Nicolson scheme
+
+\[
+\frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = \theta \frac{u_{i+1}^{n+1} + u_{i-1}^{n+1} - 2u_{i}^{n+1}}{\Delta x^2} + (1 - \theta) \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^2}.
+\]
+\vspace{1em}
+\par Observe that the choice $\theta = 0$ leads to the explicit scheme whereas the $\theta = 1$ yields the fully implicit scheme. For $\theta = 0.5$, the truncation error is of second order both in time and space. The condition for monotonicity and stability is here
+
+\[
+\Delta t \leq \frac{\Delta x^2}{2(1 - \theta)}
+\]
+
+and in particular for $\theta = 0.5$ it becomes
+
+\[
+\Delta t \leq \Delta x^2.
+\]
+    }
+\end{frame}
+
+
+\begin{frame}{The Black-Scholes-Merton PDE}
+
+    {\footnotesize \footnotesize
+     The price of a European call $u(t, x)$ for a time to expiration equal to $t$ and for an asset value of $x$ dollars at time $T - t$, satisfies the degenerate linear PDE
+
+\[
+u_t + ru - \frac{1}{2} \sigma^2 x^2 u_{xx} - rx u_x = 0 \text{ in } (0, T] \times [0, +\infty)
+\]
+
+\[
+u(0, x) = (x - K)^+
+\]
+
+\par where $T > 0$ is the maturity, $\mu$ is the drift of the underlying asset and $\sigma > 0$ is its volatility.
+\vspace{1em}
+\par Note that, in this example, the solution is no longer bounded but is nonnegative and grows at most linearly for large values of $x$. The Barles-Souganidis [5] framework can be slightly modified to accommodate the linear growth of the value function at infinity. One can also get rid of the degeneracy in the above Black-Scholes PDE by making the change of variable $y = \log s$.
+\par The Black-Scholes-Merton PDE is linear and its Elliptic operator is degenerate. The first derivative $u_x$ can be easily approximated in a monotone way using a forward Finite Difference
+\[
+-rx u_x \approx -rx_i \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
+\]
+    }
+\end{frame}
+
+\begin{frame}{The Black-Scholes-Merton PDE}
+
+    {\footnotesize \footnotesize
+    \par The Black-Scholes-Merton PDE is linear and its Elliptic operator is degenerate. The first derivative $u_x$ can be easily approximated in a monotone way using a forward Finite Difference
+
+\[
+-rx u_x \approx -rx_i \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
+\]
+
+One can, for instance, implement the implicit scheme
+\begin{align*}
+    S(\Delta t, \Delta x, & (n+1)\Delta t, i\Delta x, u_i^{n+1}, [u_{i-1}^{n+1}, u_i^n, u_{i+1}^{n+1}]) \\
+    =&\frac{u_i^{n+1} - u_i^n}{\Delta t} + r u_i^{n+1} - \frac{1}{2} \sigma^2 (i \Delta x)^2 \frac{u_{i+1}^{n+1} + u_{i-1}^{n+1} - 2u_i^{n+1}}{\Delta x^2}- r i \Delta x \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
+\end{align*}
+\par The consistency is straightforward, each finite difference approximates its derivative to leading order.
+The monotonicity is unconditional and the standard stability 
+requirement can be replaced by the following condition to accommodate 
+the linear growth of the solution and its approximation at $+\infty$.
+
+\par Stability For every $h$, the scheme has a solution $u_h$ which is nonnegative and grows at most linearly.
+    }
+\end{frame}
+
 
 % \begin{frame}
 
