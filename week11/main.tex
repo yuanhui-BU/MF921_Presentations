@@ -56,12 +56,12 @@
      optimal decision-making over time, such as in portfolio selection or option pricing. Because these problems involve both time evolution and uncertainty (stochastic behavior), 
     the resulting partial differential equations (PDEs) are usually of parabolic type.
     \vspace{1em}
-    \par A key framework used in the note is the Barles–Souganidis convergence theory. 
+    \par \pause A key framework used in the note is the Barles–Souganidis convergence theory. 
     It shows that if a numerical scheme is consistent (approximates the correct PDE), monotone 
     (preserves order in the solution), and stable (bounded behavior over time), 
     then the numerical solution will converge to the correct viscosity solution of the HJB equation.
     \vspace{1em}
-    \par Finite difference methods are most useful in problems with low spatial dimension (1 to 3 variables). 
+    \par  \pause Finite difference methods are most useful in problems with low spatial dimension (1 to 3 variables). 
     Their simplicity and ease of implementation make them attractive for many practical finance problems. 
     In higher dimensions, they can be combined with Monte Carlo methods to retain computational tractability.
     }
@@ -84,12 +84,12 @@ where \( F \) is Elliptic
 F(t, x, u, p, A) \leq F(t, x, u, p, B), \text{ if } A \geq B.
 \]
 
-For a sake of simplicity, we assume that \( u_0 \) is bounded in \( \mathbb{R}^N \).
+ \pause For a sake of simplicity, we assume that \( u_0 \) is bounded in \( \mathbb{R}^N \).
  Furthermore, we assume that (1), (2) satisfy a strong comparison principle.
  \vspace{1em}
  \par Strong Comparison Principle
   \vspace{1em}
- \par For (1), (2), If $u$ is a viscosity subsolution (upper semi-continuous, bounded)
+ \par  \pause For (1), (2), If $u$ is a viscosity subsolution (upper semi-continuous, bounded)
  and $v$ is a viscosity supersolution (lower semi-continuous, bounded).
  Then:
 \[
@@ -113,7 +113,7 @@ F(t,x,r,p,X) = \sup_{\alpha \in A} \left\{ -\mathrm{tr}[a^\alpha(t,x)X]
 \]
 where $a^\alpha = \frac{1}{2}\sigma^\alpha\sigma^{\alpha T}$.
 \vspace{1em}
-\par Typically, the set of control $\mathcal{A}$ is compact or finite, 
+\par  \pause Typically, the set of control $\mathcal{A}$ is compact or finite, 
 all the coefficients in the equations are bounded and Lipschitz continuous in $x$,
  Hölder with coefficient $\frac{1}{2}$ in $t$ and all the bounds are independent of $\alpha$. 
  Then the unique viscosity solution $u$ of (1) is a bounded and Lipschitz continuous function and 
@@ -133,11 +133,11 @@ to handle different situations, even possibly treat some delicate singular contr
     and boundedness conditions ensure its convergence to the unique viscosity solution of the PDE (1),(2).
     Without monotonicity, even a consistent scheme can converge to the wrong solution
     \vspace{1em}
-    \par The theory of viscosity solutions relies on comparison principles: the idea that a subsolution is always less than a supersolution.
+    \par  \pause The theory of viscosity solutions relies on comparison principles: the idea that a subsolution is always less than a supersolution.
     A non-monotone scheme can break this order at the discrete level. A computed subsolution becomes larger than the supersolution
     and the whole logic of convergence collapses.
     \vspace{1em}
-    \par A consistent scheme only tells you that you are approximating some PDE —
+    \par  \pause A consistent scheme only tells you that you are approximating some PDE —
      but unless it is monotone, you might be approximating the wrong solution to the right PDE.
 
     }
@@ -156,6 +156,7 @@ to handle different situations, even possibly treat some delicate singular contr
     \[
     u_h(0,x) = u_0(x) \quad \text{in } G_h \cap \{t=0\} \tag{4}
     \]
+     \pause 
     \begin{itemize}
 \item $h = (\Delta t, \Delta x)$: This is the discretization size. Time and space steps.
 \item $G_h = \Delta t \cdot \{0, 1, \dots, n_T\} \times \Delta x \cdot \mathbb{Z}^N$:
@@ -165,7 +166,7 @@ to handle different situations, even possibly treat some delicate singular contr
  used to compute derivatives numerically (like neighbors in finite difference formulas).
 \end{itemize}
 \vspace{1em}
-\par Note: The numerical solution $u_h$ is computed only at grid (mesh) points.
+\par \pause  Note: The numerical solution $u_h$ is computed only at grid (mesh) points.
 But we can treat it like a continuous function by interpolating between those values.
 This idea connects the discrete world (numerical) with the continuous world (PDE).
     }
@@ -184,7 +185,7 @@ S(h,t,x,r,u) \geq S(h,t,x,r,v) \text{ if } u \leq v.
 
     \par The monotonicity assumption can be weakened somewhat. We only need it to hold approximately, with a margin of error that vanishes to 0 as $h$ goes to 0.
    \vspace{1em}
-    \par \textbf{Consistency}
+    \par  \pause \textbf{Consistency}
     \vspace{1em}
     \par For every smooth function $\Phi(t,x)$ with bounded derivatives,
     \begin{align*}
@@ -192,7 +193,7 @@ S(h,t,x,r,u) \geq S(h,t,x,r,v) \text{ if } u \leq v.
         + c,[\Phi + c]_{t,x})\\
         & = \Phi_t + F(t,x,\Phi(t,x),D\Phi(t,x),D^2\Phi(t,x)).
     \end{align*}
-    \par \textbf{Stability}
+    \par  \pause \textbf{Stability}
     \vspace{1em}
     \par For every $h > 0$, the scheme has a solution $u_h$ which is uniformly bounded independently of $h$.
 
@@ -228,7 +229,7 @@ S(h,t,x,r,u) \geq S(h,t,x,r,v) \text{ if } u \leq v.
     \]
 
 
-    \par We assume here that \( u_0 \) is continuous and bounded in \(\mathbb{R}\). Of course, 
+    \par \pause  We assume here that \( u_0 \) is continuous and bounded in \(\mathbb{R}\). Of course, 
     the linear heat equation does not require the machinery of viscosity solutions but falls 
     into the scope of this theory and provides the opportunity to understand the connection between 
     the theory for linear parabolic equations and the theory of viscosity solutions. More precisely, 
@@ -245,15 +246,15 @@ S(h,t,x,r,u) \geq S(h,t,x,r,v) \text{ if } u \leq v.
 \[
 \frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}.
 \]
-Since this scheme is explicit, it is very easy to compute at each time step \(n + 1\) the value of the approximation \(\{u_{i}^{n+1}| i \in \mathbb{Z}\}\) from the value of the approximation at the time step \(n\), namely \(\{u_{i}^{n}| i \in \mathbb{Z}\}\)
+ \pause Since this scheme is explicit, it is very easy to compute at each time step \(n + 1\) the value of the approximation \(\{u_{i}^{n+1}| i \in \mathbb{Z}\}\) from the value of the approximation at the time step \(n\), namely \(\{u_{i}^{n}| i \in \mathbb{Z}\}\)
 \[
 u_{i}^{n+1} = u_{i}^{n} + \Delta t \left\{\frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}\right\}.
 \]
-Furthermore, we initialize this algorithm by imposing the initial condition
+ \pause Furthermore, we initialize this algorithm by imposing the initial condition
 \[
 u_{i}^{0} = u_{0}(i \Delta x).
 \]
-Here, we may define formally the scheme \(S\) by setting:
+ \pause Here, we may define formally the scheme \(S\) by setting:
 \[
 S(\Delta t, \Delta x, (n + 1) \Delta t, i \Delta x, u_{i}^{n+1}, [u_{i-1}^{n}, u_{i}^{n}, u_{i+1}^{n}] ) = \frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} - \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^{2}}.
 \]
@@ -277,7 +278,7 @@ S(\Delta t, \Delta x, (n + 1) \Delta t, i \Delta x, u_{i}^{n+1}, [u_{i-1}^{n}, u
 u_{t} = u_{xx}
 \]
 \par Spatial Derivative Approximation (Center Difference)
-\par We expand $u_{i+1}^{n}$ and $u_{i-1}^{n}$ around $x_{i}$ using Taylor expansions:
+\par  \pause We expand $u_{i+1}^{n}$ and $u_{i-1}^{n}$ around $x_{i}$ using Taylor expansions:
   \[
 u_{i+1}^n = u_i^n + u_x(n\Delta t,i\Delta x)\Delta x + \frac{1}{2}u_{xx}(n\Delta t,i\Delta x)\Delta x^2 + u_{xxx}(n\Delta t,i\Delta x)\frac{1}{6}\Delta x^3 + 
 \]
@@ -308,7 +309,7 @@ u_{i-1}^n = u_i^n - u_x(n\Delta t,i\Delta x)\Delta x + \frac{1}{2}u_{xx}(n\Delta
 + \frac{1}{12}u_{xxxx}(n\Delta t,i\Delta x)\Delta x^2 + \Delta x^2 \epsilon(\Delta x),
 \]
 
-and thus the truncation error for this approximation of the second spatial derivative is of order 2. Similarly the expansion
+ \pause and thus the truncation error for this approximation of the second spatial derivative is of order 2. Similarly the expansion
 
 \[
 u_{i}^{n+1} = u_{i}^{n} + u_{t}(n\Delta t,i\Delta x)\Delta t + 
@@ -320,7 +321,7 @@ where \(\lim_{\Delta t \to 0} \epsilon(\Delta t) = 0\) yields
 \[
 \frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = u_{t}(n\Delta t,i\Delta x) + \frac{1}{2}u_{tt}(n\Delta t,i\Delta x)\Delta t + \Delta t\epsilon(\Delta t).
 \]
-\par The truncation error for the approximation of the first derivative 
+\par  \pause The truncation error for the approximation of the first derivative 
 in time is of order 1 only. So the scheme is formally consistent with:
 \[
 u_t = u_{xx},
@@ -344,7 +345,7 @@ u_{i}^{n+1} = u_{i}^{n} \left( 1 - \frac{2\Delta t}{\Delta x^{2}} \right) +
  \frac{\Delta t}{\Delta x^{2}} (u_{i+1}^{n} + u_{i-1}^{n}).
 \]
 \vspace{1em}
-\par  Furthermore, the approximation \(S\) is monotone if and only if \(S\) is 
+\par   \pause Furthermore, the approximation \(S\) is monotone if and only if \(S\) is 
 decreasing in \(u_{i}^{n}, u_{i+1}^{n}\) and \(u_{i-1}^{n}\). First of all, it 
 is unconditionally decreasing with
  respect to both $u_{i-1}^n$ and $u_{i+1}^n$. Secondly, it is only decreasing 
@@ -374,14 +375,14 @@ or equivalently
 \]
 using the monotonicity property under the CFL condition.
 
-Indeed, we have
+ \pause Indeed, we have
 \begin{align*}
     u_i^{n+1} &= u_i^n(1 - 2\frac{\Delta t}{\Delta x^2}) + \frac{\Delta t}{\Delta x^2}(u_{i+1}^n + u_{i-1}^n)\\
     &\leq \max_i |u_i^n|(1 - 2\frac{\Delta t}{\Delta x^2}) + 2\frac{\Delta t}{\Delta x^2} \max_i |u_i^n|\\
     &\leq \max_i |u_i^n|,
 \end{align*}
-to show reverse inequality we can reverse the time index in the logic and will end up bounding both directions.
-This symmetry confirms:
+\par to show reverse inequality we can reverse the time index in the logic and will end up bounding both directions.
+\par  \pause This symmetry confirms:
 
 \[
 \max_i |u_i^{n+1}| = \max_i |u_i^n| = \max_i |u_i^0|.
@@ -400,7 +401,7 @@ This symmetry confirms:
         scheme is preferred because it is unconditionally convergent, regardless of
         the size of the time step.
         \vspace{1em}
-    \par We now evaluate the second derivative at time $(n+1)\Delta t$ instead of time $n\Delta t$,
+    \par  \pause We now evaluate the second derivative at time $(n+1)\Delta t$ instead of time $n\Delta t$,
 \[
 \frac{u_{i}^{n+1}-u_{i}^{n}}{\Delta t} = \frac{u_{i+1}^{n+1}+u_{i-1}^{n+1}-2u_{i}^{n+1}}{\Delta x^2}.
 \]
@@ -408,7 +409,7 @@ This symmetry confirms:
 \[
 u_{i}^{0}=u_{0}(i\Delta x).
 \]
-\par Implementing an algorithm allowing to compute the approximation is less obvious here. 
+\par  \pause Implementing an algorithm allowing to compute the approximation is less obvious here. 
 This discrete equation may be converted into a linear system of equations and the 
 algorithm will then consist in inverting a tridiagonal matrix. The truncation errors for 
 smooth functions 
@@ -433,7 +434,7 @@ S(\Delta t, \Delta x, (n+1)\Delta t, i\Delta x, u_i^{n+1}, [u_{i-1}^{n+1}, u_i^n
     \par Since $S$ is decreasing in $u_i^n, u_{i+1}^{n+1}$ and $u_{i-1}^{n+1}$ 
     the implicit scheme is unconditionally monotone.
     \vspace{1em}
-    \par Besides, the implicit scheme is clearly consistent with the heat equation and is stable because, like the explicit scheme, it satisfies the maximum principle
+    \par \pause  Besides, the implicit scheme is clearly consistent with the heat equation and is stable because, like the explicit scheme, it satisfies the maximum principle
 
 \[
 \max_i |u_i^n| \leq \max_i |u_i^0|.
@@ -450,7 +451,7 @@ S(\Delta t, \Delta x, (n+1)\Delta t, i\Delta x, u_i^{n+1}, [u_{i-1}^{n+1}, u_i^n
 \frac{u_{i}^{n+1} - u_{i}^{n}}{\Delta t} = \theta \frac{u_{i+1}^{n+1} + u_{i-1}^{n+1} - 2u_{i}^{n+1}}{\Delta x^2} + (1 - \theta) \frac{u_{i+1}^{n} + u_{i-1}^{n} - 2u_{i}^{n}}{\Delta x^2}.
 \]
 \vspace{1em}
-\par Observe that the choice $\theta = 0$ leads to the explicit scheme whereas the $\theta = 1$ yields the fully implicit scheme. For $\theta = 0.5$, the truncation error is of second order both in time and space. The condition for monotonicity and stability is here
+\par \pause  Observe that the choice $\theta = 0$ leads to the explicit scheme whereas the $\theta = 1$ yields the fully implicit scheme. For $\theta = 0.5$, the truncation error is of second order both in time and space. The condition for monotonicity and stability is here
 
 \[
 \Delta t \leq \frac{\Delta x^2}{2(1 - \theta)}
@@ -480,7 +481,7 @@ u(0, x) = (x - K)^+
 
 \par where $T > 0$ is the maturity, $\mu$ is the drift of the underlying asset and $\sigma > 0$ is its volatility.
 \vspace{1em}
-\par Note that, in this example, the solution is no longer bounded but is nonnegative and grows at most linearly for large values of $x$. The Barles-Souganidis [5] framework can be slightly modified to accommodate the linear growth of the value function at infinity. One can also get rid of the degeneracy in the above Black-Scholes PDE by making the change of variable $y = \log s$.
+\par  \pause Note that, in this example, the solution is no longer bounded but is nonnegative and grows at most linearly for large values of $x$. The Barles-Souganidis [5] framework can be slightly modified to accommodate the linear growth of the value function at infinity. One can also get rid of the degeneracy in the above Black-Scholes PDE by making the change of variable $y = \log s$.
 \par The Black-Scholes-Merton PDE is linear and its Elliptic operator is degenerate. The first derivative $u_x$ can be easily approximated in a monotone way using a forward Finite Difference
 \[
 -rx u_x \approx -rx_i \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
@@ -497,12 +498,12 @@ u(0, x) = (x - K)^+
 -rx u_x \approx -rx_i \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
 \]
 
-One can, for instance, implement the implicit scheme
+ \pause One can, for instance, implement the implicit scheme
 \begin{align*}
     S(\Delta t, \Delta x, & (n+1)\Delta t, i\Delta x, u_i^{n+1}, [u_{i-1}^{n+1}, u_i^n, u_{i+1}^{n+1}]) \\
     =&\frac{u_i^{n+1} - u_i^n}{\Delta t} + r u_i^{n+1} - \frac{1}{2} \sigma^2 (i \Delta x)^2 \frac{u_{i+1}^{n+1} + u_{i-1}^{n+1} - 2u_i^{n+1}}{\Delta x^2}- r i \Delta x \frac{u_{i+1}^{n+1} - u_i^{n+1}}{\Delta x}.
 \end{align*}
-\par The consistency is straightforward, each finite difference approximates its derivative to leading order.
+\par  \pause The consistency is straightforward, each finite difference approximates its derivative to leading order.
 The monotonicity is unconditional and the standard stability 
 requirement can be replaced by the following condition to accommodate 
 the linear growth of the solution and its approximation at $+\infty$.
@@ -511,12 +512,66 @@ the linear growth of the solution and its approximation at $+\infty$.
     }
 \end{frame}
 
+% \begin{frame}{Section 8}
 
+%     {
+%     \begin{center}
+%         Numerical Methods for Nonlinear PDEs in Finance
+%     \end{center}
+%      \begin{center}
+%         Peter A. Forsyth and Kenneth R. Vetzal
+%     \end{center}
+%     }
+    
+% \end{frame}
+
+% \begin{frame}{Section 8}
+
+%     {\footnotesize \footnotesize
+%     \par Section 8 provides a concrete numerical example showing that the fully implicit 
+%     monotone scheme converges to the correct viscosity solution, while the Crank–Nicolson scheme, though 
+%     seemingly reasonable, converges to a totally wrong and arbitrage-violating solution even though it looks stable.
+%     \vspace{1em}
+%     \par The underlying asset price $S_t$ follows  
+%   \[
+%   dS_t = \mu S_t dt + \sigma_t S_t dW_t,
+%   \]
+%   but $\sigma_t$ is unknown, except that:  
+%   \[
+%   \sigma_t \in [\sigma_{\min}, \sigma_{\max}].
+%   \]
+%    Let the expiry time time of the claim be $T$, and let $\tau = T - t$, if the volatility $\sigma$ were fixed, Black-Scholes PDE is:  
+% \[
+% V_\tau = \frac{1}{2} \sigma^2 S^2 V_{SS} + SV_S - rV.
+% \]
+
+% Now replace $\sigma$ with a control variable, $Q$:  
+% \[
+% V_\tau = \frac{1}{2} Q^2 S^2 V_{SS} + SV_S - rV.
+% \]
+%     }
+    
+% \end{frame}
+
+% \begin{frame}{Section 8}
+
+%     {\footnotesize \footnotesize
+%     For a short position the optimal control problem is given by
+
+% \[
+% V_\tau = \sup_{Q \in \hat{Q}} \left\{ \frac{Q^2 S^2}{2} V_{SS} + SV_S - rV \right\} = 0
+% \]
+
+% where $\hat{Q} = \{\sigma_{\min}, \sigma_{\max}\}$ and $r$ is the borrowing/lending rate.
+%  Replacing the sup by an inf gives the corresponding pricing equation for a long position.
+%     }
+    
+% \end{frame}
 % \begin{frame}
 
-    % {\footnotesize \footnotesize
+%     {\footnotesize \footnotesize
 
-    % }
+%     }
     
 % \end{frame}
 % % {\mathbb{P}^*}
